@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Piece;
 import janggi.domain.Team;
+import java.util.Objects;
 
 public class Chariot implements Piece {
 
@@ -24,5 +25,22 @@ public class Chariot implements Piece {
     @Override
     public String getDisplayName() {
         return "차";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Chariot chariot = (Chariot) o;
+        return team == chariot.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team);
     }
 }
