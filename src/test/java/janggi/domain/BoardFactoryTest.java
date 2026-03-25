@@ -16,11 +16,10 @@ import org.junit.jupiter.api.Test;
 public class BoardFactoryTest {
 
     @Test
-    void 초기화된_보드의_기물_배치를_확인한다() {
-        Map<Position, Piece> boardState = BoardFactory.create();
+    void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {
+        Map<Position, Piece> boardState = BoardFactory.create("4", "4");
 
         assertAll(
-                // 한나라
                 () -> assertThat(boardState).containsEntry(Position.from("11"), new Chariot(Team.HAN)),
                 () -> assertThat(boardState).containsEntry(Position.from("12"), new Elephant(Team.HAN)),
                 () -> assertThat(boardState).containsEntry(Position.from("13"), new Horse(Team.HAN)),
@@ -36,8 +35,15 @@ public class BoardFactoryTest {
                 () -> assertThat(boardState).containsEntry(Position.from("43"), new Soldier(Team.HAN)),
                 () -> assertThat(boardState).containsEntry(Position.from("45"), new Soldier(Team.HAN)),
                 () -> assertThat(boardState).containsEntry(Position.from("47"), new Soldier(Team.HAN)),
-                () -> assertThat(boardState).containsEntry(Position.from("49"), new Soldier(Team.HAN)),
-                // 초나라
+                () -> assertThat(boardState).containsEntry(Position.from("49"), new Soldier(Team.HAN))
+        );
+    }
+
+    @Test
+    void 초나라_기물_차림_입력이_4면_초나라는_바깥상_차림이다() {
+        Map<Position, Piece> boardState = BoardFactory.create("4", "4");
+
+        assertAll(
                 () -> assertThat(boardState).containsEntry(Position.from("01"), new Chariot(Team.CHO)),
                 () -> assertThat(boardState).containsEntry(Position.from("02"), new Elephant(Team.CHO)),
                 () -> assertThat(boardState).containsEntry(Position.from("03"), new Horse(Team.CHO)),

@@ -17,11 +17,13 @@ public class BoardFactory {
 
     }
 
-    public static Map<Position, Piece> create() {
+    public static Map<Position, Piece> create(String hanBoardType, String choBoardType) {
         Map<Position, Piece> board = new LinkedHashMap<>();
         initializeEmpty(board);
         placeHan(board);
         placeCho(board);
+        applyHanSetUp(board, hanBoardType);
+        applyChoSetUp(board, choBoardType);
         return board;
     }
 
@@ -71,5 +73,43 @@ public class BoardFactory {
         board.put(Position.from("75"), new Soldier(Team.CHO));
         board.put(Position.from("77"), new Soldier(Team.CHO));
         board.put(Position.from("79"), new Soldier(Team.CHO));
+    }
+
+    private static void applyHanSetUp(Map<Position, Piece> board, String hanBoardType) {
+        if (hanBoardType.equals("1")) {
+            swap(board, Position.from("17"), Position.from("18"));
+            return;
+        }
+        if (hanBoardType.equals("2")) {
+            swap(board, Position.from("12"), Position.from("13"));
+            return;
+        }
+        if (hanBoardType.equals("3")) {
+            swap(board, Position.from("17"), Position.from("18"));
+            swap(board, Position.from("12"), Position.from("13"));
+        }
+    }
+
+    private static void applyChoSetUp(Map<Position, Piece> board, String choBoardType) {
+        if (choBoardType.equals("1")) {
+            swap(board, Position.from("07"), Position.from("08"));
+            return;
+        }
+        if (choBoardType.equals("2")) {
+            swap(board, Position.from("02"), Position.from("03"));
+            return;
+        }
+        if (choBoardType.equals("3")) {
+            swap(board, Position.from("07"), Position.from("08"));
+            swap(board, Position.from("02"), Position.from("03"));
+        }
+    }
+
+    private static void swap(Map<Position, Piece> board, Position position1, Position position2) {
+        Piece piece1 = board.get(position1);
+        Piece piece2 = board.get(position2);
+
+        board.put(position1, piece2);
+        board.put(position2, piece1);
     }
 }
