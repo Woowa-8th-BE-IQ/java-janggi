@@ -20,4 +20,9 @@ public class Soldier implements Piece {
     public boolean isSame(Team team) {
         return this.team == team;
     }
+
+    @Override
+    public String getDisplayName() {
+        return "졸";
+    }
 }

@@ -26,4 +26,12 @@ public class SoldierTest {
 
         assertThat(result).isFalse();
     }
+
+    @Test
+    void 졸의_이름은_졸로_표현된다() {
+        Soldier soldier = new Soldier(Team.HAN);
+
+        String displayName = soldier.getDisplayName();
+        assertThat(displayName).isEqualTo("졸");
+    }
 }
