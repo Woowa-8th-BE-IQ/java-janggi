@@ -40,6 +40,14 @@ public class Position {
         }
     }
 
+    public int getRowValue() {
+        return row.getValue();
+    }
+
+    public int getColumnValue() {
+        return column.getValue();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

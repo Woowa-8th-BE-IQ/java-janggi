@@ -1,8 +1,6 @@
 package janggi.domain;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class Row {
 
@@ -22,6 +20,10 @@ public class Row {
         }
     }
 
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -37,9 +39,5 @@ public class Row {
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    public int getValue() {
-        return value;
     }
 }

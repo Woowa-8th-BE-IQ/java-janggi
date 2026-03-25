@@ -20,6 +20,10 @@ public class Column {
         }
     }
 
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -35,9 +39,5 @@ public class Column {
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    public int getValue() {
-        return value;
     }
 }
