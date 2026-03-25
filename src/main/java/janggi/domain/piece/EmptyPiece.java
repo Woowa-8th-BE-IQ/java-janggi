@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Delta;
 import janggi.domain.Piece;
 import janggi.domain.Team;
 
@@ -18,5 +19,10 @@ public class EmptyPiece implements Piece {
     @Override
     public String getDisplayName() {
         return "빈";
+    }
+
+    @Override
+    public void canMove(Delta delta) {
+
     }
 }

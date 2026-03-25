@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Delta;
 import janggi.domain.Piece;
 import janggi.domain.Team;
 import java.util.Objects;
@@ -25,6 +26,11 @@ public class Horse implements Piece {
     @Override
     public String getDisplayName() {
         return "마";
+    }
+
+    @Override
+    public void canMove(Delta delta) {
+
     }
 
     @Override
