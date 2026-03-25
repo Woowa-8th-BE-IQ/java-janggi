@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.Objects;
+
 public class Column {
 
     public static final int COLUMN_LOWER_THRESH_HOLD = 1;
@@ -16,6 +18,23 @@ public class Column {
         if (value < COLUMN_LOWER_THRESH_HOLD || value > COLUMN_UPPER_THRESH_HOLD) {
             throw new IllegalArgumentException("[ERROR] 행 좌표는 1~9까지 사용 가능 합니다");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Column column = (Column) o;
+        return value == column.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     public int getValue() {

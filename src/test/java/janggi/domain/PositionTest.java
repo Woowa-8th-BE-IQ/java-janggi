@@ -40,4 +40,12 @@ public class PositionTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 행 좌표는 1~9까지 사용 가능 합니다");
     }
+
+    @Test
+    void 동일한_좌표를_가진_위치_객체는_동등하다() {
+       Position position1 = Position.from("12");
+       Position position2 = Position.from("12");
+
+       assertThat(position1).isEqualTo(position2);
+    }
 }

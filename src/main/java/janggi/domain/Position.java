@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.Objects;
+
 public class Position {
 
     private static final int LENGTH_OF_POSITION_FORMAT = 2;
@@ -36,6 +38,23 @@ public class Position {
         if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
             throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 
     @Override
