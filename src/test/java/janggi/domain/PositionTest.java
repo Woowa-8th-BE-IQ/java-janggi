@@ -27,11 +27,17 @@ public class PositionTest {
 
     @Test
     void 두_자리_숫자가_아닌_문자열로_위치를_생성하면_예외가_발생한다() {
-
         assertThatThrownBy(
                 () -> Position.from("105"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
+    }
 
+    @Test
+    void 존재하지_않는_좌표로_위치를_생성하면_예외가_발생한다() {
+        assertThatThrownBy(
+                () -> Position.from("00"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 행 좌표는 1~9까지 사용 가능 합니다");
     }
 }
