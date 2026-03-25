@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +26,12 @@ public class PositionTest {
     }
 
     @Test
-    void 문자열_09로_위치를_생성하면_좌표_10_9를_가지고_있다() {
-        Position position = Position.from("09");
+    void 두_자리_숫자가_아닌_문자열로_위치를_생성하면_예외가_발생한다() {
 
-        String result = position.toString();
+        assertThatThrownBy(
+                () -> Position.from("105"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
 
-        assertThat(result).isEqualTo("10,9");
     }
 }
