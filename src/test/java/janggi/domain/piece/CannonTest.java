@@ -1,7 +1,9 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.Position;
 import janggi.domain.Team;
 import org.junit.jupiter.api.Test;
 
@@ -33,5 +35,14 @@ public class CannonTest {
 
         String displayName = cannon.getDisplayName();
         assertThat(displayName).isEqualTo("포");
+    }
+
+    @Test
+    void 한_방향만으로_이동이_아니면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.getPath(Position.from("22"), Position.from("33")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
     }
 }

@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +37,17 @@ public class Cannon implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        if (!from.hasOnlyStraightMove(to)) {
+            throw new IllegalArgumentException("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
+        }
+
+        List<Position> path = new ArrayList<>();
+        Position target = from.moveStraight(to);
+        while (target.hasOnlyStraightMove(to)) {
+            path.add(target);
+            target = target.moveStraight(to);
+        }
+        return path;
     }
 
     @Override
