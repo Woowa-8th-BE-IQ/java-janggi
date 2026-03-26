@@ -31,12 +31,20 @@ public class Guard implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        int diffRowAbs = Math.abs(to.getRowValue() - from.getRowValue());
+        int diffColumnAbs = Math.abs(to.getColumnValue() - from.getColumnValue());
+        validateDiagonalMove(diffRowAbs, diffColumnAbs);
+        validateMoveMoreThanOnce(diffRowAbs, diffColumnAbs);
+
+        return List.of();
     }
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        return false;
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물이 있는 곳으로는 이동할 수 없습니다.");
+        }
+        return true;
     }
 
     @Override
@@ -54,5 +62,17 @@ public class Guard implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team);
+    }
+
+    private void validateDiagonalMove(int diffRowAbs, int diffColumnAbs) {
+        if (diffRowAbs > 0 && diffColumnAbs > 0) {
+            throw new IllegalArgumentException("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateMoveMoreThanOnce(int diffRowAbs, int diffColumnAbs) {
+        if (diffRowAbs > 1 || diffColumnAbs > 1) {
+            throw new IllegalArgumentException("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
+        }
     }
 }
