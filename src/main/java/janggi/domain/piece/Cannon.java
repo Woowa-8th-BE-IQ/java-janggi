@@ -52,6 +52,13 @@ public class Cannon implements Piece {
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        if (piecesOnPath.stream().filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+        }
+
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
+        }
         return false;
     }
 

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class CannonTest {
@@ -44,5 +45,32 @@ public class CannonTest {
         assertThatThrownBy(() -> cannon.getPath(Position.from("22"), Position.from("33")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
+    }
+
+    @Test
+    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_2개_이상이면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.canMove(List.of(new Soldier(Team.HAN), new Elephant(Team.HAN)), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+    }
+
+    @Test
+    void 경로에_존재하는_기물이_모두_빈_기물이면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
+    }
+
+    @Test
+    void 오직_한_칸만_이동하면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.canMove(List.of(), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
     }
 }
