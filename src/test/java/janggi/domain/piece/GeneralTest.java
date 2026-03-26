@@ -77,4 +77,13 @@ public class GeneralTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
     }
+
+    @Test
+    void 직선_한_칸보다_많이_이동시키면_예외를_발생한다() {
+        General general = new General(Team.HAN);
+
+        assertThatThrownBy(() -> general.getPath(Position.from("11"), Position.from("15")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+    }
 }

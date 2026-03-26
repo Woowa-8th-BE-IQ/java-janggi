@@ -36,6 +36,9 @@ public class General implements Piece {
         if (diffRowAbs > 0 && diffColumnAbs > 0) {
             throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
         }
+        if (diffRowAbs > 1 || diffColumnAbs > 1) {
+            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        }
         return List.of();
     }
 
