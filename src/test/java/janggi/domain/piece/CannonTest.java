@@ -100,4 +100,16 @@ public class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
+
+    @Test
+    void 한_방향으로만_이동시키면_경로를_반환한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        List<Position> path = cannon.getPath(Position.from("22"), Position.from("26"));
+
+        assertThat(path).containsExactly(
+                Position.from("23"),
+                Position.from("24"),
+                Position.from("25"));
+    }
 }
