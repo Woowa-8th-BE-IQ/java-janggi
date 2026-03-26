@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Position;
 import janggi.domain.Team;
@@ -45,4 +47,20 @@ public class HorseTest {
 
         assertThat(path).containsExactly(Position.from("46"));
     }
+
+    @Test
+    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_한_칸_이외의_경로로_이동시키면_예외가_발생한다() {
+        Horse horse = new Horse(Team.HAN);
+
+        assertAll(
+                () -> assertThatThrownBy(() -> horse.getPath(Position.from("35"), Position.from("65")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다."),
+                () -> assertThatThrownBy(() -> horse.getPath(Position.from("11"), Position.from("22")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.")
+                );
+    }
+
+
 }

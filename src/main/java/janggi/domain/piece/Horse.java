@@ -42,11 +42,12 @@ public class Horse implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        List<Position> path = new ArrayList<>();
-        if (from.hasOffsetPairs(to, 1, 2)) {
-            path.add(from.moveStraight(to));
+        if (!from.hasOffsetPairs(to, 1, 2)) {
+            throw new IllegalArgumentException("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
         }
 
+        List<Position> path = new ArrayList<>();
+        path.add(from.moveStraight(to));
         return path;
     }
 
