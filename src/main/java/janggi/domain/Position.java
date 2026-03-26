@@ -40,6 +40,31 @@ public class Position {
         }
     }
 
+    public boolean hasOnlyStraightMove(Position to) {
+        int diffRowAbs = Math.abs(to.getRowValue() - this.getRowValue());
+        int diffColumnAbs = Math.abs(to.getColumnValue() - this.getColumnValue());
+
+        if ((diffRowAbs == 0 && diffColumnAbs > 0) || (diffRowAbs > 0 && diffColumnAbs == 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    public Position moveStraight(Position to) {
+        int rowValue = getRowValue();
+        int columnValue = getColumnValue();
+        int diffRow = to.getRowValue() - rowValue;
+        int diffColumn = to.getColumnValue() - columnValue;
+
+        if (diffRow > diffColumn) {
+            int newRow = rowValue + (diffRow / Math.abs(diffRow));
+            return Position.from("" + newRow + columnValue);
+        }
+
+        int newColumn = columnValue + (diffColumn / Math.abs(diffColumn));
+        return Position.from("" + rowValue + newColumn);
+    }
+
     public int getRowValue() {
         return row.getValue();
     }

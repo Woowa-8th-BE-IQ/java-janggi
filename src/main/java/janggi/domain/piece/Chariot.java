@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,7 +32,13 @@ public class Chariot implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        List<Position> path = new ArrayList<>();
+        Position target = from.moveStraight(to);
+        while (target.hasOnlyStraightMove(to)) {
+            path.add(target);
+            target = target.moveStraight(to);
+        }
+        return path;
     }
 
     @Override
