@@ -57,24 +57,37 @@ public class Cannon implements Piece {
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
-            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
-        }
+        validateJumpOnlyOnePiece(piecesOnPath);
+        validateJumpCannon(piecesOnPath);
+        validateSameTeam(endPiece);
+        validateEndCannon(endPiece);
+        return false;
+    }
 
+    private static void validateEndCannon(Piece endPiece) {
+        if (endPiece.isCannon()) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        }
+    }
+
+    private void validateSameTeam(Piece endPiece) {
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateJumpCannon(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream()
                 .anyMatch(Piece::isCannon)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
+    }
 
-        if (isSameTeam(endPiece)) {
-            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
+    private static void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
+        if (piecesOnPath.stream()
+                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
-
-        if (endPiece.isCannon()) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
-        }
-        return false;
     }
 
     @Override
