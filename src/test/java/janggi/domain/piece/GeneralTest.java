@@ -93,7 +93,7 @@ public class GeneralTest {
 
         assertThatThrownBy(() -> general.canMove(List.of(), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 같은 팀의 기물이 있는 곳으로는 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
 
     @Test
@@ -101,7 +101,7 @@ public class GeneralTest {
         General general = new General(Team.HAN);
 
         boolean result = general.canMove(List.of(), new Chariot(Team.CHO));
-        
+
         assertThat(result).isTrue();
     }
 }

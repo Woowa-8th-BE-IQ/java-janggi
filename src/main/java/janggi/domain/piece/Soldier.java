@@ -41,12 +41,29 @@ public class Soldier implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        if (!from.hasOffsetPairs(to, 0, 1)) {
+            throw new IllegalArgumentException("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
+        }
+        if (team == Team.HAN && to.getRowValue() - from.getRowValue() == -1) {
+            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
+        }
+        if (team == Team.CHO && to.getRowValue() - from.getRowValue() == 1) {
+            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
+        }
+
+        return List.of();
     }
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        return false;
+        validateSameTeam(endPiece);
+        return true;
+    }
+
+    private void validateSameTeam(Piece endPiece) {
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
+        }
     }
 
     @Override
