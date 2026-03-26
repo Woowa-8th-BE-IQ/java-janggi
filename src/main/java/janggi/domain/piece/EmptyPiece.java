@@ -11,6 +11,12 @@ public class EmptyPiece implements Piece {
     public boolean isEmptyPiece() {
         return true;
     }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     @Override
     public boolean isSameTeam(Piece other) {
         return false;

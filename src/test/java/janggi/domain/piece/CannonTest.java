@@ -73,4 +73,13 @@ public class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
     }
+
+    @Test
+    void 경로에_존재하는_기물이_포면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new Cannon(Team.HAN)), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
+    }
 }

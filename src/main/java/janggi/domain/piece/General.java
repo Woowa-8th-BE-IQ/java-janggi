@@ -20,6 +20,11 @@ public class General implements Piece {
     }
 
     @Override
+    public boolean isCannon() {
+        return false;
+    }
+
+    @Override
     public boolean isSameTeam(Piece other) {
         return other.isSame(team);
     }
