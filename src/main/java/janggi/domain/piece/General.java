@@ -33,12 +33,9 @@ public class General implements Piece {
     public List<Position> getPath(Position from, Position to) {
         int diffRowAbs = Math.abs(to.getRowValue() - from.getRowValue());
         int diffColumnAbs = Math.abs(to.getColumnValue() - from.getColumnValue());
-        if (diffRowAbs > 0 && diffColumnAbs > 0) {
-            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
-        }
-        if (diffRowAbs > 1 || diffColumnAbs > 1) {
-            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
-        }
+        validateDiagonalMove(diffRowAbs, diffColumnAbs);
+        validateMoveMoreThanOnce(diffRowAbs, diffColumnAbs);
+
         return List.of();
     }
 
@@ -65,5 +62,17 @@ public class General implements Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team);
+    }
+
+    private void validateDiagonalMove(int diffRowAbs, int diffColumnAbs) {
+        if (diffRowAbs > 0 && diffColumnAbs > 0) {
+            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateMoveMoreThanOnce(int diffRowAbs, int diffColumnAbs) {
+        if (diffRowAbs > 1 || diffColumnAbs > 1) {
+            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        }
     }
 }
