@@ -53,7 +53,14 @@ public class Horse implements Piece {
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        validateAllPieceEmpty(piecesOnPath);
         return false;
+    }
+
+    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
+        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+            throw new IllegalArgumentException("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
+        }
     }
 
     @Override

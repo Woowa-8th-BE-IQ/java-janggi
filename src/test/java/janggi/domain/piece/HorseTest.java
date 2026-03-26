@@ -62,5 +62,12 @@ public class HorseTest {
                 );
     }
 
+    @Test
+    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+        Horse horse = new Horse(Team.HAN);
 
+        assertThatThrownBy(() -> horse.canMove(List.of(new Soldier(Team.HAN)), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
+    }
 }
