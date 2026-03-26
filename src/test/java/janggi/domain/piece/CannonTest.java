@@ -91,4 +91,13 @@ public class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
+
+    @Test
+    void 이동할_위치에_적의_포가_있으면_예외가_발생한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        assertThatThrownBy(() -> cannon.canMove(List.of(new Guard(Team.HAN)), new Cannon(Team.CHO)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
 }
