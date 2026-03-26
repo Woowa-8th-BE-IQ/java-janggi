@@ -34,7 +34,7 @@ public class EmptyPiece implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
     }
 
     @Override
