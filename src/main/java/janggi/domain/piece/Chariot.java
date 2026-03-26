@@ -32,6 +32,10 @@ public class Chariot implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
+        if (!from.hasOnlyStraightMove(to)) {
+            throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
+        }
+
         List<Position> path = new ArrayList<>();
         Position target = from.moveStraight(to);
         while (target.hasOnlyStraightMove(to)) {

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.Team;
@@ -48,5 +49,23 @@ public class ChariotTest {
                 Position.from("23"),
                 Position.from("24"),
                 Position.from("25"));
+    }
+
+    @Test
+    void 차를_대각선으로_이동시키면_예외가_발생한다() {
+        Chariot chariot = new Chariot(Team.HAN);
+
+        assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("33")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
+    }
+
+    @Test
+    void 차를_여러_방향으로_이동시키면_예외가_발생한다() {
+        Chariot chariot = new Chariot(Team.HAN);
+
+        assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("48")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
     }
 }
