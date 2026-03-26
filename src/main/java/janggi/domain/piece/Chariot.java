@@ -16,6 +16,11 @@ public class Chariot implements Piece {
     }
 
     @Override
+    public boolean isEmptyPiece() {
+        return false;
+    }
+
+    @Override
     public boolean isSameTeam(Piece other) {
         return other.isSame(team);
     }
@@ -47,9 +52,12 @@ public class Chariot implements Piece {
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        if (piecesOnPath.stream()
-                .anyMatch(piece -> !piece.equals(new EmptyPiece()))) {
+        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
             throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
+        }
+
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
         return false;
     }

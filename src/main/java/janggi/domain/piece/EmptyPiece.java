@@ -8,6 +8,10 @@ import java.util.List;
 public class EmptyPiece implements Piece {
 
     @Override
+    public boolean isEmptyPiece() {
+        return true;
+    }
+    @Override
     public boolean isSameTeam(Piece other) {
         return false;
     }

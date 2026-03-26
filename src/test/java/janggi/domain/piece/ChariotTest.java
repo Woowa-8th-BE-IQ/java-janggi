@@ -77,4 +77,13 @@ public class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }
+
+    @Test
+    void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
+        Chariot chariot = new Chariot(Team.HAN);
+
+        assertThatThrownBy(() -> chariot.canMove(List.of(new EmptyPiece()), new Soldier(Team.HAN)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
+    }
 }
