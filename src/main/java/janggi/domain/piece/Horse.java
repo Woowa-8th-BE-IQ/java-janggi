@@ -54,12 +54,19 @@ public class Horse implements Piece {
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
+        validateSameTeam(endPiece);
         return false;
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
         if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
             throw new IllegalArgumentException("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
+        }
+    }
+
+    private void validateSameTeam(Piece endPiece) {
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
     }
 
