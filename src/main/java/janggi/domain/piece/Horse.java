@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Delta;
 import janggi.domain.Piece;
+import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.List;
 import java.util.Objects;
 
 public class Horse implements Piece {
@@ -29,7 +30,12 @@ public class Horse implements Piece {
     }
 
     @Override
-    public void canMove(Delta delta) {
+    public List<Position> getPath(Position from, Position to) {
+        return null;
+    }
+
+    @Override
+    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
 
     }
 

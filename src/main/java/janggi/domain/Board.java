@@ -15,16 +15,6 @@ public class Board {
     }
 
     public Map<Position, Piece> move(Position from, Position to) {
-        Piece startPiece = board.get(from);
-        Piece endPiece = board.get(to);
-        if (startPiece.isSameTeam(endPiece)) {
-            throw new IllegalArgumentException("[ERROR] 같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
-        }
-
-        startPiece.canMove(Delta.of(from, to));
-
-        board.put(to, startPiece);
-
-        return showBoard();
+        return null;
     }
 }

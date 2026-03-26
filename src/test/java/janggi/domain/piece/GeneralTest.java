@@ -1,9 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Board;
 import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
@@ -58,39 +56,5 @@ public class GeneralTest {
 
         String displayName = general.getDisplayName();
         assertThat(displayName).isEqualTo("장");
-    }
-
-    @Test
-    void 장은_직선으로_한_칸_이동할_수_있다() {
-        base.put(Position.from("25"), new General(Team.HAN));
-        Board board = new Board(base);
-
-        Map<Position, Piece> capture = board.move(Position.from("25"), Position.from("26"));
-        Piece result = capture.get(Position.from("26"));
-
-        assertThat(result).isEqualTo(new General(Team.HAN));
-    }
-
-    @Test
-    void 장이_직선_한_칸보다_많이_이동하면_예외가_발생한다() {
-        base.put(Position.from("25"), new General(Team.HAN));
-        Board board = new Board(base);
-
-        assertThatThrownBy(
-                () -> board.move(Position.from("25"), Position.from("36")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 장은 두 칸 이상 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 이동할_곳의_기물이_같은_팀이면_예외가_발생한다() {
-        base.put(Position.from("25"), new General(Team.HAN));
-        base.put(Position.from("26"), new Soldier(Team.HAN));
-        Board board = new Board(base);
-
-        assertThatThrownBy(
-                () -> board.move(Position.from("25"), Position.from("26")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
     }
 }

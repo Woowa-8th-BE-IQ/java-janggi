@@ -1,8 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Delta;
 import janggi.domain.Piece;
+import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.List;
 
 public class EmptyPiece implements Piece {
 
@@ -22,7 +23,12 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public void canMove(Delta delta) {
+    public List<Position> getPath(Position from, Position to) {
+        return null;
+    }
+
+    @Override
+    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
 
     }
 }
