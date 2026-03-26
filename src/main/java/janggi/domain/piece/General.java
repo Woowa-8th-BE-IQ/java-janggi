@@ -31,7 +31,7 @@ public class General implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        return null;
+        return List.of();
     }
 
     @Override

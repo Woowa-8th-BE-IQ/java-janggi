@@ -8,6 +8,7 @@ import janggi.domain.Position;
 import janggi.domain.Row;
 import janggi.domain.Team;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,5 +57,14 @@ public class GeneralTest {
 
         String displayName = general.getDisplayName();
         assertThat(displayName).isEqualTo("장");
+    }
+
+    @Test
+    void 직선_한_칸을_이동시키면_경로를_반환한다() {
+        General general = new General(Team.HAN);
+
+        List<Position> path = general.getPath(Position.from("11"), Position.from("12"));
+
+        assertThat(path).hasSize(0);
     }
 }
