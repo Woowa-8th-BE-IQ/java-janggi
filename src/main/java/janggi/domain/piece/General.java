@@ -31,6 +31,11 @@ public class General implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
+        int diffRowAbs = Math.abs(to.getRowValue() - from.getRowValue());
+        int diffColumnAbs = Math.abs(to.getColumnValue() - from.getColumnValue());
+        if (diffRowAbs > 0 && diffColumnAbs > 0) {
+            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        }
         return List.of();
     }
 

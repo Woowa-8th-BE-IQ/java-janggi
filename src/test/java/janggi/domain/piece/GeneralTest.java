@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Column;
 import janggi.domain.Piece;
@@ -66,5 +67,14 @@ public class GeneralTest {
         List<Position> path = general.getPath(Position.from("11"), Position.from("12"));
 
         assertThat(path).hasSize(0);
+    }
+
+    @Test
+    void 대각선_이동시키면_예외가_발생한다() {
+        General general = new General(Team.HAN);
+
+        assertThatThrownBy(() -> general.getPath(Position.from("11"), Position.from("22")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
     }
 }
