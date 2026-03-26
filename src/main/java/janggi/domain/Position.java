@@ -30,14 +30,20 @@ public class Position {
     }
 
     private static int extractColumnValue(String rowColumn) {
-        int columnValue = rowColumn.charAt(COLUMN_INDEX) - '0';
-        return columnValue;
+        return rowColumn.charAt(COLUMN_INDEX) - '0';
     }
 
     private static void validatePositionLength(String rowColumn) {
         if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
             throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
         }
+    }
+
+    public boolean hasOffsetPairs(Position other, int value1, int value2) {
+        int diffRowAbs = Math.abs(other.getRowValue() - this.getRowValue());
+        int diffColumnAbs = Math.abs(other.getColumnValue() - this.getColumnValue());
+
+        return (diffRowAbs == value1 && diffColumnAbs == value2) || (diffColumnAbs == value1 && diffRowAbs == value2);
     }
 
     public boolean hasOnlyStraightMove(Position to) {
@@ -63,6 +69,20 @@ public class Position {
 
         int newColumn = columnValue + (diffColumn / Math.abs(diffColumn));
         return Position.from("" + rowValue + newColumn);
+    }
+
+    public Position moveDiagonal(Position to) {
+        int rowValue = getRowValue();
+        int columnValue = getColumnValue();
+        int diffRow = to.getRowValue() - rowValue;
+        int diffColumn = to.getColumnValue() - columnValue;
+        int diffRowAbs = Math.abs(diffRow);
+        int diffColumnAbs = Math.abs(diffColumn);
+
+        int unitRow = diffRow / diffRowAbs;
+        int unitColumn = diffColumn / diffColumnAbs;
+
+        return Position.from("" + (rowValue + unitRow) + (columnValue + unitColumn));
     }
 
     public int getRowValue() {

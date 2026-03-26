@@ -2,7 +2,9 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Position;
 import janggi.domain.Team;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class HorseTest {
@@ -33,5 +35,14 @@ public class HorseTest {
 
         String displayName = horse.getDisplayName();
         assertThat(displayName).isEqualTo("마");
+    }
+
+    @Test
+    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_한_칸_이동시키면_경로를_반환한다() {
+        Horse horse = new Horse(Team.HAN);
+
+        List<Position> path = horse.getPath(Position.from("36"), Position.from("57"));
+
+        assertThat(path).containsExactly(Position.from("46"));
     }
 }
