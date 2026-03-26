@@ -43,8 +43,11 @@ public class General implements Piece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
-
+    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        if (isSameTeam(endPiece)) {
+            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물이 있는 곳으로는 이동할 수 없습니다.");
+        }
+        return true;
     }
 
     @Override

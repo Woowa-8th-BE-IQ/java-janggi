@@ -35,8 +35,8 @@ public class Horse implements Piece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
-
+    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        return false;
     }
 
     @Override

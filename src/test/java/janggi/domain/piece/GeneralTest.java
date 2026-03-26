@@ -86,4 +86,22 @@ public class GeneralTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
     }
+
+    @Test
+    void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
+        General general = new General(Team.HAN);
+
+        assertThatThrownBy(() -> general.canMove(List.of(), new Chariot(Team.HAN)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 같은 팀의 기물이 있는 곳으로는 이동할 수 없습니다.");
+    }
+
+    @Test
+    void 이동할_위치에_다른_팀이_있으면_참을_반환한다() {
+        General general = new General(Team.HAN);
+
+        boolean result = general.canMove(List.of(), new Chariot(Team.CHO));
+        
+        assertThat(result).isTrue();
+    }
 }
