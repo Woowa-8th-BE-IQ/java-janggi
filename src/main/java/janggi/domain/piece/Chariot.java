@@ -47,6 +47,10 @@ public class Chariot implements Piece {
 
     @Override
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        if (piecesOnPath.stream()
+                .anyMatch(piece -> !piece.equals(new EmptyPiece()))) {
+            throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
+        }
         return false;
     }
 

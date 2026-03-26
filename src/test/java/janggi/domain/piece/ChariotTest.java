@@ -68,4 +68,13 @@ public class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
     }
+
+    @Test
+    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+        Chariot chariot = new Chariot(Team.HAN);
+
+        assertThatThrownBy(() -> chariot.canMove(List.of(new Soldier(Team.HAN)), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
+    }
 }
