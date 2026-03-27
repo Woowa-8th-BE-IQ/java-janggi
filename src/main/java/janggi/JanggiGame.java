@@ -36,7 +36,7 @@ public class JanggiGame {
     }
 
     private void play() {
-        Team currentTeam = Team.HAN;
+        Team currentTeam = Team.CHO;
         while (true) {
             String input = inputView.readPosition(toDisplayName(currentTeam));
             if (input.equals(END_COMMAND)) {

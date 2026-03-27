@@ -67,4 +67,72 @@ public class BoardFactoryTest {
                 () -> assertThat(boardState).containsEntry(Position.from("79"), new Soldier(Team.CHO))
         );
     }
+
+    @Test
+    void 차림_번호가_1번이면_왼상차림이다() {
+        Board board = BoardFactory.create("1", "1");
+        Map<Position, Piece> boardState = board.showBoard();
+
+        assertAll(
+                () -> assertThat(boardState.get(Position.from("12"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("13"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("17"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("18"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("02"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("03"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("07"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("08"))).isEqualTo(new Horse(Team.CHO))
+        );
+    }
+
+    @Test
+    void 차림_번호가_2번이면_오른상차림이다() {
+        Board board = BoardFactory.create("2", "2");
+        Map<Position, Piece> boardState = board.showBoard();
+
+        assertAll(
+                () -> assertThat(boardState.get(Position.from("12"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("13"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("17"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("18"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("02"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("03"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("07"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("08"))).isEqualTo(new Elephant(Team.CHO))
+        );
+    }
+
+    @Test
+    void 차림_번호가_3번이면_안상차림이다() {
+        Board board = BoardFactory.create("3", "3");
+        Map<Position, Piece> boardState = board.showBoard();
+
+        assertAll(
+                () -> assertThat(boardState.get(Position.from("12"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("13"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("17"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("18"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("02"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("03"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("07"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("08"))).isEqualTo(new Horse(Team.CHO))
+        );
+    }
+
+    @Test
+    void 차림_번호가_4번이면_바깥상차림이다() {
+        Board board = BoardFactory.create("4", "4");
+        Map<Position, Piece> boardState = board.showBoard();
+
+        assertAll(
+                () -> assertThat(boardState.get(Position.from("12"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("13"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("17"))).isEqualTo(new Horse(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("18"))).isEqualTo(new Elephant(Team.HAN)),
+                () -> assertThat(boardState.get(Position.from("02"))).isEqualTo(new Elephant(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("03"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("07"))).isEqualTo(new Horse(Team.CHO)),
+                () -> assertThat(boardState.get(Position.from("08"))).isEqualTo(new Elephant(Team.CHO))
+        );
+    }
 }

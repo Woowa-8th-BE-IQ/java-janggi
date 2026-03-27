@@ -82,11 +82,11 @@ public class BoardFactory {
 
     private static void applyHanSetUp(Map<Position, Piece> board, String hanBoardType) {
         if (hanBoardType.equals("1")) {
-            swap(board, Position.from("17"), Position.from("18"));
+            swap(board, Position.from("12"), Position.from("13"));
             return;
         }
         if (hanBoardType.equals("2")) {
-            swap(board, Position.from("12"), Position.from("13"));
+            swap(board, Position.from("17"), Position.from("18"));
             return;
         }
         if (hanBoardType.equals("3")) {

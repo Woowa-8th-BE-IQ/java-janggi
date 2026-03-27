@@ -12,14 +12,14 @@ public class InputView {
 
     public String readHanSetup() {
         System.out.println("[한(漢) 차림 선택]");
-        System.out.println("1: 마상차림  2: 상마차림  3: 마상상마  4: 상마마상(기본)");
+        System.out.println("1: 왼상차림  2: 오른상차림  3: 안상차림  4: 바깥상차림(기본)");
         System.out.print("> ");
         return scanner.nextLine().trim();
     }
 
     public String readChosetup() {
         System.out.println("[초(楚) 차림 선택]");
-        System.out.println("1: 마상차림  2: 상마차림  3: 마상상마  4: 상마마상(기본)");
+        System.out.println("1: 왼상차림  2: 오른상차림  3: 안상차림  4: 바깥상차림(기본)");
         System.out.print("> ");
         return scanner.nextLine().trim();
     }
