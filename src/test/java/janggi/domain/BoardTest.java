@@ -1,8 +1,11 @@
 package janggi.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.piece.EmptyPiece;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -34,5 +37,30 @@ public class BoardTest {
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 행 좌표는 1~10까지 사용 가능 합니다")
         );
+    }
+    @Test
+    void 출발_좌표와_도착_좌표를_입력하면_도착_좌표의_기물은_출발_좌표의_기물이_된다() {
+        Board board = new Board(BoardFactory.create("4", "4"));
+        Position from = Position.from("25");
+        Position to = Position.from("35");
+        Map<Position, Piece> initBoard = board.showBoard();
+        Piece initialFromPiece = initBoard.get(from);
+
+        Map<Position, Piece> movedBoard = board.move(from, to);
+        Piece movedToPiece = movedBoard.get(to);
+
+        assertThat(movedToPiece).isEqualTo(initialFromPiece);
+    }
+
+    @Test
+    void 출발_좌표와_도착_좌표를_입력하면_출발_좌표의_기물은_빈_기물이_된다() {
+        Board board = new Board(BoardFactory.create("4", "4"));
+        Position from = Position.from("25");
+        Position to = Position.from("35");
+
+        Map<Position, Piece> movedBoard = board.move(from, to);
+        boolean result = movedBoard.get(from).isEmptyPiece();
+
+        assertThat(result).isTrue();
     }
 }
