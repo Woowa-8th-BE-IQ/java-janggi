@@ -85,4 +85,13 @@ public class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
+
+    @Test
+    void 이동_가능_확인_성공_테스트() {
+        Chariot chariot = new Chariot(Team.HAN);
+
+        boolean result = chariot.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new Chariot(Team.CHO));
+
+        assertThat(result).isTrue();
+    }
 }

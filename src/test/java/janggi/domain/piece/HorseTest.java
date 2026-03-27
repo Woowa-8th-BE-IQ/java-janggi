@@ -79,4 +79,13 @@ public class HorseTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
+
+    @Test
+    void 이동_가능_확인_성공_테스트() {
+        Horse horse = new Horse(Team.HAN);
+
+        boolean result = horse.canMove(List.of(new EmptyPiece()), new Chariot(Team.CHO));
+
+        assertThat(result).isTrue();
+    }
 }

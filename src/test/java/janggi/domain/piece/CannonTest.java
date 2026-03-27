@@ -112,4 +112,13 @@ public class CannonTest {
                 Position.from("24"),
                 Position.from("25"));
     }
+
+    @Test
+    void 이동_가능_확인_성공_테스트() {
+        Cannon cannon = new Cannon(Team.HAN);
+
+        boolean result = cannon.canMove(List.of(new EmptyPiece(), new Soldier(Team.HAN)), new Chariot(Team.CHO));
+
+        assertThat(result).isTrue();
+    }
 }
