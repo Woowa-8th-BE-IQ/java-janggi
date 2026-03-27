@@ -38,7 +38,7 @@ public class PositionTest {
         assertThatThrownBy(
                 () -> Position.from("00"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 행 좌표는 1~9까지 사용 가능 합니다");
+                .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다");
     }
 
     @Test
