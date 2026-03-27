@@ -44,13 +44,8 @@ public class Horse implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 1, 2)) {
-            throw new IllegalArgumentException("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
-        }
-
-        List<Position> path = new ArrayList<>();
-        path.add(from.moveStraight(to));
-        return path;
+        validateMove(from, to);
+        return findPath(from, to);
     }
 
     @Override
@@ -58,6 +53,18 @@ public class Horse implements Piece {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
         return true;
+    }
+
+    private List<Position> findPath(Position from, Position to) {
+        List<Position> path = new ArrayList<>();
+        path.add(from.moveStraight(to));
+        return path;
+    }
+
+    private void validateMove(Position from, Position to) {
+        if (!from.hasOffsetPairs(to, 1, 2)) {
+            throw new IllegalArgumentException("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
+        }
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {

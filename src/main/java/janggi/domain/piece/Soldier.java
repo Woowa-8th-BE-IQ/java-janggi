@@ -43,16 +43,8 @@ public class Soldier implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 0, 1)) {
-            throw new IllegalArgumentException("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
-        }
-        if (team == Team.HAN && to.getRowValue() - from.getRowValue() == -1) {
-            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
-        }
-        if (team == Team.CHO && to.getRowValue() - from.getRowValue() == 1) {
-            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
-        }
-
+        validateMove(from, to);
+        validateBackStep(from, to);
         return List.of();
     }
 
@@ -60,6 +52,21 @@ public class Soldier implements Piece {
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
         return true;
+    }
+
+    private void validateMove(Position from, Position to) {
+        if (!from.hasOffsetPairs(to, 0, 1)) {
+            throw new IllegalArgumentException("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void validateBackStep(Position from, Position to) {
+        if (team == Team.HAN && to.getRowValue() - from.getRowValue() == -1) {
+            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
+        }
+        if (team == Team.CHO && to.getRowValue() - from.getRowValue() == 1) {
+            throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
+        }
     }
 
     private void validateSameTeam(Piece endPiece) {

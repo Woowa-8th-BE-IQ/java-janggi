@@ -44,15 +44,9 @@ public class Elephant implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 2, 3)) {
-            throw new IllegalArgumentException("[ERROR] 상은 해당 경로로 이동할 수 없습니다.");
-        }
+        validateMove(from, to);
 
-        List<Position> path = new ArrayList<>();
-        Position next = from.moveStraight(to);
-        path.add(next);
-        path.add(next.moveDiagonal(to));
-        return path;
+        return findPath(from, to);
     }
 
     @Override
@@ -60,6 +54,20 @@ public class Elephant implements Piece {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
         return true;
+    }
+
+    private List<Position> findPath(Position from, Position to) {
+        List<Position> path = new ArrayList<>();
+        Position next = from.moveStraight(to);
+        path.add(next);
+        path.add(next.moveDiagonal(to));
+        return path;
+    }
+
+    private void validateMove(Position from, Position to) {
+        if (!from.hasOffsetPairs(to, 2, 3)) {
+            throw new IllegalArgumentException("[ERROR] 상은 해당 경로로 이동할 수 없습니다.");
+        }
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {

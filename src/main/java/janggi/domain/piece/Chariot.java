@@ -11,7 +11,6 @@ public class Chariot implements Piece {
 
     private static final String PIECE_NAME = "차";
 
-
     private final Team team;
 
     public Chariot(Team team) {
@@ -45,10 +44,18 @@ public class Chariot implements Piece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        if (!from.hasOnlyStraightMove(to)) {
-            throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
-        }
+        validateMove(from, to);
+        return findPath(from, to);
+    }
 
+    @Override
+    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+        validateAllPieceEmpty(piecesOnPath);
+        validateSameTeam(endPiece);
+        return true;
+    }
+
+    private List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
         Position target = from.moveStraight(to);
         while (target.hasOnlyStraightMove(to)) {
@@ -58,11 +65,10 @@ public class Chariot implements Piece {
         return path;
     }
 
-    @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        validateAllPieceEmpty(piecesOnPath);
-        validateSameTeam(endPiece);
-        return true;
+    private void validateMove(Position from, Position to) {
+        if (!from.hasOnlyStraightMove(to)) {
+            throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
+        }
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
