@@ -13,7 +13,7 @@ public class BoardTest {
 
     @Test
     void 출발_좌표와_도착_좌표가_같으면_예외가_발생한다() {
-        Board board = new Board(BoardFactory.create("4", "4"));
+        Board board = BoardFactory.create("4", "4");
 
         assertThatThrownBy(() -> board.move(Position.from("11"), Position.from("11")))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -22,7 +22,7 @@ public class BoardTest {
 
     @Test
     void 잘못된_좌표로_출발_및_도착_좌표를_입력하면_예외가_발생한다() {
-        Board board = new Board(BoardFactory.create("4", "4"));
+        Board board = BoardFactory.create("4", "4");
 
         assertAll(
                 () -> assertThatThrownBy(() -> board.move(Position.from("101"), Position.from("11")))
@@ -41,7 +41,7 @@ public class BoardTest {
     }
     @Test
     void 출발_좌표와_도착_좌표를_입력하면_도착_좌표의_기물은_출발_좌표의_기물이_된다() {
-        Board board = new Board(BoardFactory.create("4", "4"));
+        Board board = BoardFactory.create("4", "4");
         Position from = Position.from("25");
         Position to = Position.from("35");
         Map<Position, Piece> initBoard = board.showBoard();
@@ -55,7 +55,7 @@ public class BoardTest {
 
     @Test
     void 출발_좌표와_도착_좌표를_입력하면_출발_좌표의_기물은_빈_기물이_된다() {
-        Board board = new Board(BoardFactory.create("4", "4"));
+        Board board = BoardFactory.create("4", "4");
         Position from = Position.from("25");
         Position to = Position.from("35");
 

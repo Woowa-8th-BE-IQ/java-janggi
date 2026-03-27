@@ -22,14 +22,14 @@ public class BoardFactory {
 
     }
 
-    public static Map<Position, Piece> create(String hanBoardType, String choBoardType) {
+    public static Board create(String hanBoardType, String choBoardType) {
         Map<Position, Piece> board = new LinkedHashMap<>();
         initializeEmpty(board);
         placeHan(board);
         placeCho(board);
         applyHanSetUp(board, hanBoardType);
         applyChoSetUp(board, choBoardType);
-        return board;
+        return new Board(board);
     }
 
     private static void initializeEmpty(Map<Position, Piece> board) {

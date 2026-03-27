@@ -61,7 +61,7 @@ public class Cannon implements Piece {
         validateJumpCannon(piecesOnPath);
         validateSameTeam(endPiece);
         validateEndCannon(endPiece);
-        return false;
+        return true;
     }
 
     private static void validateEndCannon(Piece endPiece) {

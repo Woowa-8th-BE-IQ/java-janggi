@@ -20,7 +20,6 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
         }
 
-
         Piece fromPiece = board.get(from);
         List<Position> path = fromPiece.getPath(from, to);
         List<Piece> pieceOnPath = new ArrayList<>();

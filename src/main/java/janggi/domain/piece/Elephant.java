@@ -57,7 +57,7 @@ public class Elephant implements Piece {
     public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
-        return false;
+        return true;
     }
 
     private void validateAllPieceEmpty(List<Piece> piecesOnPath) {

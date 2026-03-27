@@ -20,7 +20,8 @@ public class BoardFactoryTest {
 
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {
-        Map<Position, Piece> boardState = BoardFactory.create("4", "4");
+        Board board = BoardFactory.create("4", "4");
+        Map<Position, Piece> boardState = board.showBoard();
 
         assertAll(
                 () -> assertThat(boardState).containsEntry(Position.from("11"), new Chariot(Team.HAN)),
@@ -44,7 +45,8 @@ public class BoardFactoryTest {
 
     @Test
     void 초나라_기물_차림_입력이_4면_초나라는_바깥상_차림이다() {
-        Map<Position, Piece> boardState = BoardFactory.create("4", "4");
+        Board board = BoardFactory.create("4", "4");
+        Map<Position, Piece> boardState = board.showBoard();
 
         assertAll(
                 () -> assertThat(boardState).containsEntry(Position.from("01"), new Chariot(Team.CHO)),

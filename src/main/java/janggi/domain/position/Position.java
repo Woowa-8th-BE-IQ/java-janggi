@@ -62,7 +62,7 @@ public class Position {
         int diffRow = to.getRowValue() - rowValue;
         int diffColumn = to.getColumnValue() - columnValue;
 
-        if (diffRow > diffColumn) {
+        if (Math.abs(diffRow) > Math.abs(diffColumn)) {
             int newRow = rowValue + (diffRow / Math.abs(diffRow));
             return Position.from("" + newRow + columnValue);
         }
