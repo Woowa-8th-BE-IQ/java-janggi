@@ -37,26 +37,23 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = Team.CHO;
-        while (true) {
-            String input = inputView.readPosition(toDisplayName(currentTeam));
+        while (currentTeam != Team.NONE) {
+            String input = inputView.readPosition(currentTeam.getDisplayName());
             if (input.equals(END_COMMAND)) {
                 outputView.printGameEnd();
                 return;
             }
             currentTeam = processTurn(input, currentTeam);
-            if (currentTeam == null) {
-                return;
-            }
         }
     }
 
     private Team processTurn(String input, Team currentTeam) {
         try {
             Map<Position, Piece> updatedBoard = movePiece(input);
-            if (isKingCaptured(updatedBoard)) {
+            if (isGeneralCaptured(updatedBoard)) {
                 outputView.printBoard(updatedBoard);
                 outputView.printWinner(currentTeam);
-                return null;
+                return Team.NONE;
             }
             outputView.printBoard(updatedBoard);
             return currentTeam.convert();
@@ -73,17 +70,10 @@ public class JanggiGame {
         return board.move(from, to);
     }
 
-    private boolean isKingCaptured(Map<Position, Piece> updatedBoard) {
+    private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
         return updatedBoard.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())
                 .filter(piece -> piece.getDisplayName().equals(KING_NAME))
                 .count() < 2;
-    }
-
-    private String toDisplayName(Team team) {
-        if (team == Team.HAN) {
-            return "\u001B[1;31m한(漢)\u001B[0m";
-        }
-        return "\u001B[1;34m초(楚)\u001B[0m";
     }
 }

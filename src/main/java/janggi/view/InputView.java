@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.Team;
 import java.util.Scanner;
 
 public class InputView {
@@ -24,9 +25,16 @@ public class InputView {
         return scanner.nextLine().trim();
     }
 
-    public String readPosition(String teamDisplayName) {
-        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", teamDisplayName);
+    public String readPosition(String teamName) {
+        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", toDisplayName(teamName));
         System.out.print("> ");
         return scanner.nextLine().trim();
+    }
+
+    private String toDisplayName(String teamName) {
+        if (teamName.equals("한")) {
+            return "\u001B[1;31m" + teamName + "(漢)\u001B[0m";
+        }
+        return "\u001B[1;34m" + teamName + "(楚)\u001B[0m";
     }
 }

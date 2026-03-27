@@ -21,14 +21,9 @@ public class OutputView {
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
 
-    private static final Map<String, String> HAN_LABEL = Map.of(
-            "차", " C ", "마", " H ", "상", " E ", "사", " G ",
-            "장", " K ", "포", " B ", "졸", " S "
-    );
-
-    private static final Map<String, String> CHO_LABEL = Map.of(
-            "차", " c ", "마", " h ", "상", " e ", "사", " g ",
-            "장", " k ", "포", " b ", "졸", " s "
+    private static final Map<String, String> PIECE_LABEL = Map.of(
+            "차", "CHA", "마", "HOR", "상", "ELE", "사", "GRD",
+            "장", "GEN", "포", "CAN", "졸", "SOL"
     );
 
     public void printBoard(Map<Position, Piece> board) {
@@ -84,14 +79,14 @@ public class OutputView {
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
         if (piece.isSame(Team.HAN)) {
-            return ANSI_RED + HAN_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+            return ANSI_RED + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
         }
-        return ANSI_BLUE + CHO_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+        return ANSI_BLUE + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
     }
 
     private void printLegend() {
-        System.out.println(ANSI_RED + "  [HAN] C=車 H=馬 E=相 G=仕 K=將 B=包 S=兵" + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "  [CHO] c=車 h=馬 e=象 g=士 k=將 b=包 s=卒" + ANSI_RESET);
+        System.out.println(ANSI_RED + "  [HAN] CHA=車 HOR=馬 ELE=相 GRD=仕 GEN=將 CAN=包 SOL=兵" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "  [CHO] CHA=車 HOR=馬 ELE=象 GRD=士 GEN=將 CAN=包 SOL=卒" + ANSI_RESET);
     }
 
     public void printWinner(Team winner) {
