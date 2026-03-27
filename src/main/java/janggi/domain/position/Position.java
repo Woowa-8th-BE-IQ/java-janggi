@@ -43,46 +43,38 @@ public class Position {
         int diffRowAbs = Math.abs(other.getRowValue() - this.getRowValue());
         int diffColumnAbs = Math.abs(other.getColumnValue() - this.getColumnValue());
 
-        return (diffRowAbs == value1 && diffColumnAbs == value2) || (diffColumnAbs == value1 && diffRowAbs == value2);
+        return (diffRowAbs == value1 && diffColumnAbs == value2)
+                || (diffColumnAbs == value1 && diffRowAbs == value2);
     }
 
     public boolean hasOnlyStraightMove(Position to) {
         int diffRowAbs = Math.abs(to.getRowValue() - this.getRowValue());
         int diffColumnAbs = Math.abs(to.getColumnValue() - this.getColumnValue());
 
-        if ((diffRowAbs == 0 && diffColumnAbs > 0) || (diffRowAbs > 0 && diffColumnAbs == 0)) {
-            return true;
-        }
-        return false;
+        return (diffRowAbs == 0) != (diffColumnAbs == 0);
     }
 
     public Position moveStraight(Position to) {
-        int rowValue = getRowValue();
-        int columnValue = getColumnValue();
-        int diffRow = to.getRowValue() - rowValue;
-        int diffColumn = to.getColumnValue() - columnValue;
+        int diffRow = to.getRowValue() - getRowValue();
+        int diffColumn = to.getColumnValue() - getColumnValue();
 
         if (Math.abs(diffRow) > Math.abs(diffColumn)) {
-            int newRow = rowValue + (diffRow / Math.abs(diffRow));
-            return Position.from("" + newRow + columnValue);
+            return Position.from("" + (getRowValue() + toUnit(diffRow)) + getColumnValue());
         }
-
-        int newColumn = columnValue + (diffColumn / Math.abs(diffColumn));
-        return Position.from("" + rowValue + newColumn);
+        return Position.from("" + getRowValue() + (getColumnValue() + toUnit(diffColumn)));
     }
 
+    // 대각선 이동: 양 축 모두 1칸씩
     public Position moveDiagonal(Position to) {
-        int rowValue = getRowValue();
-        int columnValue = getColumnValue();
-        int diffRow = to.getRowValue() - rowValue;
-        int diffColumn = to.getColumnValue() - columnValue;
-        int diffRowAbs = Math.abs(diffRow);
-        int diffColumnAbs = Math.abs(diffColumn);
+        int unitRow = toUnit(to.getRowValue() - getRowValue());
+        int unitColumn = toUnit(to.getColumnValue() - getColumnValue());
 
-        int unitRow = diffRow / diffRowAbs;
-        int unitColumn = diffColumn / diffColumnAbs;
+        return Position.from("" + (getRowValue() + unitRow) + (getColumnValue() + unitColumn));
+    }
 
-        return Position.from("" + (rowValue + unitRow) + (columnValue + unitColumn));
+    private int toUnit(int diff) {
+        if (diff == 0) return 0;
+        return diff / Math.abs(diff);
     }
 
     public int getRowValue() {
