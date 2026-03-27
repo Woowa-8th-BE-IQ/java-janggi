@@ -79,7 +79,7 @@ public class Chariot implements Piece {
 
     private void validateSameTeam(Piece endPiece) {
         if (isSameTeam(endPiece)) {
-            throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
+            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
         }
     }
 }
