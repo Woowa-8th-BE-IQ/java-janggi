@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.piece.EmptyPiece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +21,8 @@ public class Board {
             pieceOnPath.add(board.get(position));
         }
         if (fromPiece.canMove(pieceOnPath, board.get(to))) {
-            Piece removePiece = board.remove(from);
-            board.put(to, removePiece);
+            board.put(from, new EmptyPiece());
+            board.put(to, fromPiece);
         }
         return showBoard();
     }
