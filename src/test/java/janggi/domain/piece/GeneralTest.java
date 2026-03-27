@@ -3,11 +3,11 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.position.Column;
 import janggi.domain.Piece;
+import janggi.domain.Team;
+import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.domain.Team;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

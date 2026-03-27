@@ -3,7 +3,6 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Piece;
-import janggi.domain.position.Position;
 import janggi.domain.Team;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -12,6 +11,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Soldier;
+import janggi.domain.position.Position;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 

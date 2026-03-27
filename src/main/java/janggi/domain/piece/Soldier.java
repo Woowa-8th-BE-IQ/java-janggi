@@ -1,10 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.Piece;
-import janggi.domain.position.Position;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
 import java.util.List;
-import java.util.Objects;
 
 public class Soldier implements Piece {
 
@@ -61,10 +60,10 @@ public class Soldier implements Piece {
     }
 
     private void validateBackStep(Position from, Position to) {
-        if (team == Team.HAN && to.getRowValue() - from.getRowValue() == -1) {
+        if (team == Team.HAN && (to.getRowValue() - from.getRowValue()) == -1) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }
-        if (team == Team.CHO && to.getRowValue() - from.getRowValue() == 1) {
+        if (team == Team.CHO && (to.getRowValue() - from.getRowValue()) == 1) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }
     }

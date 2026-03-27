@@ -1,11 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.Piece;
-import janggi.domain.position.Position;
 import janggi.domain.Team;
+import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Chariot implements Piece {
 
