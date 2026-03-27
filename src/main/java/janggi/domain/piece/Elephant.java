@@ -81,21 +81,4 @@ public class Elephant implements Piece {
             throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Elephant elephant = (Elephant) o;
-        return team == elephant.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team);
-    }
 }

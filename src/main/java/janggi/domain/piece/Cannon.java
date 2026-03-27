@@ -98,21 +98,4 @@ public class Cannon implements Piece {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Cannon cannon = (Cannon) o;
-        return team == cannon.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team);
-    }
 }

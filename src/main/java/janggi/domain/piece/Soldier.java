@@ -74,21 +74,4 @@ public class Soldier implements Piece {
             throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Soldier soldier = (Soldier) o;
-        return team == soldier.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team);
-    }
 }

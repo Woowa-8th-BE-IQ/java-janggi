@@ -82,21 +82,4 @@ public class Chariot implements Piece {
             throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Chariot chariot = (Chariot) o;
-        return team == chariot.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team);
-    }
 }

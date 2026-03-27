@@ -64,21 +64,4 @@ public class General implements Piece {
             throw new IllegalArgumentException(SAME_TEAM_ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        General general = (General) o;
-        return team == general.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team);
-    }
 }
