@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public class Cannon implements Piece {
 
+    private static final String PIECE_NAME = "포";
+
     private final Team team;
 
     public Cannon(Team team) {
@@ -21,8 +23,8 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return true;
+    public boolean isSamePiece(Piece other) {
+        return other.getDisplayName().equals(PIECE_NAME);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Cannon implements Piece {
 
     @Override
     public String getDisplayName() {
-        return "포";
+        return PIECE_NAME;
     }
 
     @Override
@@ -64,8 +66,8 @@ public class Cannon implements Piece {
         return true;
     }
 
-    private static void validateEndCannon(Piece endPiece) {
-        if (endPiece.isCannon()) {
+    private void validateEndCannon(Piece endPiece) {
+        if (isSamePiece(endPiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
@@ -78,7 +80,7 @@ public class Cannon implements Piece {
 
     private void validateJumpCannon(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream()
-                .anyMatch(Piece::isCannon)) {
+                .anyMatch(this::isSamePiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }

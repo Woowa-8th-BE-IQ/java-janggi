@@ -7,14 +7,16 @@ import java.util.List;
 
 public class EmptyPiece implements Piece {
 
+    private static final String PIECE_NAME = "빈";
+
     @Override
     public boolean isEmptyPiece() {
         return true;
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean isSamePiece(Piece other) {
+        return other.getDisplayName().equals(PIECE_NAME);
     }
 
     @Override
@@ -29,7 +31,7 @@ public class EmptyPiece implements Piece {
 
     @Override
     public String getDisplayName() {
-        return "빈";
+        return PIECE_NAME;
     }
 
     @Override

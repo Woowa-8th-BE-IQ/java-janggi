@@ -8,6 +8,8 @@ import java.util.Objects;
 
 public class General implements Piece {
 
+    private static final String PIECE_NAME = "장";
+
     private final Team team;
 
     public General(Team team) {
@@ -20,8 +22,8 @@ public class General implements Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean isSamePiece(Piece other) {
+        return other.getDisplayName().equals(PIECE_NAME);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class General implements Piece {
 
     @Override
     public String getDisplayName() {
-        return "장";
+        return PIECE_NAME;
     }
 
     @Override

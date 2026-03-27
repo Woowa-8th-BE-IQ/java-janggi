@@ -9,6 +9,9 @@ import java.util.Objects;
 
 public class Chariot implements Piece {
 
+    private static final String PIECE_NAME = "차";
+
+
     private final Team team;
 
     public Chariot(Team team) {
@@ -21,8 +24,8 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
+    public boolean isSamePiece(Piece other) {
+        return other.getDisplayName().equals(PIECE_NAME);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class Chariot implements Piece {
 
     @Override
     public String getDisplayName() {
-        return "차";
+        return PIECE_NAME;
     }
 
     @Override
