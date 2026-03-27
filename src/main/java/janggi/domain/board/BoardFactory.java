@@ -1,5 +1,10 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.position.Column;
+import janggi.domain.Piece;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
+import janggi.domain.Team;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;

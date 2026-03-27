@@ -1,8 +1,9 @@
-package janggi.domain;
+package janggi.domain.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 
 public class PositionTest {

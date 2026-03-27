@@ -1,9 +1,10 @@
-package janggi.domain;
+package janggi.domain.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.position.Row;
 import org.junit.jupiter.api.Test;
 
 public class RowTest {

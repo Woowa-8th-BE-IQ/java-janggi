@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.position.Position;
 import java.util.List;
 
 public interface Piece {

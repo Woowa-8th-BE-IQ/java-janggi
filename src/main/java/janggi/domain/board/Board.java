@@ -1,5 +1,7 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.Piece;
+import janggi.domain.position.Position;
 import janggi.domain.piece.EmptyPiece;
 import java.util.ArrayList;
 import java.util.List;
