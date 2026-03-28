@@ -43,8 +43,8 @@ public class Position {
         int diffRowAbs = Math.abs(other.getRowValue() - this.getRowValue());
         int diffColumnAbs = Math.abs(other.getColumnValue() - this.getColumnValue());
 
-        return (diffRowAbs == value1 && diffColumnAbs == value2)
-                || (diffColumnAbs == value1 && diffRowAbs == value2);
+        return (diffRowAbs == value1 && diffColumnAbs == value2) ||
+                (diffColumnAbs == value1 && diffRowAbs == value2);
     }
 
     public boolean hasOnlyStraightMove(Position to) {
@@ -64,7 +64,6 @@ public class Position {
         return Position.from("" + getRowValue() + (getColumnValue() + toUnit(diffColumn)));
     }
 
-    // 대각선 이동: 양 축 모두 1칸씩
     public Position moveDiagonal(Position to) {
         int unitRow = toUnit(to.getRowValue() - getRowValue());
         int unitColumn = toUnit(to.getColumnValue() - getColumnValue());
