@@ -23,10 +23,6 @@ public enum Direction {
                 position.getColumnValue() + colOffset);
     }
 
-    public boolean isStraight() {
-        return rowOffset == 0 || colOffset == 0;
-    }
-
     public static Direction straightBetween(Position from, Position to) {
         int diffRow = to.getRowValue() - from.getRowValue();
         int diffColumn = to.getColumnValue() - from.getColumnValue();

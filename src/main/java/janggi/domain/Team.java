@@ -3,7 +3,6 @@ package janggi.domain;
 public enum Team {
     HAN("한"),
     CHO("초"),
-    NONE("무"),
     ;
 
     private final String displayName;
@@ -15,7 +14,7 @@ public enum Team {
     public Team convert() {
         if (this == Team.HAN) return Team.CHO;
         if (this == Team.CHO) return Team.HAN;
-        return Team.NONE;
+        throw new IllegalStateException("[ERROR] 팀 전환이 불가능한 상태입니다.");
     }
 
     public String getDisplayName() {

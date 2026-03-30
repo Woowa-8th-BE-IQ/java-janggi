@@ -8,6 +8,7 @@ import janggi.domain.board.BoardFactory;
 import janggi.domain.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
@@ -69,9 +70,10 @@ public class JanggiGame {
     }
 
     private Map<Position, Piece> movePiece(String input) {
-        String[] positions = input.split(" ");
-        Position from = Position.from(positions[0]);
-        Position to = Position.from(positions[1]);
+        List<String> positions = List.of(input.split(" "));
+        validateInputSize(positions);
+        Position from = Position.from(positions.getFirst());
+        Position to = Position.from(positions.getLast());
         return board.move(from, to);
     }
 
@@ -80,5 +82,11 @@ public class JanggiGame {
                 .filter(piece -> !piece.isEmptyPiece())
                 .filter(piece -> piece.getDisplayName().equals(KING_NAME))
                 .count() < 2;
+    }
+
+    private void validateInputSize(List<String> positions) {
+        if (positions.size() != 2) {
+            throw new IllegalArgumentException("[ERROR] 이동 좌표는 출발과 도착 2개를 입력해야 합니다.");
+        }
     }
 }

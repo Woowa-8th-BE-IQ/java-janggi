@@ -2,7 +2,8 @@ package janggi.domain;
 
 public enum GameState {
     PLAYING,
-    FINISHED;
+    FINISHED,
+    ;
 
     public boolean isFinished() {
         return this == FINISHED;
