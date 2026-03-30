@@ -19,7 +19,6 @@ import java.util.Map;
 public class BoardFactory {
 
     private BoardFactory() {
-
     }
 
     public static Board create(String hanBoardType, String choBoardType) {
@@ -27,17 +26,15 @@ public class BoardFactory {
         initializeEmpty(board);
         placeHan(board);
         placeCho(board);
-        applyHanSetUp(board, hanBoardType);
-        applyChoSetUp(board, choBoardType);
+        BoardSetup.from(hanBoardType).apply(board, Team.HAN);
+        BoardSetup.from(choBoardType).apply(board, Team.CHO);
         return new Board(board);
     }
 
     private static void initializeEmpty(Map<Position, Piece> board) {
         for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
             for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                int rowInput = row;
-                if (row == 10) rowInput = 0;
-                board.put(Position.from("" + rowInput + col), new EmptyPiece());
+                board.put(Position.of(row, col), new EmptyPiece());
             }
         }
     }
@@ -78,43 +75,5 @@ public class BoardFactory {
         board.put(Position.from("75"), new Soldier(Team.CHO));
         board.put(Position.from("77"), new Soldier(Team.CHO));
         board.put(Position.from("79"), new Soldier(Team.CHO));
-    }
-
-    private static void applyHanSetUp(Map<Position, Piece> board, String hanBoardType) {
-        if (hanBoardType.equals("1")) {
-            swap(board, Position.from("12"), Position.from("13"));
-            return;
-        }
-        if (hanBoardType.equals("2")) {
-            swap(board, Position.from("17"), Position.from("18"));
-            return;
-        }
-        if (hanBoardType.equals("3")) {
-            swap(board, Position.from("17"), Position.from("18"));
-            swap(board, Position.from("12"), Position.from("13"));
-        }
-    }
-
-    private static void applyChoSetUp(Map<Position, Piece> board, String choBoardType) {
-        if (choBoardType.equals("1")) {
-            swap(board, Position.from("07"), Position.from("08"));
-            return;
-        }
-        if (choBoardType.equals("2")) {
-            swap(board, Position.from("02"), Position.from("03"));
-            return;
-        }
-        if (choBoardType.equals("3")) {
-            swap(board, Position.from("07"), Position.from("08"));
-            swap(board, Position.from("02"), Position.from("03"));
-        }
-    }
-
-    private static void swap(Map<Position, Piece> board, Position position1, Position position2) {
-        Piece piece1 = board.get(position1);
-        Piece piece2 = board.get(position2);
-
-        board.put(position1, piece2);
-        board.put(position2, piece1);
     }
 }
