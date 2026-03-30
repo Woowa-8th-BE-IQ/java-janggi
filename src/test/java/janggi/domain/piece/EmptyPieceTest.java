@@ -43,7 +43,7 @@ public class EmptyPieceTest {
     void 빈기물의_이름은_빈으로_표현된다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        String displayName = emptyPiece.getDisplayName();
+        String displayName = emptyPiece.getType().getDomainName();
         assertThat(displayName).isEqualTo("빈");
     }
 

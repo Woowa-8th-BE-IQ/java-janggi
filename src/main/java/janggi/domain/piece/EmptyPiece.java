@@ -1,13 +1,14 @@
 package janggi.domain.piece;
 
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
 
 public class EmptyPiece implements Piece {
 
-    private static final String PIECE_NAME = "빈";
+    private static final PieceType PIECE_TYPE = PieceType.EMPTY;
 
     @Override
     public boolean isEmptyPiece() {
@@ -16,7 +17,17 @@ public class EmptyPiece implements Piece {
 
     @Override
     public boolean isSamePiece(Piece other) {
-        return other.getDisplayName().equals(PIECE_NAME);
+        return other.isSameType(PIECE_TYPE);
+    }
+
+    @Override
+    public boolean isSameType(PieceType type) {
+        return PIECE_TYPE == type;
+    }
+
+    @Override
+    public PieceType getType() {
+        return PIECE_TYPE;
     }
 
     @Override
@@ -27,11 +38,6 @@ public class EmptyPiece implements Piece {
     @Override
     public boolean isSame(Team team) {
         return false;
-    }
-
-    @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
     }
 
     @Override

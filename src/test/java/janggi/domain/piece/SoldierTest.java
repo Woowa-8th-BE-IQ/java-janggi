@@ -34,7 +34,7 @@ public class SoldierTest {
     void 졸의_이름은_졸로_표현된다() {
         Soldier soldier = new Soldier(Team.HAN);
 
-        String displayName = soldier.getDisplayName();
+        String displayName = soldier.getType().getDomainName();
         assertThat(displayName).isEqualTo("졸");
     }
 

@@ -56,7 +56,7 @@ public class GeneralTest {
     void 장의_이름은_장로_표현된다() {
         General general = new General(Team.HAN);
 
-        String displayName = general.getDisplayName();
+        String displayName = general.getType().getDomainName();
         assertThat(displayName).isEqualTo("장");
     }
 

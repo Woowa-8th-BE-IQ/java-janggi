@@ -35,7 +35,7 @@ public class ElephantTest {
     void 상의_이름은_상로_표현된다() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        String displayName = elephant.getDisplayName();
+        String displayName = elephant.getType().getDomainName();
         assertThat(displayName).isEqualTo("상");
     }
 

@@ -6,9 +6,10 @@ import java.util.List;
 public interface Piece {
     boolean isEmptyPiece();
     boolean isSamePiece(Piece other);
-    boolean isSameTeam(Piece piece);
+    boolean isSameType(PieceType pieceType);
+    PieceType getType();
+    boolean isSameTeam(Piece other);
     boolean isSame(Team team);
-    String getDisplayName();
     List<Position> getPath(Position from, Position to);
     boolean canMove(List<Piece> piecesOnPath, Piece endPiece);
 }

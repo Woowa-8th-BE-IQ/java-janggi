@@ -35,7 +35,7 @@ public class HorseTest {
     void 마의_이름은_마로_표현된다() {
         Horse horse = new Horse(Team.HAN);
 
-        String displayName = horse.getDisplayName();
+        String displayName = horse.getType().getDomainName();
         assertThat(displayName).isEqualTo("마");
     }
 

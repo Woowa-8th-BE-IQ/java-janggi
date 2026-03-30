@@ -21,11 +21,6 @@ public class OutputView {
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
 
-    private static final Map<String, String> PIECE_LABEL = Map.of(
-            "차", "CHA", "마", "HOR", "상", "ELE", "사", "GRD",
-            "장", "GEN", "포", "CAN", "졸", "SOL"
-    );
-
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
         printColumnHeader();
@@ -79,9 +74,9 @@ public class OutputView {
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
         if (piece.isSame(Team.HAN)) {
-            return ANSI_RED + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+            return ANSI_RED + piece.getType().getDisplayLabel() + ANSI_RESET;
         }
-        return ANSI_BLUE + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+        return ANSI_BLUE + piece.getType().getDisplayLabel() + ANSI_RESET;
     }
 
     private void printLegend() {

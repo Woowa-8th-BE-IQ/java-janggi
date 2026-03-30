@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.GameState;
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
@@ -14,7 +15,6 @@ import java.util.Map;
 public class JanggiGame {
 
     private static final String END_COMMAND = "end";
-    private static final String KING_NAME = "장";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -77,10 +77,11 @@ public class JanggiGame {
         return board.move(from, to);
     }
 
+    // JanggiGame.java
     private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
         return updatedBoard.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())
-                .filter(piece -> piece.getDisplayName().equals(KING_NAME))
+                .filter(piece -> piece.isSameType(PieceType.GENERAL))
                 .count() < 2;
     }
 

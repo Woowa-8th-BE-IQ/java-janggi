@@ -34,7 +34,7 @@ public class GuardTest {
     void 사의_이름은_사로_표현된다() {
         Guard guard = new Guard(Team.HAN);
 
-        String displayName = guard.getDisplayName();
+        String displayName = guard.getType().getDomainName();
         assertThat(displayName).isEqualTo("사");
     }
 

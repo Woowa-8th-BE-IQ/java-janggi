@@ -34,7 +34,7 @@ public class CannonTest {
     void 포의_이름은_포로_표현된다() {
         Cannon cannon = new Cannon(Team.HAN);
 
-        String displayName = cannon.getDisplayName();
+        String displayName = cannon.getType().getDomainName();
         assertThat(displayName).isEqualTo("포");
     }
 

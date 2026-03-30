@@ -34,7 +34,7 @@ public class ChariotTest {
     void 차의_이름은_차로_표현된다() {
         Chariot chariot = new Chariot(Team.HAN);
 
-        String displayName = chariot.getDisplayName();
+        String displayName = chariot.getType().getDomainName();
         assertThat(displayName).isEqualTo("차");
     }
 

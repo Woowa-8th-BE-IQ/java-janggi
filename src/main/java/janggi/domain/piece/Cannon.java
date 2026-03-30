@@ -1,44 +1,28 @@
 package janggi.domain.piece;
 
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon implements Piece {
+public class Cannon extends AbstractPiece {
 
-    private static final String PIECE_NAME = "포";
-
-    private final Team team;
+    private static final PieceType PIECE_TYPE = PieceType.CANNON;
 
     public Cannon(Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
-    public boolean isEmptyPiece() {
-        return false;
+    public PieceType getType() {
+        return PIECE_TYPE;
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other.getDisplayName().equals(PIECE_NAME);
-    }
-
-    @Override
-    public boolean isSameTeam(Piece other) {
-        return other.isSame(team);
-    }
-
-    @Override
-    public boolean isSame(Team team) {
-        return this.team == team;
-    }
-
-    @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public boolean isSameType(PieceType type) {
+        return PIECE_TYPE == type;
     }
 
     @Override
@@ -78,22 +62,14 @@ public class Cannon implements Piece {
         }
     }
 
-    private void validateSameTeam(Piece endPiece) {
-        if (isSameTeam(endPiece)) {
-            throw new IllegalArgumentException("[ERROR] 자신의 기물로 이동할 수 없습니다.");
-        }
-    }
-
     private void validateJumpCannon(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream()
-                .anyMatch(this::isSamePiece)) {
+        if (piecesOnPath.stream().anyMatch(this::isSamePiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }
 
     private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+        if (piecesOnPath.stream().filter(piece -> !piece.isEmptyPiece()).count() != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
     }
