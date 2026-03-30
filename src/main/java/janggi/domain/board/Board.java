@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import static java.util.stream.Collectors.toList;
 
+import janggi.domain.Team;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -16,13 +17,20 @@ public class Board {
         this.board = board;
     }
 
-    public Map<Position, Piece> move(Position from, Position to) {
+    public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
         validateNotSamePosition(from, to);
+        validateTurn(from, currentTeam);
         Piece fromPiece = board.get(from);
         List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
         fromPiece.canMove(piecesOnPath, board.get(to));
         movePiece(from, to, fromPiece);
         return showBoard();
+    }
+
+    private void validateTurn(Position from, Team currentTeam) {
+        if (!board.get(from).isSame(currentTeam)) {
+            throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 이동할 수 있습니다.");
+        }
     }
 
     private List<Piece> collectPiecesOnPath(List<Position> path) {

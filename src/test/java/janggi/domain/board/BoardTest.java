@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class BoardTest {
     void 출발_좌표와_도착_좌표가_같으면_예외가_발생한다() {
         Board board = BoardFactory.create("4", "4");
 
-        assertThatThrownBy(() -> board.move(Position.from("11"), Position.from("11")))
+        assertThatThrownBy(() -> board.move(Position.from("11"), Position.from("11"), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
     }
@@ -25,16 +26,16 @@ public class BoardTest {
         Board board = BoardFactory.create("4", "4");
 
         assertAll(
-                () -> assertThatThrownBy(() -> board.move(Position.from("101"), Position.from("11")))
+                () -> assertThatThrownBy(() -> board.move(Position.from("101"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다."),
-                () -> assertThatThrownBy(() -> board.move(Position.from("10"), Position.from("11")))
+                () -> assertThatThrownBy(() -> board.move(Position.from("10"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다"),
-                () -> assertThatThrownBy(() -> board.move(Position.from("1a"), Position.from("11")))
+                () -> assertThatThrownBy(() -> board.move(Position.from("1a"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 좌표값은 숫자여야 합니다."),
-                () -> assertThatThrownBy(() -> board.move(Position.from("a0"), Position.from("11")))
+                () -> assertThatThrownBy(() -> board.move(Position.from("a0"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 좌표값은 숫자여야 합니다.")
         );
@@ -48,7 +49,7 @@ public class BoardTest {
         Map<Position, Piece> initBoard = board.showBoard();
         Piece initialFromPiece = initBoard.get(from);
 
-        Map<Position, Piece> movedBoard = board.move(from, to);
+        Map<Position, Piece> movedBoard = board.move(from, to, Team.HAN);
         Piece movedToPiece = movedBoard.get(to);
 
         assertThat(movedToPiece).isEqualTo(initialFromPiece);
@@ -60,9 +61,18 @@ public class BoardTest {
         Position from = Position.from("25");
         Position to = Position.from("35");
 
-        Map<Position, Piece> movedBoard = board.move(from, to);
+        Map<Position, Piece> movedBoard = board.move(from, to, Team.HAN);
         boolean result = movedBoard.get(from).isEmptyPiece();
 
         assertThat(result).isTrue();
+    }
+
+    @Test
+    void 현재_턴이_아닌_팀의_기물을_이동시키면_예외가_발생한다() {
+        Board board = BoardFactory.create("4", "4");
+
+        assertThatThrownBy(() -> board.move(Position.from("25"), Position.from("35"), Team.CHO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 현재 턴의 기물만 이동할 수 있습니다.");
     }
 }

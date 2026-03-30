@@ -55,7 +55,7 @@ public class JanggiGame {
 
     private GameState processTurn(String input, Team currentTeam) {
         try {
-            Map<Position, Piece> updatedBoard = movePiece(input);
+            Map<Position, Piece> updatedBoard = movePiece(input, currentTeam);
             if (isGeneralCaptured(updatedBoard)) {
                 outputView.printBoard(updatedBoard);
                 outputView.printWinner(currentTeam);
@@ -69,12 +69,12 @@ public class JanggiGame {
         }
     }
 
-    private Map<Position, Piece> movePiece(String input) {
+    private Map<Position, Piece> movePiece(String input, Team currentTeam) {
         List<String> positions = List.of(input.split(" "));
         validateInputSize(positions);
         Position from = Position.from(positions.getFirst());
         Position to = Position.from(positions.getLast());
-        return board.move(from, to);
+        return board.move(from, to, currentTeam);
     }
 
     private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
