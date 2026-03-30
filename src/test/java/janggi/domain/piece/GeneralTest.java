@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
@@ -53,11 +54,10 @@ public class GeneralTest {
     }
 
     @Test
-    void 장의_이름은_장로_표현된다() {
+    void 장의_타입은_GENERAL이다() {
         General general = new General(Team.HAN);
 
-        String displayName = general.getType().getDomainName();
-        assertThat(displayName).isEqualTo("장");
+        assertThat(general.getType()).isEqualTo(PieceType.GENERAL);
     }
 
     @Test

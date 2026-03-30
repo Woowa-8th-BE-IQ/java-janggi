@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
@@ -32,11 +33,10 @@ public class ElephantTest {
     }
 
     @Test
-    void 상의_이름은_상로_표현된다() {
+    void 상의_타입은_ELEPHANT이다() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        String displayName = elephant.getType().getDomainName();
-        assertThat(displayName).isEqualTo("상");
+        assertThat(elephant.getType()).isEqualTo(PieceType.ELEPHANT);
     }
 
     @Test

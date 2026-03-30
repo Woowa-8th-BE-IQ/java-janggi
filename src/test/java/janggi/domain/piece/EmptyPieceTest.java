@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
@@ -40,11 +41,10 @@ public class EmptyPieceTest {
     }
 
     @Test
-    void 빈기물의_이름은_빈으로_표현된다() {
+    void 빈기물의_타입은_EMPTY이다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        String displayName = emptyPiece.getType().getDomainName();
-        assertThat(displayName).isEqualTo("빈");
+        assertThat(emptyPiece.getType()).isEqualTo(PieceType.EMPTY);
     }
 
     @Test

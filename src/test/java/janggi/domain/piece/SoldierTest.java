@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
@@ -31,11 +32,10 @@ public class SoldierTest {
     }
 
     @Test
-    void 졸의_이름은_졸로_표현된다() {
+    void 졸의_타입은_SOLDIER이다() {
         Soldier soldier = new Soldier(Team.HAN);
 
-        String displayName = soldier.getType().getDomainName();
-        assertThat(displayName).isEqualTo("졸");
+        assertThat(soldier.getType()).isEqualTo(PieceType.SOLDIER);
     }
 
     @Test

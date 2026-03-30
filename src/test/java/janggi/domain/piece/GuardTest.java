@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
@@ -31,11 +32,10 @@ public class GuardTest {
     }
 
     @Test
-    void 사의_이름은_사로_표현된다() {
+    void 사의_타입은_GUARD이다() {
         Guard guard = new Guard(Team.HAN);
 
-        String displayName = guard.getType().getDomainName();
-        assertThat(displayName).isEqualTo("사");
+        assertThat(guard.getType()).isEqualTo(PieceType.GUARD);
     }
 
     @Test
