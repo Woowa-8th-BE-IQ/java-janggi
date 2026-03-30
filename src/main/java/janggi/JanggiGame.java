@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.domain.GameState;
 import janggi.domain.Piece;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
@@ -37,29 +38,33 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = Team.CHO;
-        while (currentTeam != Team.NONE) {
+        while (true) {
             String input = inputView.readPosition(currentTeam.getDisplayName());
             if (input.equals(END_COMMAND)) {
                 outputView.printGameEnd();
                 return;
             }
-            currentTeam = processTurn(input, currentTeam);
+            GameState state = processTurn(input, currentTeam);
+            if (state.isFinished()) {
+                return;
+            }
+            currentTeam = currentTeam.convert();
         }
     }
 
-    private Team processTurn(String input, Team currentTeam) {
+    private GameState processTurn(String input, Team currentTeam) {
         try {
             Map<Position, Piece> updatedBoard = movePiece(input);
             if (isGeneralCaptured(updatedBoard)) {
                 outputView.printBoard(updatedBoard);
                 outputView.printWinner(currentTeam);
-                return Team.NONE;
+                return GameState.FINISHED;
             }
             outputView.printBoard(updatedBoard);
-            return currentTeam.convert();
+            return GameState.PLAYING;
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
-            return currentTeam;
+            return GameState.PLAYING;
         }
     }
 
