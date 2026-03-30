@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.List;
 
@@ -42,10 +43,11 @@ public class Soldier extends AbstractPiece {
     }
 
     private void validateBackStep(Position from, Position to) {
-        if (isSame(Team.HAN) && (to.getRowValue() - from.getRowValue()) == -1) {
+        Direction direction = from.directionTo(to);
+        if (isSame(Team.HAN) && direction == Direction.NORTH) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }
-        if (isSame(Team.CHO) && (to.getRowValue() - from.getRowValue()) == 1) {
+        if (isSame(Team.CHO) && direction == Direction.SOUTH) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }
     }

@@ -58,6 +58,10 @@ public class Position {
         return Math.abs(other.column.getValue() - this.column.getValue());
     }
 
+    public Direction directionTo(Position to) {
+        return Direction.straightBetween(this, to);
+    }
+
     public Position moveStraight(Position to) {
         return Direction.straightBetween(this, to).next(this);
     }
