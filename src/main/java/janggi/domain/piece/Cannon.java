@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.ArrayList;

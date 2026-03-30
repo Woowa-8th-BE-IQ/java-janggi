@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.domain.GameState;
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;

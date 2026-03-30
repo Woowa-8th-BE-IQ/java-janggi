@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Piece;
 import janggi.domain.Team;
 
 public abstract class AbstractPiece implements Piece {

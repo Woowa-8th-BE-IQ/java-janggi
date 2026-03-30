@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
