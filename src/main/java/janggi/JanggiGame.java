@@ -77,7 +77,6 @@ public class JanggiGame {
         return board.move(from, to);
     }
 
-    // JanggiGame.java
     private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
         return updatedBoard.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())
