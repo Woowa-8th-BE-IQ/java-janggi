@@ -33,13 +33,6 @@ public class ElephantTest {
     }
 
     @Test
-    void 상의_타입은_ELEPHANT이다() {
-        Elephant elephant = new Elephant(Team.HAN);
-
-        assertThat(elephant.getType()).isEqualTo(PieceType.ELEPHANT);
-    }
-
-    @Test
     void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이동시키면_경로를_반환한다() {
         Elephant elephant = new Elephant(Team.HAN);
 

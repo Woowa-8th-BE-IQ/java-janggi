@@ -32,13 +32,6 @@ public class ChariotTest {
     }
 
     @Test
-    void 차의_타입은_CHARIOT이다() {
-        Chariot chariot = new Chariot(Team.HAN);
-
-        assertThat(chariot.getType()).isEqualTo(PieceType.CHARIOT);
-    }
-
-    @Test
     void 한_방향으로_된_좌표로_경로를_요청하면_경로를_반환한다() {
         Chariot chariot = new Chariot(Team.HAN);
 

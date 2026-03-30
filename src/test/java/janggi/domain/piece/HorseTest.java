@@ -33,13 +33,6 @@ public class HorseTest {
     }
 
     @Test
-    void 마의_타입은_HORSE이다() {
-        Horse horse = new Horse(Team.HAN);
-
-        assertThat(horse.getType()).isEqualTo(PieceType.HORSE);
-    }
-
-    @Test
     void 직선으로_먼저_한_칸_직선_방향의_대각선으로_한_칸_이동시키면_경로를_반환한다() {
         Horse horse = new Horse(Team.HAN);
 

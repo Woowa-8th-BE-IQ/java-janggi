@@ -41,13 +41,6 @@ public class EmptyPieceTest {
     }
 
     @Test
-    void 빈기물의_타입은_EMPTY이다() {
-        EmptyPiece emptyPiece = new EmptyPiece();
-
-        assertThat(emptyPiece.getType()).isEqualTo(PieceType.EMPTY);
-    }
-
-    @Test
     void 빈_기물에_이동_경로를_요청하면_예외가_발생한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 

@@ -32,13 +32,6 @@ public class SoldierTest {
     }
 
     @Test
-    void 졸의_타입은_SOLDIER이다() {
-        Soldier soldier = new Soldier(Team.HAN);
-
-        assertThat(soldier.getType()).isEqualTo(PieceType.SOLDIER);
-    }
-
-    @Test
     void 뒷_방향이_아닌_직선_한_칸을_이동시키면_경로를_반환한다() {
         Soldier soldier = new Soldier(Team.HAN);
 

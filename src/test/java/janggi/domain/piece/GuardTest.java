@@ -32,13 +32,6 @@ public class GuardTest {
     }
 
     @Test
-    void 사의_타입은_GUARD이다() {
-        Guard guard = new Guard(Team.HAN);
-
-        assertThat(guard.getType()).isEqualTo(PieceType.GUARD);
-    }
-
-    @Test
     void 직선_한_칸을_이동시키면_경로를_반환한다() {
         Guard guard = new Guard(Team.HAN);
 

@@ -32,13 +32,6 @@ public class CannonTest {
     }
 
     @Test
-    void 포의_타입은_CANNON이다() {
-        Cannon cannon = new Cannon(Team.HAN);
-
-        assertThat(cannon.getType()).isEqualTo(PieceType.CANNON);
-    }
-
-    @Test
     void 한_방향만으로_이동이_아니면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
 

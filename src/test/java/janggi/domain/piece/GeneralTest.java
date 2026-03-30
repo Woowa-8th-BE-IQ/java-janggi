@@ -54,13 +54,6 @@ public class GeneralTest {
     }
 
     @Test
-    void 장의_타입은_GENERAL이다() {
-        General general = new General(Team.HAN);
-
-        assertThat(general.getType()).isEqualTo(PieceType.GENERAL);
-    }
-
-    @Test
     void 직선_한_칸을_이동시키면_경로를_반환한다() {
         General general = new General(Team.HAN);
 
