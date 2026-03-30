@@ -6,7 +6,7 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public enum BoardSetup {
-    LEFT_ELEPHANT("1") {
+    LEFT_SANG("1") {
         @Override
         public void apply(Map<Position, Piece> board, Team team) {
             if (team == Team.HAN) {
@@ -16,7 +16,7 @@ public enum BoardSetup {
             swap(board, Position.from("07"), Position.from("08"));
         }
     },
-    RIGHT_ELEPHANT("2") {
+    RIGHT_SANG("2") {
         @Override
         public void apply(Map<Position, Piece> board, Team team) {
             if (team == Team.HAN) {
@@ -26,7 +26,7 @@ public enum BoardSetup {
             swap(board, Position.from("02"), Position.from("03"));
         }
     },
-    INNER_ELEPHANT("3") {
+    INNER_SANG("3") {
         @Override
         public void apply(Map<Position, Piece> board, Team team) {
             if (team == Team.HAN) {
@@ -38,7 +38,7 @@ public enum BoardSetup {
             swap(board, Position.from("02"), Position.from("03"));
         }
     },
-    OUTER_ELEPHANT("4") {
+    OUTER_SANG("4") {
         @Override
         public void apply(Map<Position, Piece> board, Team team) {
             // 기본 차림 — 변경 없음
