@@ -15,22 +15,6 @@ import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
 
-    private Map<Position, Piece> base;
-
-    @BeforeEach
-    void setup() {
-        base = new LinkedHashMap<>();
-        for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
-            for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {
-                int rowInput = row;
-                if (row == 10) {
-                    rowInput = 0;
-                }
-                base.put(Position.from("" + rowInput + col), new EmptyPiece());
-            }
-        }
-    }
-
     @Test
     void 같은_팀의_장이면_참을_반환한다() {
         General hanGeneral1 = new General(Team.HAN);
