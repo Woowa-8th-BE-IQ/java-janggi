@@ -33,12 +33,13 @@ public class BoardTest {
                         .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다"),
                 () -> assertThatThrownBy(() -> board.move(Position.from("1a"), Position.from("11")))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다"),
+                        .hasMessage("[ERROR] 좌표값은 숫자여야 합니다."),
                 () -> assertThatThrownBy(() -> board.move(Position.from("a0"), Position.from("11")))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 행 좌표는 1~10까지 사용 가능 합니다")
+                        .hasMessage("[ERROR] 좌표값은 숫자여야 합니다.")
         );
     }
+
     @Test
     void 출발_좌표와_도착_좌표를_입력하면_도착_좌표의_기물은_출발_좌표의_기물이_된다() {
         Board board = BoardFactory.create("4", "4");

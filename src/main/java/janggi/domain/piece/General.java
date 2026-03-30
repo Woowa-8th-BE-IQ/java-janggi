@@ -53,7 +53,7 @@ public class General implements Piece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 0, 1)) {
+        if (!from.hasDistancePair(to, 0, 1)) {
             throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
         }
     }

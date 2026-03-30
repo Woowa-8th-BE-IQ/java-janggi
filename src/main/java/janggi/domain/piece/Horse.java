@@ -61,7 +61,7 @@ public class Horse implements Piece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 1, 2)) {
+        if (!from.hasDistancePair(to, 1, 2)) {
             throw new IllegalArgumentException("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
         }
     }

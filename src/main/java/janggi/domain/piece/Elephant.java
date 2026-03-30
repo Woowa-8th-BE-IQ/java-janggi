@@ -44,7 +44,6 @@ public class Elephant implements Piece {
     @Override
     public List<Position> getPath(Position from, Position to) {
         validateMove(from, to);
-
         return findPath(from, to);
     }
 
@@ -64,7 +63,7 @@ public class Elephant implements Piece {
     }
 
     private void validateMove(Position from, Position to) {
-        if (!from.hasOffsetPairs(to, 2, 3)) {
+        if (!from.hasDistancePair(to, 2, 3)) {
             throw new IllegalArgumentException("[ERROR] 상은 해당 경로로 이동할 수 없습니다.");
         }
     }

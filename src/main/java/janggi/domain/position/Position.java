@@ -7,6 +7,7 @@ public class Position {
     private static final int LENGTH_OF_POSITION_FORMAT = 2;
     private static final int ROW_INDEX = 0;
     private static final int COLUMN_INDEX = 1;
+    private static final int ROW_LAST_VALUE = 10;
 
     private final Row row;
     private final Column column;
@@ -21,10 +22,14 @@ public class Position {
         return new Position(new Row(extractRowValue(rowColumn)), new Column(extractColumnValue(rowColumn)));
     }
 
+    public static Position of(int row, int column) {
+        return new Position(new Row(row), new Column(column));
+    }
+
     private static int extractRowValue(String rowColumn) {
-        int rowValue = rowColumn.charAt(ROW_INDEX) - '0';
+        int rowValue = Character.getNumericValue(rowColumn.charAt(ROW_INDEX));
         if (rowValue == 0) {
-            rowValue += 10;
+            return ROW_LAST_VALUE;
         }
         return rowValue;
     }
@@ -33,47 +38,32 @@ public class Position {
         return rowColumn.charAt(COLUMN_INDEX) - '0';
     }
 
-    private static void validatePositionLength(String rowColumn) {
-        if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
-            throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
-        }
-    }
+    public boolean hasDistancePair(Position other, int dRow, int dColumn) {
+        int diffRowAbs = rowDistanceTo(other);
+        int diffColumnAbs = colDistanceTo(other);
 
-    public boolean hasOffsetPairs(Position other, int value1, int value2) {
-        int diffRowAbs = Math.abs(other.getRowValue() - this.getRowValue());
-        int diffColumnAbs = Math.abs(other.getColumnValue() - this.getColumnValue());
-
-        return (diffRowAbs == value1 && diffColumnAbs == value2) ||
-                (diffColumnAbs == value1 && diffRowAbs == value2);
+        return (diffRowAbs == dRow && diffColumnAbs == dColumn)
+                || (diffColumnAbs == dRow && diffRowAbs == dColumn);
     }
 
     public boolean hasOnlyStraightMove(Position to) {
-        int diffRowAbs = Math.abs(to.getRowValue() - this.getRowValue());
-        int diffColumnAbs = Math.abs(to.getColumnValue() - this.getColumnValue());
+        return (rowDistanceTo(to) == 0) != (colDistanceTo(to) == 0);
+    }
 
-        return (diffRowAbs == 0) != (diffColumnAbs == 0);
+    public int rowDistanceTo(Position other) {
+        return Math.abs(other.row.getValue() - this.row.getValue());
+    }
+
+    public int colDistanceTo(Position other) {
+        return Math.abs(other.column.getValue() - this.column.getValue());
     }
 
     public Position moveStraight(Position to) {
-        int diffRow = to.getRowValue() - getRowValue();
-        int diffColumn = to.getColumnValue() - getColumnValue();
-
-        if (Math.abs(diffRow) > Math.abs(diffColumn)) {
-            return Position.from("" + (getRowValue() + toUnit(diffRow)) + getColumnValue());
-        }
-        return Position.from("" + getRowValue() + (getColumnValue() + toUnit(diffColumn)));
+        return Direction.straightBetween(this, to).next(this);
     }
 
     public Position moveDiagonal(Position to) {
-        int unitRow = toUnit(to.getRowValue() - getRowValue());
-        int unitColumn = toUnit(to.getColumnValue() - getColumnValue());
-
-        return Position.from("" + (getRowValue() + unitRow) + (getColumnValue() + unitColumn));
-    }
-
-    private int toUnit(int diff) {
-        if (diff == 0) return 0;
-        return diff / Math.abs(diff);
+        return Direction.diagonalBetween(this, to).next(this);
     }
 
     public int getRowValue() {
@@ -104,5 +94,15 @@ public class Position {
     @Override
     public String toString() {
         return row.getValue() + "," + column.getValue();
+    }
+
+    private static void validatePositionLength(String rowColumn) {
+        if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
+            throw new IllegalArgumentException("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
+        }
+        if (!Character.isDigit(rowColumn.charAt(ROW_INDEX))
+                || !Character.isDigit(rowColumn.charAt(COLUMN_INDEX))) {
+            throw new IllegalArgumentException("[ERROR] 좌표값은 숫자여야 합니다.");
+        }
     }
 }
