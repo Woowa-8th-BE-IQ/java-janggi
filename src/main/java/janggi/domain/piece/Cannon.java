@@ -61,7 +61,8 @@ public class Cannon extends AbstractPiece {
     }
 
     private void validateJumpCannon(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream().anyMatch(this::isSamePiece)) {
+        if (piecesOnPath.stream()
+                .anyMatch(this::isSamePiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }

@@ -63,12 +63,14 @@ public class OutputView {
     }
 
     private String toRowLabel(int row) {
-        return row == LAST_ROW ? "0" : String.valueOf(row);
+        if (row == LAST_ROW) {
+            return "0";
+        }
+        return String.valueOf(row);
     }
 
     private Position createPosition(int row, int col) {
-        if (row == LAST_ROW) return Position.from("0" + col);
-        return Position.from("" + row + col);
+        return Position.of(row, col);
     }
 
     private String formatPiece(Piece piece) {
@@ -85,10 +87,11 @@ public class OutputView {
     }
 
     public void printWinner(Team winner) {
-        String name = winner == Team.HAN
-                ? ANSI_RED + "한(漢)" + ANSI_RESET
-                : ANSI_BLUE + "초(楚)" + ANSI_RESET;
-        System.out.println(name + " 승리! 게임을 종료합니다.");
+        if (winner == Team.HAN) {
+            System.out.println(ANSI_RED + "한(漢)" + ANSI_RESET + " 승리! 게임을 종료합니다.");
+            return;
+        }
+        System.out.println(ANSI_BLUE + "초(楚)" + ANSI_RESET + " 승리! 게임을 종료합니다.");
     }
 
     public void printError(String message) {
