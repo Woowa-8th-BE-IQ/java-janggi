@@ -3,49 +3,56 @@ package janggi.domain.position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("위치(Position) 테스트")
 class PositionTest {
 
+    @DisplayName("2자리 문자열 숫자로 위치 객체를 생성하면 올바른 좌표를 반환한다.")
     @Test
-    void 문자열_35로_위치를_생성하면_좌표_3_5를_가지고_있다() {
-        Position position = Position.from("35");
+    void createPosition_FromValidString() {
+        // given & when
+        Position pos1 = Position.from("35");
+        Position pos2 = Position.from("05");
 
-        String result = position.toString();
-
-        assertThat(result).isEqualTo("3,5");
+        // then
+        assertThat(pos1.toString()).isEqualTo("3,5");
+        assertThat(pos2.toString()).isEqualTo("10,5");
     }
 
+    @DisplayName("두 자리 숫자가 아닌 문자열을 입력하면 예외가 발생한다.")
     @Test
-    void 문자열_05로_위치를_생성하면_좌표_10_5를_가지고_있다() {
-        Position position = Position.from("05");
+    void createPosition_WithInvalidLength_ThrowsException() {
+        // given
+        String invalidInput = "105";
 
-        String result = position.toString();
-
-        assertThat(result).isEqualTo("10,5");
-    }
-
-    @Test
-    void 두_자리_숫자가_아닌_문자열로_위치를_생성하면_예외가_발생한다() {
-        assertThatThrownBy(
-                () -> Position.from("105"))
+        // when & then
+        assertThatThrownBy(() -> Position.from(invalidInput))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다.");
     }
 
+    @DisplayName("존재하지 않는 열/행의 좌표로 위치를 생성하면 예외가 발생한다.")
     @Test
-    void 존재하지_않는_좌표로_위치를_생성하면_예외가_발생한다() {
-        assertThatThrownBy(
-                () -> Position.from("00"))
+    void createPosition_WithOutOfRange_ThrowsException() {
+        // given
+        String outOfRangeInput = "00";
+
+        // when & then
+        assertThatThrownBy(() -> Position.from(outOfRangeInput))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다");
     }
 
+    @DisplayName("동일한 좌표를 가진 위치 객체는 서로 동등하다.")
     @Test
-    void 동일한_좌표를_가진_위치_객체는_동등하다() {
-       Position position1 = Position.from("12");
-       Position position2 = Position.from("12");
+    void positionsWithSameCoordinates_AreEqual() {
+        // given
+        Position position1 = Position.from("12");
+        Position position2 = Position.from("12");
 
-       assertThat(position1).isEqualTo(position2);
+        // when & then
+        assertThat(position1).isEqualTo(position2);
     }
 }

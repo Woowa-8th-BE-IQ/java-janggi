@@ -8,43 +8,47 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("상(Elephant) 기물 테스트")
 class ElephantTest {
 
+    @DisplayName("같은 팀의 기물인지 확인하면 올바른 결과를 반환한다.")
     @Test
-    void 같은_팀의_상이면_참을_반환한다() {
-        Elephant hanElephant1 = new Elephant(Team.HAN);
-        Elephant hanElephant2 = new Elephant(Team.HAN);
-
-        boolean result = hanElephant1.isSameTeam(hanElephant2);
-
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 서로_다른_팀의_상이면_참을_반환한다() {
+    void isSameTeam() {
+        // given
         Elephant hanElephant = new Elephant(Team.HAN);
-        Elephant choElephant = new Elephant(Team.CHO);
+        Elephant sameTeamElephant = new Elephant(Team.HAN);
+        Elephant diffTeamElephant = new Elephant(Team.CHO);
 
-        boolean result = hanElephant.isSameTeam(choElephant);
-
-        assertThat(result).isFalse();
+        // when & then
+        assertAll(
+                () -> assertThat(hanElephant.isSameTeam(sameTeamElephant)).isTrue(),
+                () -> assertThat(hanElephant.isSameTeam(diffTeamElephant)).isFalse()
+        );
     }
 
+    @DisplayName("직선 1칸 후 대각선 2칸(상밭)으로 이동시키면 통과하는 경로(멱) 2개를 반환한다.")
     @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이동시키면_경로를_반환한다() {
+    void getPath_ValidMove() {
+        // given
         Elephant elephant = new Elephant(Team.HAN);
 
+        // when
         List<Position> path = elephant.getPath(Position.from("13"), Position.from("45"));
 
+        // then
         assertThat(path).containsExactly(Position.from("23"), Position.from("34"));
     }
 
+    @DisplayName("상의 고유한 경로(상밭)가 아닌 곳으로 이동시키려 하면 예외가 발생한다.")
     @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이외의_경로로_이동시키면_예외가_발생한다() {
+    void getPath_InvalidMove_ThrowsException() {
+        // given
         Elephant elephant = new Elephant(Team.HAN);
 
+        // when & then
         assertAll(
                 () -> assertThatThrownBy(() -> elephant.getPath(Position.from("35"), Position.from("65")))
                         .isInstanceOf(IllegalArgumentException.class)
@@ -55,29 +59,41 @@ class ElephantTest {
         );
     }
 
+    @DisplayName("상의 이동 경로(멱)에 하나라도 기물이 존재하여 길이 막히면 예외가 발생한다.")
     @Test
-    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+    void canMove_PathBlocked_ThrowsException() {
+        // given
         Elephant elephant = new Elephant(Team.HAN);
+        List<Piece> blockedPath = List.of(new EmptyPiece(), new Soldier(Team.HAN)); // 두 번째 멱이 막힘
 
-        assertThatThrownBy(() -> elephant.canMove(List.of(new EmptyPiece(), new Soldier(Team.HAN)), new EmptyPiece()))
+        // when & then
+        assertThatThrownBy(() -> elephant.canMove(blockedPath, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 이동 경로에 기물이 있을 수 없습니다.");
     }
 
+    @DisplayName("도착 위치에 아군 기물이 있으면 이동할 수 없고 예외가 발생한다.")
     @Test
-    void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
+    void canMove_TargetIsSameTeam_ThrowsException() {
+        // given
         Elephant elephant = new Elephant(Team.HAN);
+        List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
 
-        assertThatThrownBy(() -> elephant.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new Soldier(Team.HAN)))
+        // when & then
+        assertThatThrownBy(() -> elephant.canMove(clearPath, new Soldier(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
 
+    @DisplayName("경로가 뚫려 있고 도착 위치에 적군 기물이 있으면 정상적으로 이동 가능하다.")
     @Test
-    void 이동_가능_확인_성공_테스트() {
+    void canMove_ValidPathAndTarget_DoesNotThrow() {
+        // given
         Elephant elephant = new Elephant(Team.HAN);
+        List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
 
+        // when & then
         assertThatNoException()
-                .isThrownBy(() -> elephant.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new Chariot(Team.CHO)));
+                .isThrownBy(() -> elephant.canMove(clearPath, new Chariot(Team.CHO)));
     }
 }

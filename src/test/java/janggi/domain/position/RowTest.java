@@ -4,29 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("행(Row) 테스트")
 class RowTest {
 
+    @DisplayName("1에서 10 사이의 유효한 값으로 행을 생성할 수 있다.")
     @Test
-    void 행좌표_1로_행을_생성하면_좌표값_1을_가지고있다() {
-        Row row = new Row(1);
-        int rowValue = row.getValue();
+    void createRow_WithValidValue() {
+        // given & when
+        Row minRow = new Row(1);
+        Row maxRow = new Row(10);
 
-        assertThat(rowValue).isEqualTo(1);
+        // then
+        assertAll(
+                () -> assertThat(minRow.getValue()).isEqualTo(1),
+                () -> assertThat(maxRow.getValue()).isEqualTo(10)
+        );
     }
 
+    @DisplayName("1~10 범위를 벗어난 값으로 행을 생성하면 예외가 발생한다.")
     @Test
-    void 행좌표_10로_행을_생성하면_좌표값_10을_가지고있다() {
-        Row row = new Row(10);
-        int rowValue = row.getValue();
-
-        assertThat(rowValue).isEqualTo(10);
-    }
-
-    @Test
-    void 범위_1에서10_사이가_아닌_행좌표로_행을_생성하면_에러가_발생한다() {
-
+    void createRow_WithInvalidValue_ThrowsException() {
+        // given & when & then
         assertAll(
                 () -> assertThatThrownBy(() -> new Row(0))
                         .isInstanceOf(IllegalArgumentException.class)

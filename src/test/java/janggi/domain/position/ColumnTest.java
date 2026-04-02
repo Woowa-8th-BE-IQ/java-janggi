@@ -4,29 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("열(Column) 테스트")
 class ColumnTest {
 
+    @DisplayName("1에서 9 사이의 유효한 값으로 열을 생성할 수 있다.")
     @Test
-    void 열좌표_1로_열을_생성하면_좌표값_1을_가지고있다() {
-        Column column = new Column(1);
-        int columnValue = column.getValue();
+    void createColumn_WithValidValue() {
+        // given & when
+        Column minColumn = new Column(1);
+        Column maxColumn = new Column(9);
 
-        assertThat(columnValue).isEqualTo(1);
+        // then
+        assertAll(
+                () -> assertThat(minColumn.getValue()).isEqualTo(1),
+                () -> assertThat(maxColumn.getValue()).isEqualTo(9)
+        );
     }
 
+    @DisplayName("1~9 범위를 벗어난 값으로 열을 생성하면 예외가 발생한다.")
     @Test
-    void 열좌표_9로_열을_생성하면_좌표값_9을_가지고있다() {
-        Column column = new Column(9);
-        int columnValue = column.getValue();
-
-        assertThat(columnValue).isEqualTo(9);
-    }
-
-    @Test
-    void 범위_1에서9_사이가_아닌_열좌표로_열을_생성하면_에러가_발생한다() {
-
+    void createColumn_WithInvalidValue_ThrowsException() {
+        // given & when & then
         assertAll(
                 () -> assertThatThrownBy(() -> new Column(0))
                         .isInstanceOf(IllegalArgumentException.class)

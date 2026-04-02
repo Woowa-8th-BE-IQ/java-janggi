@@ -3,93 +3,100 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("졸/병(Soldier) 기물 테스트")
 class SoldierTest {
 
+    @DisplayName("같은 팀의 기물인지 확인하면 올바른 결과를 반환한다.")
     @Test
-    void 같은_팀의_졸이면_참을_반환한다() {
-        Soldier hanSoldier1 = new Soldier(Team.HAN);
-        Soldier hanSoldier2 = new Soldier(Team.HAN);
+    void isSameTeam() {
+        // given
+        Soldier hanSoldier = new Soldier(Team.HAN);
+        Soldier sameTeamSoldier = new Soldier(Team.HAN);
+        Soldier diffTeamSoldier = new Soldier(Team.CHO);
 
-        boolean result = hanSoldier1.isSameTeam(hanSoldier2);
-
-        assertThat(result).isTrue();
+        // when & then
+        assertAll(
+                () -> assertThat(hanSoldier.isSameTeam(sameTeamSoldier)).isTrue(),
+                () -> assertThat(hanSoldier.isSameTeam(diffTeamSoldier)).isFalse()
+        );
     }
 
+    @DisplayName("뒤로 가는 방향이 아닌, 전진 또는 옆으로 1칸 이동시키면 정상적으로 경로를 반환한다.")
     @Test
-    void 서로_다른_팀의_졸이면_참을_반환한다() {
+    void getPath_ValidMove() {
+        // given
+        Soldier soldier = new Soldier(Team.HAN);
+
+        // when
+        List<Position> path = soldier.getPath(Position.from("43"), Position.from("53"));
+
+        // then
+        assertThat(path).isEmpty();
+    }
+
+    @DisplayName("대각선이나 1칸을 초과하여 이동시키려 하면 예외가 발생한다.")
+    @Test
+    void getPath_InvalidMove_ThrowsException() {
+        // given
+        Soldier soldier = new Soldier(Team.HAN);
+
+        // when & then
+        assertAll(
+                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("54")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다."),
+                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("63")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.")
+        );
+    }
+
+    @DisplayName("자신의 진영에 따라 뒤로(후퇴) 이동하려 하면 예외가 발생한다.")
+    @Test
+    void getPath_MoveBackward_ThrowsException() {
+        // given
         Soldier hanSoldier = new Soldier(Team.HAN);
         Soldier choSoldier = new Soldier(Team.CHO);
 
-        boolean result = hanSoldier.isSameTeam(choSoldier);
-
-        assertThat(result).isFalse();
+        // when & then
+        assertAll(
+                () -> assertThatThrownBy(() -> hanSoldier.getPath(Position.from("45"), Position.from("35")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다."),
+                () -> assertThatThrownBy(() -> choSoldier.getPath(Position.from("75"), Position.from("85")))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.")
+        );
     }
 
+    @DisplayName("도착 위치에 아군 기물이 있으면 이동할 수 없고 예외가 발생한다.")
     @Test
-    void 뒷_방향이_아닌_직선_한_칸을_이동시키면_경로를_반환한다() {
+    void canMove_TargetIsSameTeam_ThrowsException() {
+        // given
         Soldier soldier = new Soldier(Team.HAN);
 
-        List<Position> path = soldier.getPath(Position.from("43"), Position.from("53"));
-
-        assertThat(path).hasSize(0);
-    }
-
-    @Test
-    void 대각선_이동시키면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-
-        assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("54")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 직선_한_칸보다_많이_이동시키면_예외를_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-
-        assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("63")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-
+        // when & then
         assertThatThrownBy(() -> soldier.canMove(List.of(), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
 
+    @DisplayName("도착 위치에 적군 기물이 있으면 정상적으로 이동(공격) 가능하다.")
     @Test
-    void 이동할_위치에_다른_팀이_있으면_예외가_발생하지_않는다() {
+    void canMove_TargetIsDiffTeam_DoesNotThrow() {
+        // given
         Soldier soldier = new Soldier(Team.HAN);
 
+        // when & then
         assertThatNoException()
                 .isThrownBy(() -> soldier.canMove(List.of(), new Chariot(Team.CHO)));
-    }
-
-    @Test
-    void 한나라일때_위_방향으로_한_칸_이동시키면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-
-        assertThatThrownBy(() -> soldier.getPath(Position.from("45"), Position.from("35")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 초나라일때_아래_방향으로_한_칸_이동시키면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.CHO);
-
-        assertThatThrownBy(() -> soldier.getPath(Position.from("75"), Position.from("85")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
     }
 }
