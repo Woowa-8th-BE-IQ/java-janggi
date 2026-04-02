@@ -16,7 +16,7 @@ public class InputView {
         return SCANNER.nextLine().trim();
     }
 
-    public static String readChosetup() {
+    public static String readChoSetup() {
         System.out.println("[초(楚) 차림 선택]");
         System.out.println("1: 왼상차림  2: 오른상차림  3: 안상차림  4: 바깥상차림(기본)");
         System.out.print("> ");

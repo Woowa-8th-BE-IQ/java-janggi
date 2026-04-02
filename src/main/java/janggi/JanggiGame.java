@@ -5,7 +5,6 @@ import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -16,7 +15,6 @@ public class JanggiGame {
 
     private static final String END_COMMAND = "end";
     private static final int POSITION_INPUT_SIZE = 2;
-    private static final long GENERAL_COUNT = 2;
 
     private Board board;
 
@@ -28,7 +26,7 @@ public class JanggiGame {
 
     private void initializeBoard() {
         String hanSetup = InputView.readHanSetup();
-        String choSetup = InputView.readChosetup();
+        String choSetup = InputView.readChoSetup();
         board = BoardFactory.create(hanSetup, choSetup);
     }
 
@@ -55,7 +53,7 @@ public class JanggiGame {
     private GameState processTurn(String input, Team currentTeam) {
         try {
             Map<Position, Piece> updatedBoard = movePiece(input, currentTeam);
-            if (isGeneralCaptured(updatedBoard)) {
+            if (board.isGeneralCaptured()) {
                 OutputView.printBoard(updatedBoard);
                 OutputView.printWinner(currentTeam);
                 return GameState.FINISHED;
@@ -74,13 +72,6 @@ public class JanggiGame {
         Position from = Position.from(positions.getFirst());
         Position to = Position.from(positions.getLast());
         return board.move(from, to, currentTeam);
-    }
-
-    private boolean isGeneralCaptured(Map<Position, Piece> updatedBoard) {
-        return updatedBoard.values().stream()
-                .filter(piece -> !piece.isEmptyPiece())
-                .filter(piece -> piece.isSameType(PieceType.GENERAL))
-                .count() < GENERAL_COUNT;
     }
 
     private void validateInputSize(List<String> positions) {

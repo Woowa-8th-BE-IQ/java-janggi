@@ -5,11 +5,14 @@ import static java.util.stream.Collectors.toList;
 import janggi.domain.Team;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
 public class Board {
+
+    private static final long GENERAL_COUNT = 2;
 
     private final Map<Position, Piece> board;
 
@@ -24,6 +27,13 @@ public class Board {
         fromPiece.canMove(piecesOnPath, board.get(to));
         movePiece(from, to, fromPiece);
         return showBoard();
+    }
+
+    public boolean isGeneralCaptured() {
+        return board.values().stream()
+                .filter(piece -> !piece.isEmptyPiece())
+                .filter(piece -> piece.isSameType(PieceType.GENERAL))
+                .count() < GENERAL_COUNT;
     }
 
     private List<Piece> collectPiecesOnPath(List<Position> path) {
