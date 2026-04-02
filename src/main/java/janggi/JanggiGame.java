@@ -39,18 +39,22 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = Team.CHO;
-        while (true) {
+        GameState state = GameState.PLAYING;
+        while (state.isPlaying()) {
             String input = inputView.readPosition(currentTeam.getDisplayName());
-            if (input.equals(END_COMMAND)) {
-                outputView.printGameEnd();
-                return;
+            state = progressTurn(input, currentTeam);
+            if (state.isPlaying()) {
+                currentTeam = currentTeam.convert();
             }
-            GameState state = processTurn(input, currentTeam);
-            if (state.isFinished()) {
-                return;
-            }
-            currentTeam = currentTeam.convert();
         }
+    }
+
+    private GameState progressTurn(String input, Team currentTeam) {
+        if (input.equals(END_COMMAND)) {
+            outputView.printGameEnd();
+            return GameState.FINISHED;
+        }
+        return processTurn(input, currentTeam);
     }
 
     private GameState processTurn(String input, Team currentTeam) {

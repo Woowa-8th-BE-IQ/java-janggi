@@ -5,7 +5,7 @@ public enum GameState {
     FINISHED,
     ;
 
-    public boolean isFinished() {
-        return this == FINISHED;
+    public boolean isPlaying() {
+        return this == PLAYING;
     }
 }
