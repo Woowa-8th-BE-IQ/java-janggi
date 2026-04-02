@@ -44,7 +44,6 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        return false;
+    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
     }
 }

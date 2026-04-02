@@ -47,13 +47,4 @@ public class EmptyPieceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 선택된 기물이 없습니다.");
     }
-
-    @Test
-    void 빈_기물에_이동할_수_있는지_확인하면_거짓을_반환한다() {
-        EmptyPiece emptyPiece = new EmptyPiece();
-
-        boolean result = emptyPiece.canMove(List.of(), new EmptyPiece());
-
-        assertThat(result).isFalse();
-    }
 }

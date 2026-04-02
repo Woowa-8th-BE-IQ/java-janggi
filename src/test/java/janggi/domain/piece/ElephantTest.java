@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -76,8 +77,7 @@ public class ElephantTest {
     void 이동_가능_확인_성공_테스트() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        boolean result = elephant.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new Chariot(Team.CHO));
-
-        assertThat(result).isTrue();
+        assertThatNoException()
+                .isThrownBy(() -> elephant.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new Chariot(Team.CHO)));
     }
 }

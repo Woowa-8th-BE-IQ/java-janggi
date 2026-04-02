@@ -30,10 +30,9 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
-        return true;
     }
 
     private void validateMove(Position from, Position to) {

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Team;
@@ -72,11 +73,10 @@ public class GeneralTest {
     }
 
     @Test
-    void 이동할_위치에_다른_팀이_있으면_참을_반환한다() {
+    void 이동할_위치에_다른_팀이_있으면_예외가_발생하지_않는다() {
         General general = new General(Team.HAN);
 
-        boolean result = general.canMove(List.of(), new Chariot(Team.CHO));
-
-        assertThat(result).isTrue();
+        assertThatNoException()
+                .isThrownBy(() -> general.canMove(List.of(), new Chariot(Team.CHO)));
     }
 }

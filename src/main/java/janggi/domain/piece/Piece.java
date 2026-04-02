@@ -12,5 +12,5 @@ public interface Piece {
     boolean isSameTeam(Piece other);
     boolean isSame(Team team);
     List<Position> getPath(Position from, Position to);
-    boolean canMove(List<Piece> piecesOnPath, Piece endPiece);
+    void canMove(List<Piece> piecesOnPath, Piece endPiece);
 }

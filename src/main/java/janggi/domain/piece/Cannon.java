@@ -32,12 +32,11 @@ public class Cannon extends AbstractPiece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
         validateJumpOnlyOnePiece(piecesOnPath);
         validateJumpCannon(piecesOnPath);
         validateSameTeam(endPiece);
         validateEndCannon(endPiece);
-        return true;
     }
 
     private List<Position> findPath(Position from, Position to) {
