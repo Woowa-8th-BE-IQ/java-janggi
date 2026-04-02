@@ -44,8 +44,7 @@ public enum Direction {
     }
 
     private static int toUnit(int diff) {
-        if (diff == 0) return 0;
-        return diff / Math.abs(diff);
+        return Integer.signum(diff);
     }
 
     public int getRowOffset() {
