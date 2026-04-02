@@ -27,7 +27,7 @@ class BoardTest {
         Map<Position, Piece> movedBoard = board.move(from, to, Team.HAN);
 
         // then
-        assertThat(movedBoard.get(to)).isEqualTo(movingPiece);
+        assertThat(movedBoard).containsEntry(to, movingPiece);
     }
 
     @DisplayName("기물을 이동하면 기존 출발 좌표는 빈 기물 상태가 된다.")

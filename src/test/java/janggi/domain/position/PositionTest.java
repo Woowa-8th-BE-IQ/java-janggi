@@ -17,8 +17,8 @@ class PositionTest {
         Position pos2 = Position.from("05");
 
         // then
-        assertThat(pos1.toString()).isEqualTo("3,5");
-        assertThat(pos2.toString()).isEqualTo("10,5");
+        assertThat(pos1).hasToString("3,5");
+        assertThat(pos2).hasToString("10,5");
     }
 
     @DisplayName("두 자리 숫자가 아닌 문자열을 입력하면 예외가 발생한다.")
