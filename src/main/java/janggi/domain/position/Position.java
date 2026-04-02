@@ -38,10 +38,14 @@ public class Position {
         return rowColumn.charAt(COLUMN_INDEX) - '0';
     }
 
+    public Position move(Direction direction) {
+        return Position.of(row.getValue() + direction.getRowOffset(),
+                column.getValue() + direction.getColOffset());
+    }
+
     public boolean hasDistancePair(Position other, int dRow, int dColumn) {
         int diffRowAbs = rowDistanceTo(other);
         int diffColumnAbs = colDistanceTo(other);
-
         return (diffRowAbs == dRow && diffColumnAbs == dColumn)
                 || (diffColumnAbs == dRow && diffRowAbs == dColumn);
     }
@@ -58,18 +62,6 @@ public class Position {
         return Math.abs(other.column.getValue() - this.column.getValue());
     }
 
-    public Direction directionTo(Position to) {
-        return Direction.straightBetween(this, to);
-    }
-
-    public Position moveStraight(Position to) {
-        return Direction.straightBetween(this, to).next(this);
-    }
-
-    public Position moveDiagonal(Position to) {
-        return Direction.diagonalBetween(this, to).next(this);
-    }
-
     public int getRowValue() {
         return row.getValue();
     }
@@ -80,12 +72,8 @@ public class Position {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
         return Objects.equals(row, position.row) && Objects.equals(column, position.column);
     }

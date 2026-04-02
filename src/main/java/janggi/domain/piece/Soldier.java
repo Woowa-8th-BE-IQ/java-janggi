@@ -43,7 +43,7 @@ public class Soldier extends AbstractPiece {
     }
 
     private void validateBackStep(Position from, Position to) {
-        Direction direction = from.directionTo(to);
+        Direction direction = Direction.straightBetween(from, to);
         if (isSame(Team.HAN) && direction == Direction.NORTH) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }

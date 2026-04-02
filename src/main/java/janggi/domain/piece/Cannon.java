@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,11 @@ public class Cannon extends AbstractPiece {
 
     private List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
-        Position target = from.moveStraight(to);
+        Direction direction = Direction.straightBetween(from, to);
+        Position target = from.move(direction);
         while (target.hasOnlyStraightMove(to)) {
             path.add(target);
-            target = target.moveStraight(to);
+            target = target.move(direction);
         }
         return path;
     }
@@ -61,8 +63,7 @@ public class Cannon extends AbstractPiece {
     }
 
     private void validateJumpCannon(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream()
-                .anyMatch(this::isSamePiece)) {
+        if (piecesOnPath.stream().anyMatch(this::isSamePiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }

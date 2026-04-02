@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +39,10 @@ public class Elephant extends AbstractPiece {
 
     private List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
-        Position next = from.moveStraight(to);
+        Direction straight = Direction.straightBetween(from, to);
+        Position next = from.move(straight);
         path.add(next);
-        path.add(next.moveDiagonal(to));
+        path.add(next.move(Direction.diagonalBetween(next, to)));
         return path;
     }
 

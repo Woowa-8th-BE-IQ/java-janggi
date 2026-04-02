@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,11 @@ public class Chariot extends AbstractPiece {
 
     private List<Position> findPath(Position from, Position to) {
         List<Position> path = new ArrayList<>();
-        Position target = from.moveStraight(to);
+        Direction direction = Direction.straightBetween(from, to);
+        Position target = from.move(direction);
         while (target.hasOnlyStraightMove(to)) {
             path.add(target);
-            target = target.moveStraight(to);
+            target = target.move(direction);
         }
         return path;
     }
