@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
 import janggi.domain.position.Position;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class EmptyPieceTest {

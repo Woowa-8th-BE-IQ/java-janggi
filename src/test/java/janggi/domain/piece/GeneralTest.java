@@ -5,13 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Team;
-import janggi.domain.position.Column;
 import janggi.domain.position.Position;
-import janggi.domain.position.Row;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
