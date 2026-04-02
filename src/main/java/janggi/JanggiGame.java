@@ -39,11 +39,11 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = Team.CHO;
-        GameState state = GameState.PLAYING;
+        GameState state = GameState.TURN_SUCCESS;
         while (state.isPlaying()) {
             String input = inputView.readPosition(currentTeam.getDisplayName());
             state = progressTurn(input, currentTeam);
-            if (state.isPlaying()) {
+            if (state.isTurnSuccess()) {
                 currentTeam = currentTeam.convert();
             }
         }
@@ -66,10 +66,10 @@ public class JanggiGame {
                 return GameState.FINISHED;
             }
             outputView.printBoard(updatedBoard);
-            return GameState.PLAYING;
+            return GameState.TURN_SUCCESS;
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
-            return GameState.PLAYING;
+            return GameState.TURN_FAILED;
         }
     }
 
