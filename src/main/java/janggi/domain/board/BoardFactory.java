@@ -26,8 +26,8 @@ public class BoardFactory {
         initializeEmpty(board);
         placeHan(board);
         placeCho(board);
-        BoardSetup.from(hanBoardType).apply(board, Team.HAN);
-        BoardSetup.from(choBoardType).apply(board, Team.CHO);
+        BoardSetup.from(hanBoardType, Team.HAN).apply(board);
+        BoardSetup.from(choBoardType, Team.CHO).apply(board);
         return new Board(board);
     }
 

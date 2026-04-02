@@ -6,56 +6,68 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public enum BoardSetup {
-    LEFT_SANG("1") {
+    HAN_LEFT_SANG("1", Team.HAN) {
         @Override
-        public void apply(Map<Position, Piece> board, Team team) {
-            if (team == Team.HAN) {
-                swap(board, Position.from("12"), Position.from("13"));
-                return;
-            }
+        public void apply(Map<Position, Piece> board) {
+            swap(board, Position.from("12"), Position.from("13"));
+        }
+    },
+    HAN_RIGHT_SANG("2", Team.HAN) {
+        @Override
+        public void apply(Map<Position, Piece> board) {
+            swap(board, Position.from("17"), Position.from("18"));
+        }
+    },
+    HAN_INNER_SANG("3", Team.HAN) {
+        @Override
+        public void apply(Map<Position, Piece> board) {
+            swap(board, Position.from("17"), Position.from("18"));
+            swap(board, Position.from("12"), Position.from("13"));
+        }
+    },
+    HAN_OUTER_SANG("4", Team.HAN) {
+        @Override
+        public void apply(Map<Position, Piece> board) {
+        }
+    },
+    CHO_LEFT_SANG("1", Team.CHO) {
+        @Override
+        public void apply(Map<Position, Piece> board) {
             swap(board, Position.from("07"), Position.from("08"));
         }
     },
-    RIGHT_SANG("2") {
+    CHO_RIGHT_SANG("2", Team.CHO) {
         @Override
-        public void apply(Map<Position, Piece> board, Team team) {
-            if (team == Team.HAN) {
-                swap(board, Position.from("17"), Position.from("18"));
-                return;
-            }
+        public void apply(Map<Position, Piece> board) {
             swap(board, Position.from("02"), Position.from("03"));
         }
     },
-    INNER_SANG("3") {
+    CHO_INNER_SANG("3", Team.CHO) {
         @Override
-        public void apply(Map<Position, Piece> board, Team team) {
-            if (team == Team.HAN) {
-                swap(board, Position.from("17"), Position.from("18"));
-                swap(board, Position.from("12"), Position.from("13"));
-                return;
-            }
+        public void apply(Map<Position, Piece> board) {
             swap(board, Position.from("07"), Position.from("08"));
             swap(board, Position.from("02"), Position.from("03"));
         }
     },
-    OUTER_SANG("4") {
+    CHO_OUTER_SANG("4", Team.CHO) {
         @Override
-        public void apply(Map<Position, Piece> board, Team team) {
-            // 기본 차림 — 변경 없음
+        public void apply(Map<Position, Piece> board) {
         }
     };
 
     private final String code;
+    private final Team team;
 
-    BoardSetup(String code) {
+    BoardSetup(String code, Team team) {
         this.code = code;
+        this.team = team;
     }
 
-    public abstract void apply(Map<Position, Piece> board, Team team);
+    public abstract void apply(Map<Position, Piece> board);
 
-    public static BoardSetup from(String code) {
+    public static BoardSetup from(String code, Team team) {
         for (BoardSetup setup : values()) {
-            if (setup.code.equals(code)) {
+            if (setup.code.equals(code) && setup.team == team) {
                 return setup;
             }
         }
