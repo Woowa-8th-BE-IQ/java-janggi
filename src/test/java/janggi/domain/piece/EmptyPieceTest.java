@@ -8,7 +8,7 @@ import janggi.domain.Team;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 
-public class EmptyPieceTest {
+class EmptyPieceTest {
 
     @Test
     void 두_나라의_기물과_같은_팀인지_확인하면_거짓을_반환한다() {

@@ -9,7 +9,7 @@ import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class GeneralTest {
+class GeneralTest {
 
     @Test
     void 같은_팀의_장이면_참을_반환한다() {

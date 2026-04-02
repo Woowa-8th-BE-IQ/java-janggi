@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
 
-public class ColumnTest {
+class ColumnTest {
 
     @Test
     void 열좌표_1로_열을_생성하면_좌표값_1을_가지고있다() {

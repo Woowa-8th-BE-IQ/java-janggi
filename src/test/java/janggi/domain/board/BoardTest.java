@@ -10,7 +10,7 @@ import janggi.domain.position.Position;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-public class BoardTest {
+class BoardTest {
 
     @Test
     void 출발_좌표와_도착_좌표가_같으면_예외가_발생한다() {

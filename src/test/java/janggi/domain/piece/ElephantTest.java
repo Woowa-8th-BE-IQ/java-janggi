@@ -10,7 +10,7 @@ import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class ElephantTest {
+class ElephantTest {
 
     @Test
     void 같은_팀의_상이면_참을_반환한다() {

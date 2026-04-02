@@ -15,7 +15,7 @@ import janggi.domain.position.Position;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-public class BoardFactoryTest {
+class BoardFactoryTest {
 
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {

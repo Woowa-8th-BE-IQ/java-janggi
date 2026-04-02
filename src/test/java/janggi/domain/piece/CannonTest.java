@@ -9,7 +9,7 @@ import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class CannonTest {
+class CannonTest {
 
     @Test
     void 같은_팀의_포이면_참을_반환한다() {
