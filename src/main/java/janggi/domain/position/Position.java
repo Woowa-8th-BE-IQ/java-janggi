@@ -19,19 +19,15 @@ public class Position {
 
     public static Position from(String rowColumn) {
         validatePositionLength(rowColumn);
-        return new Position(new Row(extractRowValue(rowColumn)), new Column(extractColumnValue(rowColumn)));
+        return new Position(
+                new Row(extractRowValue(rowColumn)),
+                new Column(extractColumnValue(rowColumn)));
     }
 
     public static Position of(int row, int column) {
-        return new Position(new Row(row), new Column(column));
-    }
-
-    private static int extractRowValue(String rowColumn) {
-        int rowValue = Character.getNumericValue(rowColumn.charAt(ROW_INDEX));
-        if (rowValue == 0) {
-            return ROW_LAST_VALUE;
-        }
-        return rowValue;
+        return new Position(
+                new Row(row),
+                new Column(column));
     }
 
     private static int extractColumnValue(String rowColumn) {
@@ -60,6 +56,14 @@ public class Position {
 
     public int colDistanceTo(Position other) {
         return Math.abs(other.column.getValue() - this.column.getValue());
+    }
+
+    private static int extractRowValue(String rowColumn) {
+        int rowValue = Character.getNumericValue(rowColumn.charAt(ROW_INDEX));
+        if (rowValue == 0) {
+            return ROW_LAST_VALUE;
+        }
+        return rowValue;
     }
 
     public int getRowValue() {

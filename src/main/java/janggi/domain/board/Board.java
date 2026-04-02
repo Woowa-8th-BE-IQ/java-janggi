@@ -18,9 +18,7 @@ public class Board {
     }
 
     public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
-        validateNotSamePosition(from, to);
-        validateNotEmpty(from);
-        validateTurn(from, currentTeam);
+        validate(from, to, currentTeam);
         Piece fromPiece = board.get(from);
         List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
         fromPiece.canMove(piecesOnPath, board.get(to));
@@ -41,6 +39,12 @@ public class Board {
 
     public Map<Position, Piece> showBoard() {
         return Map.copyOf(board);
+    }
+
+    private void validate(Position from, Position to, Team currentTeam) {
+        validateNotSamePosition(from, to);
+        validateNotEmpty(from);
+        validateTurn(from, currentTeam);
     }
 
     private void validateNotSamePosition(Position from, Position to) {

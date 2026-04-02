@@ -18,14 +18,6 @@ public enum Direction {
         this.colOffset = colOffset;
     }
 
-    public int getRowOffset() {
-        return rowOffset;
-    }
-
-    public int getColOffset() {
-        return colOffset;
-    }
-
     public static Direction straightBetween(Position from, Position to) {
         int diffRow = to.getRowValue() - from.getRowValue();
         int diffColumn = to.getColumnValue() - from.getColumnValue();
@@ -43,7 +35,8 @@ public enum Direction {
 
     private static Direction findByOffset(int rowOffset, int colOffset) {
         for (Direction direction : values()) {
-            if (direction.rowOffset == rowOffset && direction.colOffset == colOffset) {
+            if (direction.rowOffset == rowOffset
+                    && direction.colOffset == colOffset) {
                 return direction;
             }
         }
@@ -53,5 +46,13 @@ public enum Direction {
     private static int toUnit(int diff) {
         if (diff == 0) return 0;
         return diff / Math.abs(diff);
+    }
+
+    public int getRowOffset() {
+        return rowOffset;
+    }
+
+    public int getColOffset() {
+        return colOffset;
     }
 }

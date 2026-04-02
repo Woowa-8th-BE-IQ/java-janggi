@@ -14,4 +14,3 @@ public enum GameState {
         return this == TURN_SUCCESS;
     }
 }
-
