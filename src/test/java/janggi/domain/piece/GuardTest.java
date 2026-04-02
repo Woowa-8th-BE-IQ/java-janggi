@@ -34,9 +34,11 @@ class GuardTest {
     void getPath_ValidMove() {
         // given
         Guard guard = new Guard(Team.HAN);
+        Position from = Position.from("11");
+        Position to = Position.from("12");
 
         // when
-        List<Position> path = guard.getPath(Position.from("11"), Position.from("12"));
+        List<Position> path = guard.getPath(from, to);
 
         // then
         assertThat(path).isEmpty();
@@ -47,13 +49,16 @@ class GuardTest {
     void getPath_InvalidMove_ThrowsException() {
         // given
         Guard guard = new Guard(Team.HAN);
+        Position from = Position.from("11");
+        Position invalidTo1 = Position.from("22");
+        Position invalidTo2 = Position.from("15");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> guard.getPath(Position.from("11"), Position.from("22")))
+                () -> assertThatThrownBy(() -> guard.getPath(from, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> guard.getPath(Position.from("11"), Position.from("15")))
+                () -> assertThatThrownBy(() -> guard.getPath(from, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다.")
         );
@@ -64,9 +69,11 @@ class GuardTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Guard guard = new Guard(Team.HAN);
+        List<Piece> path = List.of();
+        Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> guard.canMove(List.of(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> guard.canMove(path, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -76,9 +83,11 @@ class GuardTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         Guard guard = new Guard(Team.HAN);
+        List<Piece> path = List.of();
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> guard.canMove(List.of(), new Chariot(Team.CHO)));
+                .isThrownBy(() -> guard.canMove(path, diffTeamTarget));
     }
 }

@@ -34,9 +34,11 @@ class ChariotTest {
     void getPath_ValidStraightMove() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
+        Position from = Position.from("22");
+        Position to = Position.from("26");
 
         // when
-        List<Position> path = chariot.getPath(Position.from("22"), Position.from("26"));
+        List<Position> path = chariot.getPath(from, to);
 
         // then
         assertThat(path).containsExactly(
@@ -51,13 +53,16 @@ class ChariotTest {
     void getPath_NotStraightMove_ThrowsException() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
+        Position from = Position.from("22");
+        Position invalidTo1 = Position.from("33");
+        Position invalidTo2 = Position.from("48");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("33")))
+                () -> assertThatThrownBy(() -> chariot.getPath(from, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다."),
-                () -> assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("48")))
+                () -> assertThatThrownBy(() -> chariot.getPath(from, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.")
         );
@@ -69,9 +74,10 @@ class ChariotTest {
         // given
         Chariot chariot = new Chariot(Team.HAN);
         List<Piece> blockedPath = List.of(new Soldier(Team.HAN));
+        Piece targetPiece = new EmptyPiece();
 
         // when & then
-        assertThatThrownBy(() -> chariot.canMove(blockedPath, new EmptyPiece()))
+        assertThatThrownBy(() -> chariot.canMove(blockedPath, targetPiece))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -82,9 +88,10 @@ class ChariotTest {
         // given
         Chariot chariot = new Chariot(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece());
+        Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> chariot.canMove(clearPath, new Soldier(Team.HAN)))
+        assertThatThrownBy(() -> chariot.canMove(clearPath, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -95,9 +102,10 @@ class ChariotTest {
         // given
         Chariot chariot = new Chariot(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> chariot.canMove(clearPath, new Chariot(Team.CHO)));
+                .isThrownBy(() -> chariot.canMove(clearPath, diffTeamTarget));
     }
 }

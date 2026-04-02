@@ -34,12 +34,16 @@ class ElephantTest {
     void getPath_ValidMove() {
         // given
         Elephant elephant = new Elephant(Team.HAN);
+        Position from = Position.from("13");
+        Position to = Position.from("45");
+        Position expectedPath1 = Position.from("23");
+        Position expectedPath2 = Position.from("34");
 
         // when
-        List<Position> path = elephant.getPath(Position.from("13"), Position.from("45"));
+        List<Position> path = elephant.getPath(from, to);
 
         // then
-        assertThat(path).containsExactly(Position.from("23"), Position.from("34"));
+        assertThat(path).containsExactly(expectedPath1, expectedPath2);
     }
 
     @DisplayName("상의 고유한 경로(상밭)가 아닌 곳으로 이동시키려 하면 예외가 발생한다.")
@@ -47,13 +51,18 @@ class ElephantTest {
     void getPath_InvalidMove_ThrowsException() {
         // given
         Elephant elephant = new Elephant(Team.HAN);
+        Position from1 = Position.from("35");
+        Position invalidTo1 = Position.from("65");
+
+        Position from2 = Position.from("11");
+        Position invalidTo2 = Position.from("33");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> elephant.getPath(Position.from("35"), Position.from("65")))
+                () -> assertThatThrownBy(() -> elephant.getPath(from1, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 상은 해당 경로로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> elephant.getPath(Position.from("11"), Position.from("33")))
+                () -> assertThatThrownBy(() -> elephant.getPath(from2, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 상은 해당 경로로 이동할 수 없습니다.")
         );
@@ -65,9 +74,10 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(Team.HAN);
         List<Piece> blockedPath = List.of(new EmptyPiece(), new Soldier(Team.HAN)); // 두 번째 멱이 막힘
+        Piece targetPiece = new EmptyPiece();
 
         // when & then
-        assertThatThrownBy(() -> elephant.canMove(blockedPath, new EmptyPiece()))
+        assertThatThrownBy(() -> elephant.canMove(blockedPath, targetPiece))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -78,9 +88,10 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
+        Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> elephant.canMove(clearPath, new Soldier(Team.HAN)))
+        assertThatThrownBy(() -> elephant.canMove(clearPath, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -91,9 +102,10 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> elephant.canMove(clearPath, new Chariot(Team.CHO)));
+                .isThrownBy(() -> elephant.canMove(clearPath, diffTeamTarget));
     }
 }

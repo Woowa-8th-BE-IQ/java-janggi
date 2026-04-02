@@ -34,9 +34,11 @@ class SoldierTest {
     void getPath_ValidMove() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
+        Position from = Position.from("43");
+        Position to = Position.from("53");
 
         // when
-        List<Position> path = soldier.getPath(Position.from("43"), Position.from("53"));
+        List<Position> path = soldier.getPath(from, to);
 
         // then
         assertThat(path).isEmpty();
@@ -47,13 +49,16 @@ class SoldierTest {
     void getPath_InvalidMove_ThrowsException() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
+        Position from = Position.from("43");
+        Position invalidTo1 = Position.from("54");
+        Position invalidTo2 = Position.from("63");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("54")))
+                () -> assertThatThrownBy(() -> soldier.getPath(from, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> soldier.getPath(Position.from("43"), Position.from("63")))
+                () -> assertThatThrownBy(() -> soldier.getPath(from, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.")
         );
@@ -64,14 +69,19 @@ class SoldierTest {
     void getPath_MoveBackward_ThrowsException() {
         // given
         Soldier hanSoldier = new Soldier(Team.HAN);
+        Position hanFrom = Position.from("45");
+        Position hanTo = Position.from("35");
+
         Soldier choSoldier = new Soldier(Team.CHO);
+        Position choFrom = Position.from("75");
+        Position choTo = Position.from("85");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> hanSoldier.getPath(Position.from("45"), Position.from("35")))
+                () -> assertThatThrownBy(() -> hanSoldier.getPath(hanFrom, hanTo))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> choSoldier.getPath(Position.from("75"), Position.from("85")))
+                () -> assertThatThrownBy(() -> choSoldier.getPath(choFrom, choTo))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.")
         );
@@ -82,9 +92,11 @@ class SoldierTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
+        List<Piece> path = List.of();
+        Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> soldier.canMove(List.of(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> soldier.canMove(path, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -94,9 +106,11 @@ class SoldierTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
+        List<Piece> path = List.of();
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> soldier.canMove(List.of(), new Chariot(Team.CHO)));
+                .isThrownBy(() -> soldier.canMove(path, diffTeamTarget));
     }
 }

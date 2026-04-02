@@ -45,9 +45,11 @@ class EmptyPieceTest {
     void getPath_ThrowsException() {
         // given
         EmptyPiece emptyPiece = new EmptyPiece();
+        Position from = Position.from("11");
+        Position to = Position.from("22");
 
         // when & then
-        assertThatThrownBy(() -> emptyPiece.getPath(Position.from("11"), Position.from("22")))
+        assertThatThrownBy(() -> emptyPiece.getPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 선택된 기물이 없습니다.");
     }

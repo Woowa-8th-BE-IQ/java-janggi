@@ -34,12 +34,15 @@ class HorseTest {
     void getPath_ValidMove() {
         // given
         Horse horse = new Horse(Team.HAN);
+        Position from = Position.from("36");
+        Position to = Position.from("57");
+        Position expectedPath = Position.from("46");
 
         // when
-        List<Position> path = horse.getPath(Position.from("36"), Position.from("57"));
+        List<Position> path = horse.getPath(from, to);
 
         // then
-        assertThat(path).containsExactly(Position.from("46"));
+        assertThat(path).containsExactly(expectedPath);
     }
 
     @DisplayName("마의 고유한 경로(마밭)가 아닌 곳으로 이동시키려 하면 예외가 발생한다.")
@@ -47,13 +50,18 @@ class HorseTest {
     void getPath_InvalidMove_ThrowsException() {
         // given
         Horse horse = new Horse(Team.HAN);
+        Position from1 = Position.from("35");
+        Position invalidTo1 = Position.from("65");
+
+        Position from2 = Position.from("11");
+        Position invalidTo2 = Position.from("22");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> horse.getPath(Position.from("35"), Position.from("65")))
+                () -> assertThatThrownBy(() -> horse.getPath(from1, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> horse.getPath(Position.from("11"), Position.from("22")))
+                () -> assertThatThrownBy(() -> horse.getPath(from2, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.")
         );
@@ -65,9 +73,10 @@ class HorseTest {
         // given
         Horse horse = new Horse(Team.HAN);
         List<Piece> blockedPath = List.of(new Soldier(Team.HAN));
+        Piece targetPiece = new EmptyPiece();
 
         // when & then
-        assertThatThrownBy(() -> horse.canMove(blockedPath, new EmptyPiece()))
+        assertThatThrownBy(() -> horse.canMove(blockedPath, targetPiece))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -78,9 +87,10 @@ class HorseTest {
         // given
         Horse horse = new Horse(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece());
+        Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> horse.canMove(clearPath, new Soldier(Team.HAN)))
+        assertThatThrownBy(() -> horse.canMove(clearPath, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -91,9 +101,10 @@ class HorseTest {
         // given
         Horse horse = new Horse(Team.HAN);
         List<Piece> clearPath = List.of(new EmptyPiece());
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> horse.canMove(clearPath, new Chariot(Team.CHO)));
+                .isThrownBy(() -> horse.canMove(clearPath, diffTeamTarget));
     }
 }

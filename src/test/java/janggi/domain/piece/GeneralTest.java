@@ -34,9 +34,11 @@ class GeneralTest {
     void getPath_ValidMove() {
         // given
         General general = new General(Team.HAN);
+        Position from = Position.from("11");
+        Position to = Position.from("12");
 
         // when
-        List<Position> path = general.getPath(Position.from("11"), Position.from("12"));
+        List<Position> path = general.getPath(from, to);
 
         // then
         assertThat(path).isEmpty();
@@ -47,13 +49,16 @@ class GeneralTest {
     void getPath_InvalidMove_ThrowsException() {
         // given
         General general = new General(Team.HAN);
+        Position from = Position.from("11");
+        Position invalidTo1 = Position.from("22");
+        Position invalidTo2 = Position.from("15");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> general.getPath(Position.from("11"), Position.from("22")))
+                () -> assertThatThrownBy(() -> general.getPath(from, invalidTo1))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> general.getPath(Position.from("11"), Position.from("15")))
+                () -> assertThatThrownBy(() -> general.getPath(from, invalidTo2))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.")
         );
@@ -64,9 +69,11 @@ class GeneralTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         General general = new General(Team.HAN);
+        List<Piece> path = List.of();
+        Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> general.canMove(List.of(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> general.canMove(path, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -76,9 +83,11 @@ class GeneralTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         General general = new General(Team.HAN);
+        List<Piece> path = List.of();
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> general.canMove(List.of(), new Chariot(Team.CHO)));
+                .isThrownBy(() -> general.canMove(path, diffTeamTarget));
     }
 }

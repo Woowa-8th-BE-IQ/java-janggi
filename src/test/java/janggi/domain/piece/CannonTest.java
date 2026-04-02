@@ -34,9 +34,11 @@ class CannonTest {
     void getPath_ValidStraightMove() {
         // given
         Cannon cannon = new Cannon(Team.HAN);
+        Position from = Position.from("22");
+        Position to = Position.from("26");
 
         // when
-        List<Position> path = cannon.getPath(Position.from("22"), Position.from("26"));
+        List<Position> path = cannon.getPath(from, to);
 
         // then
         assertThat(path).containsExactly(
@@ -51,9 +53,11 @@ class CannonTest {
     void getPath_NotStraightMove_ThrowsException() {
         // given
         Cannon cannon = new Cannon(Team.HAN);
+        Position from = Position.from("22");
+        Position invalidTo = Position.from("33");
 
         // when & then
-        assertThatThrownBy(() -> cannon.getPath(Position.from("22"), Position.from("33")))
+        assertThatThrownBy(() -> cannon.getPath(from, invalidTo))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
     }
@@ -63,19 +67,20 @@ class CannonTest {
     void canMove_InvalidJumpCount_ThrowsException() {
         // given
         Cannon cannon = new Cannon(Team.HAN);
+        List<Piece> emptyPath = List.of(new EmptyPiece(), new EmptyPiece());
+        List<Piece> noPath = List.of();
+        List<Piece> tooManyPiecesPath = List.of(new Soldier(Team.HAN), new Elephant(Team.HAN));
+        Piece targetPiece = new EmptyPiece();
 
         // when & then
         assertAll(
-                // 1. 넘을 기물이 없는 경우 (모두 빈 기물)
-                () -> assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new EmptyPiece()))
+                () -> assertThatThrownBy(() -> cannon.canMove(emptyPath, targetPiece))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다."),
-                // 2. 바로 앞 1칸만 이동해서 경로 자체가 없는 경우
-                () -> assertThatThrownBy(() -> cannon.canMove(List.of(), new EmptyPiece()))
+                () -> assertThatThrownBy(() -> cannon.canMove(noPath, targetPiece))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다."),
-                // 3. 넘어야 할 기물이 2개 이상인 경우
-                () -> assertThatThrownBy(() -> cannon.canMove(List.of(new Soldier(Team.HAN), new Elephant(Team.HAN)), new EmptyPiece()))
+                () -> assertThatThrownBy(() -> cannon.canMove(tooManyPiecesPath, targetPiece))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.")
         );
@@ -87,9 +92,10 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.HAN);
         List<Piece> pathWithCannon = List.of(new EmptyPiece(), new Cannon(Team.HAN));
+        Piece targetPiece = new EmptyPiece();
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(pathWithCannon, new EmptyPiece()))
+        assertThatThrownBy(() -> cannon.canMove(pathWithCannon, targetPiece))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
     }
@@ -99,10 +105,11 @@ class CannonTest {
     void canMove_TargetIsCannon_ThrowsException() {
         // given
         Cannon cannon = new Cannon(Team.HAN);
-        List<Piece> validJumpPath = List.of(new Guard(Team.HAN)); // 포가 아닌 기물 1개
+        List<Piece> validJumpPath = List.of(new Guard(Team.HAN));
+        Piece cannonTarget = new Cannon(Team.CHO);
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(validJumpPath, new Cannon(Team.CHO)))
+        assertThatThrownBy(() -> cannon.canMove(validJumpPath, cannonTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
@@ -113,9 +120,10 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.HAN);
         List<Piece> validJumpPath = List.of(new Guard(Team.HAN));
+        Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(validJumpPath, new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> cannon.canMove(validJumpPath, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -125,10 +133,11 @@ class CannonTest {
     void canMove_ValidJumpAndTarget_DoesNotThrow() {
         // given
         Cannon cannon = new Cannon(Team.HAN);
-        List<Piece> validJumpPath = List.of(new EmptyPiece(), new Soldier(Team.HAN)); // 포가 아닌 기물 1개
+        List<Piece> validJumpPath = List.of(new EmptyPiece(), new Soldier(Team.HAN));
+        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> cannon.canMove(validJumpPath, new Chariot(Team.CHO)));
+                .isThrownBy(() -> cannon.canMove(validJumpPath, diffTeamTarget));
     }
 }
