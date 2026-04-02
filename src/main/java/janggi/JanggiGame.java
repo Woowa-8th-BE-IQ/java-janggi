@@ -15,6 +15,8 @@ import java.util.Map;
 public class JanggiGame {
 
     private static final String END_COMMAND = "end";
+    private static final int POSITION_INPUT_SIZE = 2;
+    private static final long GENERAL_COUNT = 2;
 
     private Board board;
 
@@ -78,11 +80,11 @@ public class JanggiGame {
         return updatedBoard.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())
                 .filter(piece -> piece.isSameType(PieceType.GENERAL))
-                .count() < 2;
+                .count() < GENERAL_COUNT;
     }
 
     private void validateInputSize(List<String> positions) {
-        if (positions.size() != 2) {
+        if (positions.size() != POSITION_INPUT_SIZE) {
             throw new IllegalArgumentException("[ERROR] 이동 좌표는 출발과 도착 2개를 입력해야 합니다.");
         }
     }

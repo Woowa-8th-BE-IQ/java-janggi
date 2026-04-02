@@ -9,6 +9,7 @@ import java.util.List;
 public class Cannon extends AbstractPiece {
 
     private static final PieceType PIECE_TYPE = PieceType.CANNON;
+    private static final int JUMP_PIECE_COUNT = 1;
 
     public Cannon(Team team) {
         super(team);
@@ -71,7 +72,7 @@ public class Cannon extends AbstractPiece {
     private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream()
                 .filter(piece -> !piece.isEmptyPiece())
-                .count() != 1) {
+                .count() != JUMP_PIECE_COUNT) {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
     }
