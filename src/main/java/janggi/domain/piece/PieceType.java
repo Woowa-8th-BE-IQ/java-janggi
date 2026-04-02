@@ -8,5 +8,6 @@ public enum PieceType {
     GENERAL,
     CANNON,
     SOLDIER,
-    EMPTY;
+    EMPTY,
+    ;
 }
