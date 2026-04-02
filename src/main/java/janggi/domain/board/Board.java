@@ -19,18 +19,13 @@ public class Board {
 
     public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
         validateNotSamePosition(from, to);
+        validateNotEmpty(from);
         validateTurn(from, currentTeam);
         Piece fromPiece = board.get(from);
         List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
         fromPiece.canMove(piecesOnPath, board.get(to));
         movePiece(from, to, fromPiece);
         return showBoard();
-    }
-
-    private void validateTurn(Position from, Team currentTeam) {
-        if (!board.get(from).isSame(currentTeam)) {
-            throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 이동할 수 있습니다.");
-        }
     }
 
     private List<Piece> collectPiecesOnPath(List<Position> path) {
@@ -51,6 +46,18 @@ public class Board {
     private void validateNotSamePosition(Position from, Position to) {
         if (from.equals(to)) {
             throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
+        }
+    }
+
+    private void validateNotEmpty(Position from) {
+        if (board.get(from).isEmptyPiece()) {
+            throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
+        }
+    }
+
+    private void validateTurn(Position from, Team currentTeam) {
+        if (!board.get(from).isSame(currentTeam)) {
+            throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 이동할 수 있습니다.");
         }
     }
 }
