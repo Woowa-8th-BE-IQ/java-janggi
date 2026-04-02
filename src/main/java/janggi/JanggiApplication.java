@@ -3,7 +3,6 @@ package janggi;
 public class JanggiApplication {
 
     public static void main(String[] args) {
-        JanggiGame janggiGame = new JanggiGame();
-        janggiGame.start();
+        JanggiGame.initialize().start();
     }
 }

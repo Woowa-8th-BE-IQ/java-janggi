@@ -16,18 +16,21 @@ public class JanggiGame {
     private static final String END_COMMAND = "end";
     private static final int POSITION_INPUT_SIZE = 2;
 
-    private Board board;
+    private final Board board;
 
-    public void start() {
-        initializeBoard();
-        OutputView.printBoard(board.showBoard());
-        play();
+    private JanggiGame(Board board) {
+        this.board = board;
     }
 
-    private void initializeBoard() {
+    public static JanggiGame initialize() {
         String hanSetup = InputView.readHanSetup();
         String choSetup = InputView.readChoSetup();
-        board = BoardFactory.create(hanSetup, choSetup);
+        return new JanggiGame(BoardFactory.create(hanSetup, choSetup));
+    }
+
+    public void start() {
+        OutputView.printBoard(board.showBoard());
+        play();
     }
 
     private void play() {
