@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import java.util.Map;
@@ -20,6 +21,16 @@ public class OutputView {
     private static final String CROSS  = " + ";
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
+
+    private static final Map<PieceType, String> PIECE_LABELS = Map.of(
+            PieceType.CHARIOT,  "CHA",
+            PieceType.HORSE,    "HOR",
+            PieceType.ELEPHANT, "ELE",
+            PieceType.GUARD,    "GRD",
+            PieceType.GENERAL,  "GEN",
+            PieceType.CANNON,   "CAN",
+            PieceType.SOLDIER,  "SOL"
+    );
 
     public void printBoard(Map<Position, Piece> board) {
         System.out.println();
@@ -46,7 +57,7 @@ public class OutputView {
     private void printPieceRow(Map<Position, Piece> board, int row) {
         System.out.print(" " + toRowLabel(row) + " ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
-            Piece piece = board.get(createPosition(row, col));
+            Piece piece = board.get(Position.of(row, col));
             System.out.print(formatPiece(piece));
             if (col < LAST_COL) System.out.print(H_LINE);
         }
@@ -69,16 +80,12 @@ public class OutputView {
         return String.valueOf(row);
     }
 
-    private Position createPosition(int row, int col) {
-        return Position.of(row, col);
-    }
-
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
         if (piece.isSame(Team.HAN)) {
-            return ANSI_RED + piece.getType().getDisplayLabel() + ANSI_RESET;
+            return ANSI_RED + PIECE_LABELS.get(piece.getType()) + ANSI_RESET;
         }
-        return ANSI_BLUE + piece.getType().getDisplayLabel() + ANSI_RESET;
+        return ANSI_BLUE + PIECE_LABELS.get(piece.getType()) + ANSI_RESET;
     }
 
     private void printLegend() {
