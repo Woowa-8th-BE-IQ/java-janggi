@@ -16,24 +16,17 @@ public class JanggiGame {
 
     private static final String END_COMMAND = "end";
 
-    private final InputView inputView;
-    private final OutputView outputView;
     private Board board;
-
-    public JanggiGame(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
 
     public void start() {
         initializeBoard();
-        outputView.printBoard(board.showBoard());
+        OutputView.printBoard(board.showBoard());
         play();
     }
 
     private void initializeBoard() {
-        String hanSetup = inputView.readHanSetup();
-        String choSetup = inputView.readChosetup();
+        String hanSetup = InputView.readHanSetup();
+        String choSetup = InputView.readChosetup();
         board = BoardFactory.create(hanSetup, choSetup);
     }
 
@@ -41,7 +34,7 @@ public class JanggiGame {
         Team currentTeam = Team.CHO;
         GameState state = GameState.TURN_SUCCESS;
         while (state.isPlaying()) {
-            String input = inputView.readPosition(currentTeam.getDisplayName());
+            String input = InputView.readPosition(currentTeam.getDisplayName());
             state = progressTurn(input, currentTeam);
             if (state.isTurnSuccess()) {
                 currentTeam = currentTeam.convert();
@@ -51,7 +44,7 @@ public class JanggiGame {
 
     private GameState progressTurn(String input, Team currentTeam) {
         if (input.equals(END_COMMAND)) {
-            outputView.printGameEnd();
+            OutputView.printGameEnd();
             return GameState.FINISHED;
         }
         return processTurn(input, currentTeam);
@@ -61,14 +54,14 @@ public class JanggiGame {
         try {
             Map<Position, Piece> updatedBoard = movePiece(input, currentTeam);
             if (isGeneralCaptured(updatedBoard)) {
-                outputView.printBoard(updatedBoard);
-                outputView.printWinner(currentTeam);
+                OutputView.printBoard(updatedBoard);
+                OutputView.printWinner(currentTeam);
                 return GameState.FINISHED;
             }
-            outputView.printBoard(updatedBoard);
+            OutputView.printBoard(updatedBoard);
             return GameState.TURN_SUCCESS;
         } catch (IllegalArgumentException exception) {
-            outputView.printError(exception.getMessage());
+            OutputView.printError(exception.getMessage());
             return GameState.TURN_FAILED;
         }
     }

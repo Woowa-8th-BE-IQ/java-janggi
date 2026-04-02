@@ -32,7 +32,10 @@ public class OutputView {
             PieceType.SOLDIER,  "SOL"
     );
 
-    public void printBoard(Map<Position, Piece> board) {
+    private OutputView() {
+    }
+
+    public static void printBoard(Map<Position, Piece> board) {
         System.out.println();
         printColumnHeader();
         for (int row = FIRST_ROW; row <= LAST_ROW; row++) {
@@ -45,7 +48,7 @@ public class OutputView {
         printLegend();
     }
 
-    private void printColumnHeader() {
+    private static void printColumnHeader() {
         System.out.print("    ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
             System.out.printf(" %d ", col);
@@ -54,7 +57,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private void printPieceRow(Map<Position, Piece> board, int row) {
+    private static void printPieceRow(Map<Position, Piece> board, int row) {
         System.out.print(" " + toRowLabel(row) + " ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
             Piece piece = board.get(Position.of(row, col));
@@ -64,7 +67,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private void printLineBetweenRows() {
+    private static void printLineBetweenRows() {
         System.out.print("   ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
             System.out.print(V_LINE);
@@ -73,14 +76,14 @@ public class OutputView {
         System.out.println();
     }
 
-    private String toRowLabel(int row) {
+    private static String toRowLabel(int row) {
         if (row == LAST_ROW) {
             return "0";
         }
         return String.valueOf(row);
     }
 
-    private String formatPiece(Piece piece) {
+    private static String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
         if (piece.isSame(Team.HAN)) {
             return ANSI_RED + PIECE_LABELS.get(piece.getType()) + ANSI_RESET;
@@ -88,12 +91,12 @@ public class OutputView {
         return ANSI_BLUE + PIECE_LABELS.get(piece.getType()) + ANSI_RESET;
     }
 
-    private void printLegend() {
+    private static void printLegend() {
         System.out.println(ANSI_RED + "  [HAN] CHA=車 HOR=馬 ELE=相 GRD=仕 GEN=將 CAN=包 SOL=兵" + ANSI_RESET);
         System.out.println(ANSI_BLUE + "  [CHO] CHA=車 HOR=馬 ELE=象 GRD=士 GEN=將 CAN=包 SOL=卒" + ANSI_RESET);
     }
 
-    public void printWinner(Team winner) {
+    public static void printWinner(Team winner) {
         if (winner == Team.HAN) {
             System.out.println(ANSI_RED + "한(漢)" + ANSI_RESET + " 승리! 게임을 종료합니다.");
             return;
@@ -101,11 +104,11 @@ public class OutputView {
         System.out.println(ANSI_BLUE + "초(楚)" + ANSI_RESET + " 승리! 게임을 종료합니다.");
     }
 
-    public void printError(String message) {
+    public static void printError(String message) {
         System.out.println(message);
     }
 
-    public void printGameEnd() {
+    public static void printGameEnd() {
         System.out.println("게임을 종료합니다.");
     }
 }

@@ -6,7 +6,7 @@ import janggi.view.OutputView;
 public class JanggiApplication {
 
     public static void main(String[] args) {
-        JanggiGame janggiGame = new JanggiGame(new InputView(), new OutputView());
+        JanggiGame janggiGame = new JanggiGame();
         janggiGame.start();
     }
 }
