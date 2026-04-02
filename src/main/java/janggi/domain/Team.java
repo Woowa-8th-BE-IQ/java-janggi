@@ -13,8 +13,7 @@ public enum Team {
 
     public Team convert() {
         if (this == Team.HAN) return Team.CHO;
-        if (this == Team.CHO) return Team.HAN;
-        throw new IllegalStateException("[ERROR] 팀 전환이 불가능한 상태입니다.");
+        return Team.HAN;
     }
 
     public String getDisplayName() {
