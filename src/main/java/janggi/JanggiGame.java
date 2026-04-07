@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.domain.GameState;
+import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
@@ -47,6 +48,7 @@ public class JanggiGame {
 
     private GameState progressTurn(String input, Team currentTeam) {
         if (input.equals(END_COMMAND)) {
+            printScoreResult();
             OutputView.printGameEnd();
             return GameState.FINISHED;
         }
@@ -58,6 +60,7 @@ public class JanggiGame {
             Map<Position, Piece> updatedBoard = movePiece(input, currentTeam);
             if (board.isGeneralCaptured()) {
                 OutputView.printBoard(updatedBoard);
+                printScoreResult();
                 OutputView.printWinner(currentTeam);
                 return GameState.FINISHED;
             }
@@ -67,6 +70,21 @@ public class JanggiGame {
             OutputView.printError(exception.getMessage());
             return GameState.TURN_FAILED;
         }
+    }
+
+    private void printScoreResult() {
+        Score hanScore = board.calculateScore(Team.HAN);
+        Score choScore = board.calculateScore(Team.CHO);
+        OutputView.printScore(hanScore, choScore);
+        if (hanScore.isHigherThan(choScore)) {
+            OutputView.printScoreWinner(Team.HAN);
+            return;
+        }
+        if (choScore.isHigherThan(hanScore)) {
+            OutputView.printScoreWinner(Team.CHO);
+            return;
+        }
+        OutputView.printDraw();
     }
 
     private Map<Position, Piece> movePiece(String input, Team currentTeam) {
