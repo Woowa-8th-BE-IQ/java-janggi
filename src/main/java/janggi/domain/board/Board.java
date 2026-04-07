@@ -29,13 +29,6 @@ public class Board {
         return showBoard();
     }
 
-    public boolean isGeneralCaptured() {
-        return board.values().stream()
-                .filter(piece -> !piece.isEmptyPiece())
-                .filter(piece -> piece.isSameType(PieceType.GENERAL))
-                .count() < GENERAL_COUNT;
-    }
-
     private List<Piece> collectPiecesOnPath(List<Position> path) {
         return path.stream()
                 .map(board::get)
@@ -45,6 +38,13 @@ public class Board {
     private void movePiece(Position from, Position to, Piece piece) {
         board.put(from, new EmptyPiece());
         board.put(to, piece);
+    }
+
+    public boolean isGeneralCaptured() {
+        return board.values().stream()
+                .filter(piece -> !piece.isEmptyPiece())
+                .filter(piece -> piece.isSameType(PieceType.GENERAL))
+                .count() < GENERAL_COUNT;
     }
 
     public Map<Position, Piece> showBoard() {

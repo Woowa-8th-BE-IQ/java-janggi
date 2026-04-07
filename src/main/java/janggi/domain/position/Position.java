@@ -30,6 +30,14 @@ public class Position {
                 new Column(column));
     }
 
+    private static int extractRowValue(String rowColumn) {
+        int rowValue = Character.getNumericValue(rowColumn.charAt(ROW_INDEX));
+        if (rowValue == 0) {
+            return ROW_LAST_VALUE;
+        }
+        return rowValue;
+    }
+
     private static int extractColumnValue(String rowColumn) {
         return rowColumn.charAt(COLUMN_INDEX) - '0';
     }
@@ -56,14 +64,6 @@ public class Position {
 
     public int colDistanceTo(Position other) {
         return Math.abs(other.column.getValue() - this.column.getValue());
-    }
-
-    private static int extractRowValue(String rowColumn) {
-        int rowValue = Character.getNumericValue(rowColumn.charAt(ROW_INDEX));
-        if (rowValue == 0) {
-            return ROW_LAST_VALUE;
-        }
-        return rowValue;
     }
 
     public int getRowValue() {

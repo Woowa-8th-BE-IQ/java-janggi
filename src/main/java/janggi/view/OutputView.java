@@ -6,6 +6,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class OutputView {
 
@@ -38,41 +39,39 @@ public class OutputView {
     public static void printBoard(Map<Position, Piece> board) {
         System.out.println();
         printColumnHeader();
-        for (int row = FIRST_ROW; row <= LAST_ROW; row++) {
+        IntStream.rangeClosed(FIRST_ROW, LAST_ROW).forEach(row -> {
             printPieceRow(board, row);
-            if (row < LAST_ROW) {
-                printLineBetweenRows();
-            }
-        }
+            if (row < LAST_ROW) printLineBetweenRows();
+        });
         System.out.println();
         printLegend();
     }
 
     private static void printColumnHeader() {
         System.out.print("    ");
-        for (int col = FIRST_COL; col <= LAST_COL; col++) {
+        IntStream.rangeClosed(FIRST_COL, LAST_COL).forEach(col -> {
             System.out.printf(" %d ", col);
             if (col < LAST_COL) System.out.print("   ");
-        }
+        });
         System.out.println();
     }
 
     private static void printPieceRow(Map<Position, Piece> board, int row) {
         System.out.print(" " + toRowLabel(row) + " ");
-        for (int col = FIRST_COL; col <= LAST_COL; col++) {
+        IntStream.rangeClosed(FIRST_COL, LAST_COL).forEach(col -> {
             Piece piece = board.get(Position.of(row, col));
             System.out.print(formatPiece(piece));
             if (col < LAST_COL) System.out.print(H_LINE);
-        }
+        });
         System.out.println();
     }
 
     private static void printLineBetweenRows() {
         System.out.print("   ");
-        for (int col = FIRST_COL; col <= LAST_COL; col++) {
+        IntStream.rangeClosed(FIRST_COL, LAST_COL).forEach(col -> {
             System.out.print(V_LINE);
             if (col < LAST_COL) System.out.print("   ");
-        }
+        });
         System.out.println();
     }
 
