@@ -25,11 +25,7 @@ public enum BoardSetup {
             swap(board, Position.from("12"), Position.from("13"));
         }
     },
-    HAN_OUTER_SANG("4", Team.HAN) {
-        @Override
-        public void apply(Map<Position, Piece> board) {
-        }
-    },
+    HAN_OUTER_SANG("4", Team.HAN),
     CHO_LEFT_SANG("1", Team.CHO) {
         @Override
         public void apply(Map<Position, Piece> board) {
@@ -49,11 +45,7 @@ public enum BoardSetup {
             swap(board, Position.from("02"), Position.from("03"));
         }
     },
-    CHO_OUTER_SANG("4", Team.CHO) {
-        @Override
-        public void apply(Map<Position, Piece> board) {
-        }
-    };
+    CHO_OUTER_SANG("4", Team.CHO);
 
     private final String code;
     private final Team team;
@@ -63,7 +55,9 @@ public enum BoardSetup {
         this.team = team;
     }
 
-    public abstract void apply(Map<Position, Piece> board);
+    public void apply(Map<Position, Piece> board) {
+        // 4번 차림(OUTER_SANG)은 기본 배치이므로 교환 없음
+    }
 
     public static BoardSetup from(String code, Team team) {
         for (BoardSetup setup : values()) {
