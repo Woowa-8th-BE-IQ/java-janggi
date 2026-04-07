@@ -40,7 +40,7 @@ public class Soldier extends AbstractPiece {
     }
 
     private boolean isForwardDiagonalInPalace(Position from, Position to) {
-        if (!Palace.canMoveOnDiagonalInAnyPalace(from, to)) {
+        if (!Palace.isDiagonalMove(from, to)) {
             return false;
         }
         if (from.rowDistanceTo(to) != 1) {

@@ -27,8 +27,8 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        if (Palace.canMoveOnDiagonalInAnyPalace(from, to)) {
-            return Palace.getDiagonalPathInAnyPalace(from, to);
+        if (Palace.isDiagonalMove(from, to)) {
+            return Palace.getDiagonalPath(from, to);
         }
         validateStraightMove(from, to);
         return findPath(from, to);

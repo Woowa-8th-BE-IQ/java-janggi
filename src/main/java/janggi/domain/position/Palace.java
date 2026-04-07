@@ -48,21 +48,21 @@ public enum Palace {
                 && isOnDiagonalLine(to);
     }
 
-    public List<Position> getDiagonalPath(Position from, Position to) {
-        if (from.rowDistanceTo(to) == 2) {
-            return List.of(Position.of(centerRow, centerCol));
+    private List<Position> diagonalPath(Position from, Position to) {
+        if (from.rowDistanceTo(to) == 1) {
+            return List.of();
         }
-        return List.of();
+        return List.of(Position.of(centerRow, centerCol));
     }
 
-    public static boolean canMoveOnDiagonalInAnyPalace(Position from, Position to) {
+    public static boolean isDiagonalMove(Position from, Position to) {
         return HAN.canMoveDiagonally(from, to) || CHO.canMoveDiagonally(from, to);
     }
 
-    public static List<Position> getDiagonalPathInAnyPalace(Position from, Position to) {
+    public static List<Position> getDiagonalPath(Position from, Position to) {
         if (HAN.canMoveDiagonally(from, to)) {
-            return HAN.getDiagonalPath(from, to);
+            return HAN.diagonalPath(from, to);
         }
-        return CHO.getDiagonalPath(from, to);
+        return CHO.diagonalPath(from, to);
     }
 }
