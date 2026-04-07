@@ -48,27 +48,49 @@ class ChariotTest {
         );
     }
 
+    @DisplayName("궁성 대각선 선을 따라 1칸 이동하면 빈 경로를 반환한다.")
+    @Test
+    void getPath_DiagonalOneStepInPalace() {
+        Chariot chariot = new Chariot(Team.HAN);
+        Position from = Position.from("25"); // 궁성 중심
+        Position to = Position.from("14");   // 궁성 꼭짓점
+
+        List<Position> path = chariot.getPath(from, to);
+
+        assertThat(path).isEmpty();
+    }
+
+    @DisplayName("궁성 대각선 선을 따라 2칸 이동하면 중심 위치를 경로로 반환한다.")
+    @Test
+    void getPath_DiagonalTwoStepInPalace() {
+        Chariot chariot = new Chariot(Team.HAN);
+        Position from = Position.from("14"); // 궁성 꼭짓점
+        Position to = Position.from("36");   // 반대편 꼭짓점
+
+        List<Position> path = chariot.getPath(from, to);
+
+        assertThat(path).containsExactly(Position.from("25")); // 중심
+    }
+
     @DisplayName("대각선이나 여러 방향이 섞인 경로 등 직선이 아닌 곳으로 이동시키려 하면 예외가 발생한다.")
     @Test
     void getPath_NotStraightMove_ThrowsException() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
         Position from = Position.from("22");
-        Position invalidTo1 = Position.from("33");
-        Position invalidTo2 = Position.from("48");
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> chariot.getPath(from, invalidTo1))
+                () -> assertThatThrownBy(() -> chariot.getPath(from, Position.from("33")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다."),
-                () -> assertThatThrownBy(() -> chariot.getPath(from, invalidTo2))
+                () -> assertThatThrownBy(() -> chariot.getPath(from, Position.from("48")))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.")
         );
     }
 
-    @DisplayName("차의 이동 경로에 빈 기물이 아닌 기물이 존재하면 건너뛸 수 없어 예외가 발생한다.")
+    @DisplayName("차의 이동 경로에 기물이 있으면 예외가 발생한다.")
     @Test
     void canMove_PathBlocked_ThrowsException() {
         // given
@@ -78,6 +100,17 @@ class ChariotTest {
 
         // when & then
         assertThatThrownBy(() -> chariot.canMove(blockedPath, targetPiece))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
+    }
+
+    @DisplayName("궁성 2칸 대각선 이동 시 중심 위치에 기물이 있으면 예외가 발생한다.")
+    @Test
+    void canMove_PalaceDiagonalTwoStep_CenterBlocked_ThrowsException() {
+        Chariot chariot = new Chariot(Team.HAN);
+        Path blockedCenter = new Path(List.of(new Soldier(Team.CHO))); // 중심에 기물 존재
+
+        assertThatThrownBy(() -> chariot.canMove(blockedCenter, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }

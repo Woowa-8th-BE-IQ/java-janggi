@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,10 @@ public class Cannon extends AbstractPiece {
 
     @Override
     public List<Position> getPath(Position from, Position to) {
-        validateMove(from, to);
+        if (Palace.canMoveOnDiagonalInAnyPalace(from, to)) {
+            return Palace.getDiagonalPathInAnyPalace(from, to);
+        }
+        validateStraightMove(from, to);
         return findPath(from, to);
     }
 
@@ -50,7 +54,7 @@ public class Cannon extends AbstractPiece {
         return path;
     }
 
-    private void validateMove(Position from, Position to) {
+    private void validateStraightMove(Position from, Position to) {
         if (!from.hasOnlyStraightMove(to)) {
             throw new IllegalArgumentException("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
         }
