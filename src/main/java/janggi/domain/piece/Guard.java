@@ -6,20 +6,8 @@ import java.util.List;
 
 public class Guard extends AbstractPiece {
 
-    private static final PieceType PIECE_TYPE = PieceType.GUARD;
-
     public Guard(Team team) {
-        super(team);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return PIECE_TYPE == type;
+        super(team, PieceType.GUARD);
     }
 
     @Override

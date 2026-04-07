@@ -7,20 +7,8 @@ import java.util.List;
 
 public class Horse extends AbstractPiece {
 
-    private static final PieceType PIECE_TYPE = PieceType.HORSE;
-
     public Horse(Team team) {
-        super(team);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return PIECE_TYPE == type;
+        super(team, PieceType.HORSE);
     }
 
     @Override

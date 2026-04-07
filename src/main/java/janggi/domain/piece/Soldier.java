@@ -7,20 +7,8 @@ import java.util.List;
 
 public class Soldier extends AbstractPiece {
 
-    private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
-
     public Soldier(Team team) {
-        super(team);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return PIECE_TYPE == type;
+        super(team, PieceType.SOLDIER);
     }
 
     @Override

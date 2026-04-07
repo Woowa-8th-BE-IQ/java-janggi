@@ -6,20 +6,8 @@ import java.util.List;
 
 public class General extends AbstractPiece {
 
-    private static final PieceType PIECE_TYPE = PieceType.GENERAL;
-
     public General(Team team) {
-        super(team);
-    }
-
-    @Override
-    public PieceType getType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return PIECE_TYPE == type;
+        super(team, PieceType.GENERAL);
     }
 
     @Override
