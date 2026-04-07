@@ -92,7 +92,7 @@ class SoldierTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
@@ -106,7 +106,7 @@ class SoldierTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         Soldier soldier = new Soldier(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then

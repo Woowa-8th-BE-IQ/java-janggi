@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Team;
 import janggi.domain.piece.EmptyPiece;
+import janggi.domain.piece.Path;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
@@ -14,23 +15,23 @@ public class Board {
 
     private final Map<Position, Piece> pieces;
 
-    public Board(Map<Position, Piece> board) {
-        this.pieces = board;
+    public Board(Map<Position, Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
         validate(from, to, currentTeam);
         Piece fromPiece = pieces.get(from);
-        List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
-        fromPiece.canMove(piecesOnPath, pieces.get(to));
+        Path path = collectPath(fromPiece.getPath(from, to));
+        fromPiece.canMove(path, pieces.get(to));
         movePiece(from, to, fromPiece);
         return showBoard();
     }
 
-    private List<Piece> collectPiecesOnPath(List<Position> path) {
-        return path.stream()
+    private Path collectPath(List<Position> positions) {
+        return new Path(positions.stream()
                 .map(pieces::get)
-                .toList();
+                .toList());
     }
 
     private void movePiece(Position from, Position to, Piece piece) {

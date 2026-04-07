@@ -69,7 +69,7 @@ class GuardTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Guard guard = new Guard(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
@@ -83,7 +83,7 @@ class GuardTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         Guard guard = new Guard(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then

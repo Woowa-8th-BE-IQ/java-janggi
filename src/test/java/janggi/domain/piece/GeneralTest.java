@@ -69,7 +69,7 @@ class GeneralTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         General general = new General(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece sameTeamTarget = new Chariot(Team.HAN);
 
         // when & then
@@ -83,7 +83,7 @@ class GeneralTest {
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         // given
         General general = new General(Team.HAN);
-        List<Piece> path = List.of();
+        Path path = new Path(List.of());
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then

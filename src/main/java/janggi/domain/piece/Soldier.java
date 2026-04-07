@@ -31,7 +31,7 @@ public class Soldier extends AbstractPiece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public void canMove(Path path, Piece endPiece) {
         validateSameTeam(endPiece);
     }
 

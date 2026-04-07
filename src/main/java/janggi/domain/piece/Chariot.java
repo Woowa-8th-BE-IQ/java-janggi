@@ -31,8 +31,8 @@ public class Chariot extends AbstractPiece {
     }
 
     @Override
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
-        validateAllPieceEmpty(piecesOnPath);
+    public void canMove(Path path, Piece endPiece) {
+        validateAllPieceEmpty(path);
         validateSameTeam(endPiece);
     }
 
@@ -53,8 +53,8 @@ public class Chariot extends AbstractPiece {
         }
     }
 
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+    private void validateAllPieceEmpty(Path path) {
+        if (!path.isAllEmpty()) {
             throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }
