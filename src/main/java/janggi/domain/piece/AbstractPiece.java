@@ -23,6 +23,11 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
+    public boolean isSameType(PieceType type) {
+        return this.pieceType == type;
+    }
+
+    @Override
     public boolean isSameTeam(Piece other) {
         return other.isSame(team);
     }
@@ -35,11 +40,6 @@ public abstract class AbstractPiece implements Piece {
     @Override
     public PieceType getType() {
         return pieceType;
-    }
-
-    @Override
-    public boolean isSameType(PieceType type) {
-        return this.pieceType == type;
     }
 
     protected void validateSameTeam(Piece endPiece) {
