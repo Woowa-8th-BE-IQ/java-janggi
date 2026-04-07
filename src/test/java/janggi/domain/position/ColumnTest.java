@@ -19,8 +19,8 @@ class ColumnTest {
 
         // then
         assertAll(
-                () -> assertThat(minColumn.getValue()).isEqualTo(1),
-                () -> assertThat(maxColumn.getValue()).isEqualTo(9)
+                () -> assertThat(minColumn.value()).isEqualTo(1),
+                () -> assertThat(maxColumn.value()).isEqualTo(9)
         );
     }
 

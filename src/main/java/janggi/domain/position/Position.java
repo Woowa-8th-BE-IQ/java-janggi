@@ -43,8 +43,8 @@ public class Position {
     }
 
     public Position move(Direction direction) {
-        return Position.of(row.getValue() + direction.getRowOffset(),
-                column.getValue() + direction.getColOffset());
+        return Position.of(row.value() + direction.getRowOffset(),
+                column.value() + direction.getColOffset());
     }
 
     public boolean hasDistancePair(Position other, int dRow, int dColumn) {
@@ -59,19 +59,19 @@ public class Position {
     }
 
     public int rowDistanceTo(Position other) {
-        return Math.abs(other.row.getValue() - this.row.getValue());
+        return Math.abs(other.row.value() - this.row.value());
     }
 
     public int colDistanceTo(Position other) {
-        return Math.abs(other.column.getValue() - this.column.getValue());
+        return Math.abs(other.column.value() - this.column.value());
     }
 
     public int getRowValue() {
-        return row.getValue();
+        return row.value();
     }
 
     public int getColumnValue() {
-        return column.getValue();
+        return column.value();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return row.getValue() + "," + column.getValue();
+        return row.value() + "," + column.value();
     }
 
     private static void validatePositionLength(String rowColumn) {

@@ -19,8 +19,8 @@ class RowTest {
 
         // then
         assertAll(
-                () -> assertThat(minRow.getValue()).isEqualTo(1),
-                () -> assertThat(maxRow.getValue()).isEqualTo(10)
+                () -> assertThat(minRow.value()).isEqualTo(1),
+                () -> assertThat(maxRow.value()).isEqualTo(10)
         );
     }
 
