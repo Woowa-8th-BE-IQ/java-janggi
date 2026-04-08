@@ -42,7 +42,7 @@ public class GameRepositoryImpl implements GameRepository {
             }
             return Optional.of(new Board(pieces));
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 보드 조회 실패", e);
+            throw new IllegalStateException("[ERROR] 보드 조회 실패", e);
         }
     }
 
@@ -58,7 +58,7 @@ public class GameRepositoryImpl implements GameRepository {
             }
             return Team.valueOf(rs.getString("turn"));
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 턴 조회 실패", e);
+            throw new IllegalStateException("[ERROR] 턴 조회 실패", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class GameRepositoryImpl implements GameRepository {
             keys.next();
             return keys.getLong(1);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 게임 저장 실패", e);
+            throw new IllegalStateException("[ERROR] 게임 저장 실패", e);
         }
     }
 
@@ -84,13 +84,13 @@ public class GameRepositoryImpl implements GameRepository {
                 pstmt.setLong(1, gameId);
                 pstmt.setInt(2, entry.getKey().getRowValue());
                 pstmt.setInt(3, entry.getKey().getColumnValue());
-                pstmt.setString(4, toTeamString(entry.getValue()));
+                pstmt.setString(4, PieceFactory.toTeamString(entry.getValue()));
                 pstmt.setString(5, entry.getValue().getType().name());
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물 저장 실패", e);
+            throw new IllegalStateException("[ERROR] 기물 저장 실패", e);
         }
     }
 
@@ -102,7 +102,7 @@ public class GameRepositoryImpl implements GameRepository {
             pstmt.setLong(2, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 턴 업데이트 실패", e);
+            throw new IllegalStateException("[ERROR] 턴 업데이트 실패", e);
         }
     }
 
@@ -118,7 +118,7 @@ public class GameRepositoryImpl implements GameRepository {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물 삭제 실패", e);
+            throw new IllegalStateException("[ERROR] 기물 삭제 실패", e);
         }
     }
 
@@ -130,15 +130,5 @@ public class GameRepositoryImpl implements GameRepository {
             pieces.put(position, piece);
         }
         return pieces;
-    }
-
-    private String toTeamString(Piece piece) {
-        if (piece.isEmptyPiece()) {
-            return "EMPTY";
-        }
-        if (piece.isSame(Team.HAN)) {
-            return "HAN";
-        }
-        return "CHO";
     }
 }

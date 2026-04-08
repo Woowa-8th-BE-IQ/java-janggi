@@ -22,8 +22,7 @@ public class PieceFactory {
         if (pieceType == PieceType.EMPTY) {
             return new EmptyPiece();
         }
-        Team pieceTeam = Team.valueOf(team);
-        return createByType(pieceTeam, pieceType);
+        return createByType(Team.valueOf(team), pieceType);
     }
 
     private static Piece createByType(Team team, PieceType type) {
@@ -35,5 +34,15 @@ public class PieceFactory {
         if (type == PieceType.GUARD)    return new Guard(team);
         if (type == PieceType.SOLDIER)  return new Soldier(team);
         throw new IllegalArgumentException("[ERROR] 알 수 없는 기물 타입입니다: " + type);
+    }
+
+    public static String toTeamString(Piece piece) {
+        if (piece.isEmptyPiece()) {
+            return "EMPTY";
+        }
+        if (piece.isSame(Team.HAN)) {
+            return "HAN";
+        }
+        return "CHO";
     }
 }
