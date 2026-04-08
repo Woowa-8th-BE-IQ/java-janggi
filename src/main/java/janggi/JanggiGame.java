@@ -59,7 +59,7 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = gameRepository.findTurnById(gameId);
-        GameState state = GameState.TURN_SUCCESS;
+        GameState state = GameState.PLAYING;
         while (state.isPlaying()) {
             String input = InputView.readPosition(currentTeam.getDisplayName());
             state = progressTurn(input, currentTeam);
