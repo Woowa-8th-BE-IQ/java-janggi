@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.domain.GameRepository;
 import janggi.domain.GameState;
 import janggi.domain.Score;
 import janggi.domain.Team;
@@ -18,15 +19,29 @@ public class JanggiGame {
     private static final int POSITION_INPUT_SIZE = 2;
 
     private final Board board;
+    private final GameRepository gameRepository;
+    private final long gameId;
 
-    private JanggiGame(Board board) {
+    private JanggiGame(Board board, GameRepository gameRepository, long gameId) {
         this.board = board;
+        this.gameRepository = gameRepository;
+        this.gameId = gameId;
     }
 
-    public static JanggiGame initialize() {
+    public static JanggiGame initialize(GameRepository gameRepository) {
         String hanSetup = InputView.readHanSetup();
         String choSetup = InputView.readChoSetup();
-        return new JanggiGame(BoardFactory.create(hanSetup, choSetup));
+        Board board = BoardFactory.create(hanSetup, choSetup);
+        long gameId = gameRepository.save(board, Team.CHO);
+        OutputView.printGameId(gameId);
+        return new JanggiGame(board, gameRepository, gameId);
+    }
+
+    public static JanggiGame load(GameRepository gameRepository) {
+        long gameId = InputView.readGameId();
+        Board board = gameRepository.findBoardById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 게임을 찾을 수 없습니다: " + gameId));
+        return new JanggiGame(board, gameRepository, gameId);
     }
 
     public void start() {
@@ -35,13 +50,14 @@ public class JanggiGame {
     }
 
     private void play() {
-        Team currentTeam = Team.CHO;
+        Team currentTeam = gameRepository.findTurnById(gameId);
         GameState state = GameState.TURN_SUCCESS;
         while (state.isPlaying()) {
             String input = InputView.readPosition(currentTeam.getDisplayName());
             state = progressTurn(input, currentTeam);
             if (state.isTurnSuccess()) {
                 currentTeam = currentTeam.convert();
+                gameRepository.update(gameId, board, currentTeam);
             }
         }
     }

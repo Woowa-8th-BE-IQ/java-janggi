@@ -129,4 +129,8 @@ public class OutputView {
     public static void printGameEnd() {
         System.out.println("게임을 종료합니다.");
     }
+
+    public static void printGameId(long gameId) {
+        System.out.println("게임 번호: " + gameId + " (이어하기 시 필요합니다.)");
+    }
 }
