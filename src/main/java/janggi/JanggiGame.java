@@ -112,11 +112,16 @@ public class JanggiGame {
     }
 
     private Map<Position, Piece> movePiece(String input, Team currentTeam) {
+        List<String> positions = parsePositions(input);
+        return board.move(
+                Position.from(positions.getFirst()),
+                Position.from(positions.getLast()), currentTeam);
+    }
+
+    private List<String> parsePositions(String input) {
         List<String> positions = List.of(input.split(" "));
         validateInputSize(positions);
-        Position from = Position.from(positions.getFirst());
-        Position to = Position.from(positions.getLast());
-        return board.move(from, to, currentTeam);
+        return positions;
     }
 
     private void validateInputSize(List<String> positions) {
