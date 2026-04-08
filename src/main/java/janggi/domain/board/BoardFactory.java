@@ -28,7 +28,7 @@ public class BoardFactory {
         placeCho(board);
         BoardSetup.from(hanBoardType, Team.HAN).apply(board);
         BoardSetup.from(choBoardType, Team.CHO).apply(board);
-        return new Board(board);
+        return Board.from(board);
     }
 
     private static void initializeEmpty(Map<Position, Piece> board) {

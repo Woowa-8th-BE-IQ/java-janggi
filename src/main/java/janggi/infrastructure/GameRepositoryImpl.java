@@ -53,7 +53,7 @@ public class GameRepositoryImpl implements GameRepository {
             if (pieces.isEmpty()) {
                 return Optional.empty();
             }
-            return Optional.of(new Board(pieces));
+            return Optional.of(Board.from(pieces));
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 보드 조회 실패", e);
         }
