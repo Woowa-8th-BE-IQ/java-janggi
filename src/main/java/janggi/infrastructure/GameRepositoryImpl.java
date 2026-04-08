@@ -44,18 +44,29 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Optional<Board> findBoardById(long gameId) {
+        if (!existsGame(gameId)) {
+            return Optional.empty();
+        }
         String sql = "SELECT row_pos, col_pos, team, type FROM piece WHERE janggi_game_id = ?";
         try (Connection conn = DBConnector.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
-            Map<Position, Piece> pieces = mapToPieces(rs);
-            if (pieces.isEmpty()) {
-                return Optional.empty();
-            }
-            return Optional.of(Board.from(pieces));
+            return Optional.of(Board.from(mapToPieces(rs)));
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 보드 조회 실패", e);
+        }
+    }
+
+    private boolean existsGame(long gameId) {
+        String sql = "SELECT id FROM janggi_game WHERE id = ?";
+        try (Connection conn = DBConnector.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, gameId);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] 게임 존재 여부 확인 실패", e);
         }
     }
 
