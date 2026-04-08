@@ -28,6 +28,14 @@ public class JanggiGame {
         this.gameId = gameId;
     }
 
+    public static JanggiGame from(GameRepository gameRepository) {
+        String mode = InputView.readGameMode();
+        if (mode.equals("1")) {
+            return initialize(gameRepository);
+        }
+        return load(gameRepository);
+    }
+
     public static JanggiGame initialize(GameRepository gameRepository) {
         String hanSetup = InputView.readHanSetup();
         String choSetup = InputView.readChoSetup();
