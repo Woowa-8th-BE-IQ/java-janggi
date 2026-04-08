@@ -52,20 +52,20 @@ public class Board {
     }
 
     private void validate(Position from, Position to, Team currentTeam) {
-        validateNotSamePosition(from, to);
         validateNotEmpty(from);
+        validateNotSamePosition(from, to);
         validateTurn(from, currentTeam);
-    }
-
-    private void validateNotSamePosition(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
-        }
     }
 
     private void validateNotEmpty(Position from) {
         if (board.get(from).isEmptyPiece()) {
             throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
+        }
+    }
+
+    private void validateNotSamePosition(Position from, Position to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
         }
     }
 
