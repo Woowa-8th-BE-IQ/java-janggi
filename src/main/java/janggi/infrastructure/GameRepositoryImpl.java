@@ -18,15 +18,28 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public long save(Board board, Team currentTeam) {
-        long gameId = saveGame(currentTeam);
-        savePieces(gameId, board.showBoard());
-        return gameId;
+        try (Connection conn = DBConnector.getConnection()) {
+            conn.setAutoCommit(false);
+            long gameId = saveGame(conn, currentTeam);
+            savePieces(conn, gameId, board.showBoard());
+            conn.commit();
+            return gameId;
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] 게임 저장 실패", e);
+        }
     }
 
     @Override
     public void update(long gameId, Board board, Team currentTeam) {
-        updateTurn(gameId, currentTeam);
-        updatePieces(gameId, board.showBoard());
+        try (Connection conn = DBConnector.getConnection()) {
+            conn.setAutoCommit(false);
+            updateTurn(conn, gameId, currentTeam);
+            deletePieces(conn, gameId);
+            savePieces(conn, gameId, board.showBoard());
+            conn.commit();
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] 게임 업데이트 실패", e);
+        }
     }
 
     @Override
@@ -62,24 +75,20 @@ public class GameRepositoryImpl implements GameRepository {
         }
     }
 
-    private long saveGame(Team currentTeam) {
+    private long saveGame(Connection conn, Team currentTeam) throws SQLException {
         String sql = "INSERT INTO janggi_game (turn) VALUES (?)";
-        try (Connection conn = DBConnector.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, currentTeam.name());
             pstmt.executeUpdate();
             ResultSet keys = pstmt.getGeneratedKeys();
             keys.next();
             return keys.getLong(1);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 게임 저장 실패", e);
         }
     }
 
-    private void savePieces(long gameId, Map<Position, Piece> pieces) {
+    private void savePieces(Connection conn, long gameId, Map<Position, Piece> pieces) throws SQLException {
         String sql = "INSERT INTO piece (janggi_game_id, row_pos, col_pos, team, type) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnector.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
                 pstmt.setLong(1, gameId);
                 pstmt.setInt(2, entry.getKey().getRowValue());
@@ -89,36 +98,23 @@ public class GameRepositoryImpl implements GameRepository {
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 기물 저장 실패", e);
         }
     }
 
-    private void updateTurn(long gameId, Team currentTeam) {
+    private void updateTurn(Connection conn, long gameId, Team currentTeam) throws SQLException {
         String sql = "UPDATE janggi_game SET turn = ? WHERE id = ?";
-        try (Connection conn = DBConnector.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, currentTeam.name());
             pstmt.setLong(2, gameId);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 턴 업데이트 실패", e);
         }
     }
 
-    private void updatePieces(long gameId, Map<Position, Piece> pieces) {
-        deletePieces(gameId);
-        savePieces(gameId, pieces);
-    }
-
-    private void deletePieces(long gameId) {
+    private void deletePieces(Connection conn, long gameId) throws SQLException {
         String sql = "DELETE FROM piece WHERE janggi_game_id = ?";
-        try (Connection conn = DBConnector.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] 기물 삭제 실패", e);
         }
     }
 
