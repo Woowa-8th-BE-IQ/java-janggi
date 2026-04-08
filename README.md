@@ -4,6 +4,58 @@
 
 ---
 
+## 실행 방법
+
+### DB 설정
+
+1. MySQL 설치 후 접속
+```bash
+mysql -u root -p
+```
+
+2. 아래 SQL 실행:
+```sql
+CREATE DATABASE janggi;
+USE janggi;
+
+CREATE TABLE janggi_game (
+    id   BIGINT NOT NULL AUTO_INCREMENT,
+    turn VARCHAR(8) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE piece (
+    id             BIGINT NOT NULL AUTO_INCREMENT,
+    janggi_game_id BIGINT NOT NULL,
+    row_pos        INT NOT NULL,
+    col_pos        INT NOT NULL,
+    team           VARCHAR(8) NOT NULL,
+    type           VARCHAR(16) NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+
+3. `src/main/java/janggi/infrastructure/DBConnector.java`의 `USER`, `PASSWORD`를 본인 환경에 맞게 수정
+
+```java
+private static final String URL = "jdbc:mysql://localhost:3306/janggi";
+private static final String USER = "root";       // 본인 MySQL 사용자명
+private static final String PASSWORD = "";        // 본인 MySQL 비밀번호
+```
+
+### 게임 실행
+
+IntelliJ에서 `JanggiApplication.java`의 `main` 메서드를 실행한다.
+
+### 게임 방법
+
+- 새 게임: `1` 입력 → 차림 선택 → 게임 시작
+- 이어하기: `2` 입력 → 게임 번호 입력 → 게임 재개
+- 이동: `출발좌표 도착좌표` 형식으로 입력 (예: `11 21`)
+- 종료: `end` 입력
+
+---
+
 ## 구현할 기능 목록
 
 ### 열 좌표 (Column)
