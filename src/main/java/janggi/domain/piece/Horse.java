@@ -30,11 +30,7 @@ public class Horse extends AbstractPiece {
     }
 
     @Override
-<<<<<<< HEAD
-    public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
-=======
     public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
     }
@@ -45,13 +41,8 @@ public class Horse extends AbstractPiece {
         }
     }
 
-<<<<<<< HEAD
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
-=======
     private void validateAllPieceEmpty(PiecesOnPath piecesOnPath) {
         if (!piecesOnPath.isAllEmpty()) {
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
             throw new IllegalArgumentException("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

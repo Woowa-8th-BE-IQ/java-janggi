@@ -1,13 +1,10 @@
 package janggi.domain.board;
 
-import static java.util.stream.Collectors.toList;
-
+import janggi.domain.Score;
+import janggi.domain.ScoreResult;
 import janggi.domain.Team;
 import janggi.domain.piece.EmptyPiece;
-<<<<<<< HEAD
-=======
 import janggi.domain.piece.PiecesOnPath;
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
@@ -18,30 +15,33 @@ public class Board {
 
     private static final long GENERAL_COUNT = 2;
 
-    private final Map<Position, Piece> board;
+    private final Map<Position, Piece> pieces;
 
-    public Board(Map<Position, Piece> board) {
-        this.board = board;
+    private Board(Map<Position, Piece> pieces) {
+        this.pieces = pieces;
+    }
+
+    public static Board from(Map<Position, Piece> pieces) {
+        return new Board(pieces);
     }
 
     public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
         validate(from, to, currentTeam);
-<<<<<<< HEAD
-        Piece fromPiece = board.get(from);
-        List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
-        fromPiece.canMove(piecesOnPath, board.get(to));
-=======
         Piece fromPiece = pieces.get(from);
         PiecesOnPath piecesOnPath = collectPath(fromPiece.getPath(from, to));
         fromPiece.canMove(piecesOnPath, pieces.get(to));
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         movePiece(from, to, fromPiece);
         return showBoard();
     }
 
-<<<<<<< HEAD
-=======
-    public Score calculateScore(Team team) {
+    public ScoreResult calculateScoreResult() {
+        return new ScoreResult(
+                calculateScore(Team.HAN),
+                calculateScore(Team.CHO)
+        );
+    }
+
+    private Score calculateScore(Team team) {
         double sum = pieces.values().stream()
                 .filter(piece -> piece.isSame(team))
                 .mapToInt(piece -> piece.getType().getScore())
@@ -64,27 +64,15 @@ public class Board {
         pieces.put(to, piece);
     }
 
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
     public boolean isGeneralCaptured() {
-        return board.values().stream()
+        return pieces.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())
                 .filter(piece -> piece.isSameType(PieceType.GENERAL))
                 .count() < GENERAL_COUNT;
     }
 
-    private List<Piece> collectPiecesOnPath(List<Position> path) {
-        return path.stream()
-                .map(board::get)
-                .collect(toList());
-    }
-
-    private void movePiece(Position from, Position to, Piece piece) {
-        board.put(from, new EmptyPiece());
-        board.put(to, piece);
-    }
-
     public Map<Position, Piece> showBoard() {
-        return Map.copyOf(board);
+        return Map.copyOf(pieces);
     }
 
     private void validate(Position from, Position to, Team currentTeam) {
@@ -94,7 +82,7 @@ public class Board {
     }
 
     private void validateNotEmpty(Position from) {
-        if (board.get(from).isEmptyPiece()) {
+        if (pieces.get(from).isEmptyPiece()) {
             throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
         }
     }
@@ -106,7 +94,7 @@ public class Board {
     }
 
     private void validateTurn(Position from, Team currentTeam) {
-        if (!board.get(from).isSame(currentTeam)) {
+        if (!pieces.get(from).isSame(currentTeam)) {
             throw new IllegalArgumentException("[ERROR] 현재 턴의 기물만 이동할 수 있습니다.");
         }
     }

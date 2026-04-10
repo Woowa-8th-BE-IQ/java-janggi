@@ -31,10 +31,8 @@ class GeneralTest {
     @Test
     void getPath_ValidStraightMove() {
         General general = new General(Team.HAN);
-        Position from = Position.from("25"); // 궁성 중심
-        Position to = Position.from("24");   // 궁성 내 직선 1칸
 
-        List<Position> path = general.getPath(from, to);
+        List<Position> path = general.getPath(Position.from("25"), Position.from("24"));
 
         assertThat(path).isEmpty();
     }
@@ -43,10 +41,8 @@ class GeneralTest {
     @Test
     void getPath_ValidDiagonalMove() {
         General general = new General(Team.HAN);
-        Position from = Position.from("25"); // 중심
-        Position to = Position.from("14");   // 꼭짓점
 
-        List<Position> path = general.getPath(from, to);
+        List<Position> path = general.getPath(Position.from("25"), Position.from("14"));
 
         assertThat(path).isEmpty();
     }
@@ -55,10 +51,8 @@ class GeneralTest {
     @Test
     void getPath_MoveOutsidePalace_ThrowsException() {
         General general = new General(Team.HAN);
-        Position from = Position.from("14"); // 궁성 경계
-        Position to = Position.from("13");   // 궁성 밖 (col=3)
 
-        assertThatThrownBy(() -> general.getPath(from, to))
+        assertThatThrownBy(() -> general.getPath(Position.from("14"), Position.from("13")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
     }
@@ -82,14 +76,8 @@ class GeneralTest {
     @Test
     void canMove_TargetIsSameTeam_ThrowsException() {
         General general = new General(Team.HAN);
-<<<<<<< HEAD
-        List<Piece> path = List.of();
-=======
-        PiecesOnPath piecesOnPath = new PiecesOnPath(List.of());
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
-        Piece sameTeamTarget = new Chariot(Team.HAN);
 
-        assertThatThrownBy(() -> general.canMove(piecesOnPath, sameTeamTarget))
+        assertThatThrownBy(() -> general.canMove(new PiecesOnPath(List.of()), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -98,14 +86,8 @@ class GeneralTest {
     @Test
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         General general = new General(Team.HAN);
-<<<<<<< HEAD
-        List<Piece> path = List.of();
-=======
-        PiecesOnPath piecesOnPath = new PiecesOnPath(List.of());
->>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
-        Piece diffTeamTarget = new Chariot(Team.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> general.canMove(piecesOnPath, diffTeamTarget));
+                .isThrownBy(() -> general.canMove(new PiecesOnPath(List.of()), new Chariot(Team.CHO)));
     }
 }
