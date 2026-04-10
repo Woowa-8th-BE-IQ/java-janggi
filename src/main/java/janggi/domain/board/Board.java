@@ -4,6 +4,10 @@ import static java.util.stream.Collectors.toList;
 
 import janggi.domain.Team;
 import janggi.domain.piece.EmptyPiece;
+<<<<<<< HEAD
+=======
+import janggi.domain.piece.PiecesOnPath;
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
@@ -22,13 +26,45 @@ public class Board {
 
     public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
         validate(from, to, currentTeam);
+<<<<<<< HEAD
         Piece fromPiece = board.get(from);
         List<Piece> piecesOnPath = collectPiecesOnPath(fromPiece.getPath(from, to));
         fromPiece.canMove(piecesOnPath, board.get(to));
+=======
+        Piece fromPiece = pieces.get(from);
+        PiecesOnPath piecesOnPath = collectPath(fromPiece.getPath(from, to));
+        fromPiece.canMove(piecesOnPath, pieces.get(to));
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         movePiece(from, to, fromPiece);
         return showBoard();
     }
 
+<<<<<<< HEAD
+=======
+    public Score calculateScore(Team team) {
+        double sum = pieces.values().stream()
+                .filter(piece -> piece.isSame(team))
+                .mapToInt(piece -> piece.getType().getScore())
+                .sum();
+        Score score = Score.of(sum);
+        if (team == Team.HAN) {
+            return score.applyHanBonus();
+        }
+        return score;
+    }
+
+    private PiecesOnPath collectPath(List<Position> positions) {
+        return new PiecesOnPath(positions.stream()
+                .map(pieces::get)
+                .toList());
+    }
+
+    private void movePiece(Position from, Position to, Piece piece) {
+        pieces.put(from, new EmptyPiece());
+        pieces.put(to, piece);
+    }
+
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
     public boolean isGeneralCaptured() {
         return board.values().stream()
                 .filter(piece -> !piece.isEmptyPiece())

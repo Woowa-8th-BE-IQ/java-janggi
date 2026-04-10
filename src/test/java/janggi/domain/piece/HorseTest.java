@@ -72,11 +72,18 @@ class HorseTest {
     void canMove_PathBlocked_ThrowsException() {
         // given
         Horse horse = new Horse(Team.HAN);
+<<<<<<< HEAD
         List<Piece> blockedPath = List.of(new Soldier(Team.HAN));
         Piece targetPiece = new EmptyPiece();
 
         // when & then
         assertThatThrownBy(() -> horse.canMove(blockedPath, targetPiece))
+=======
+        PiecesOnPath blockedPiecesOnPath = new PiecesOnPath(List.of(new Soldier(Team.HAN)));
+        Piece targetPiece = new EmptyPiece();
+
+        assertThatThrownBy(() -> horse.canMove(blockedPiecesOnPath, targetPiece))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 마의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -86,11 +93,18 @@ class HorseTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Horse horse = new Horse(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece());
         Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
         assertThatThrownBy(() -> horse.canMove(clearPath, sameTeamTarget))
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece()));
+        Piece sameTeamTarget = new Soldier(Team.HAN);
+
+        assertThatThrownBy(() -> horse.canMove(clearPiecesOnPath, sameTeamTarget))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -100,11 +114,15 @@ class HorseTest {
     void canMove_ValidPathAndTarget_DoesNotThrow() {
         // given
         Horse horse = new Horse(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece());
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece()));
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> horse.canMove(clearPath, diffTeamTarget));
+                .isThrownBy(() -> horse.canMove(clearPiecesOnPath, diffTeamTarget));
     }
 }

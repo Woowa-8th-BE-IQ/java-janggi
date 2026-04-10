@@ -73,11 +73,18 @@ class ElephantTest {
     void canMove_PathBlocked_ThrowsException() {
         // given
         Elephant elephant = new Elephant(Team.HAN);
+<<<<<<< HEAD
         List<Piece> blockedPath = List.of(new EmptyPiece(), new Soldier(Team.HAN)); // 두 번째 멱이 막힘
         Piece targetPiece = new EmptyPiece();
 
         // when & then
         assertThatThrownBy(() -> elephant.canMove(blockedPath, targetPiece))
+=======
+        PiecesOnPath blockedPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece(), new Soldier(Team.HAN)));
+        Piece targetPiece = new EmptyPiece();
+
+        assertThatThrownBy(() -> elephant.canMove(blockedPiecesOnPath, targetPiece))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -87,11 +94,18 @@ class ElephantTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Elephant elephant = new Elephant(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
         Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
         assertThatThrownBy(() -> elephant.canMove(clearPath, sameTeamTarget))
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece(), new EmptyPiece()));
+        Piece sameTeamTarget = new Soldier(Team.HAN);
+
+        assertThatThrownBy(() -> elephant.canMove(clearPiecesOnPath, sameTeamTarget))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -101,11 +115,15 @@ class ElephantTest {
     void canMove_ValidPathAndTarget_DoesNotThrow() {
         // given
         Elephant elephant = new Elephant(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece(), new EmptyPiece()));
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> elephant.canMove(clearPath, diffTeamTarget));
+                .isThrownBy(() -> elephant.canMove(clearPiecesOnPath, diffTeamTarget));
     }
 }

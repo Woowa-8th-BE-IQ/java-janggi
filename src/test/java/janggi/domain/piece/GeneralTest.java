@@ -82,10 +82,14 @@ class GeneralTest {
     @Test
     void canMove_TargetIsSameTeam_ThrowsException() {
         General general = new General(Team.HAN);
+<<<<<<< HEAD
         List<Piece> path = List.of();
+=======
+        PiecesOnPath piecesOnPath = new PiecesOnPath(List.of());
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         Piece sameTeamTarget = new Chariot(Team.HAN);
 
-        assertThatThrownBy(() -> general.canMove(path, sameTeamTarget))
+        assertThatThrownBy(() -> general.canMove(piecesOnPath, sameTeamTarget))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -94,10 +98,14 @@ class GeneralTest {
     @Test
     void canMove_TargetIsDiffTeam_DoesNotThrow() {
         General general = new General(Team.HAN);
+<<<<<<< HEAD
         List<Piece> path = List.of();
+=======
+        PiecesOnPath piecesOnPath = new PiecesOnPath(List.of());
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> general.canMove(path, diffTeamTarget));
+                .isThrownBy(() -> general.canMove(piecesOnPath, diffTeamTarget));
     }
 }

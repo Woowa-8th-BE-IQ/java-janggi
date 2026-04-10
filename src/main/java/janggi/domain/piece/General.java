@@ -30,7 +30,11 @@ public class General extends AbstractPiece {
     }
 
     @Override
+<<<<<<< HEAD
     public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+=======
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         validateSameTeam(endPiece);
     }
 

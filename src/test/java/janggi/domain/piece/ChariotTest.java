@@ -95,11 +95,18 @@ class ChariotTest {
     void canMove_PathBlocked_ThrowsException() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
+<<<<<<< HEAD
         List<Piece> blockedPath = List.of(new Soldier(Team.HAN));
         Piece targetPiece = new EmptyPiece();
 
         // when & then
         assertThatThrownBy(() -> chariot.canMove(blockedPath, targetPiece))
+=======
+        PiecesOnPath blockedPiecesOnPath = new PiecesOnPath(List.of(new Soldier(Team.HAN)));
+        Piece targetPiece = new EmptyPiece();
+
+        assertThatThrownBy(() -> chariot.canMove(blockedPiecesOnPath, targetPiece))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -108,7 +115,7 @@ class ChariotTest {
     @Test
     void canMove_PalaceDiagonalTwoStep_CenterBlocked_ThrowsException() {
         Chariot chariot = new Chariot(Team.HAN);
-        Path blockedCenter = new Path(List.of(new Soldier(Team.CHO))); // 중심에 기물 존재
+        PiecesOnPath blockedCenter = new PiecesOnPath(List.of(new Soldier(Team.CHO))); // 중심에 기물 존재
 
         assertThatThrownBy(() -> chariot.canMove(blockedCenter, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -120,11 +127,18 @@ class ChariotTest {
     void canMove_TargetIsSameTeam_ThrowsException() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece());
         Piece sameTeamTarget = new Soldier(Team.HAN);
 
         // when & then
         assertThatThrownBy(() -> chariot.canMove(clearPath, sameTeamTarget))
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece()));
+        Piece sameTeamTarget = new Soldier(Team.HAN);
+
+        assertThatThrownBy(() -> chariot.canMove(clearPiecesOnPath, sameTeamTarget))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -134,11 +148,15 @@ class ChariotTest {
     void canMove_ValidPathAndTarget_DoesNotThrow() {
         // given
         Chariot chariot = new Chariot(Team.HAN);
+<<<<<<< HEAD
         List<Piece> clearPath = List.of(new EmptyPiece(), new EmptyPiece());
+=======
+        PiecesOnPath clearPiecesOnPath = new PiecesOnPath(List.of(new EmptyPiece(), new EmptyPiece()));
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         Piece diffTeamTarget = new Chariot(Team.CHO);
 
         // when & then
         assertThatNoException()
-                .isThrownBy(() -> chariot.canMove(clearPath, diffTeamTarget));
+                .isThrownBy(() -> chariot.canMove(clearPiecesOnPath, diffTeamTarget));
     }
 }

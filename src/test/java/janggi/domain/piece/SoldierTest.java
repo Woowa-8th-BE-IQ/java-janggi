@@ -95,8 +95,12 @@ class SoldierTest {
         List<Piece> path = List.of();
         Piece sameTeamTarget = new Chariot(Team.HAN);
 
+<<<<<<< HEAD
         // when & then
         assertThatThrownBy(() -> soldier.canMove(path, sameTeamTarget))
+=======
+        assertThatThrownBy(() -> soldier.canMove(new PiecesOnPath(List.of()), new Chariot(Team.HAN)))
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -111,6 +115,10 @@ class SoldierTest {
 
         // when & then
         assertThatNoException()
+<<<<<<< HEAD
                 .isThrownBy(() -> soldier.canMove(path, diffTeamTarget));
+=======
+                .isThrownBy(() -> soldier.canMove(new PiecesOnPath(List.of()), new Chariot(Team.CHO)));
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
     }
 }

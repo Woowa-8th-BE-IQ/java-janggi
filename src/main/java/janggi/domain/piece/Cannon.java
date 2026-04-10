@@ -36,7 +36,11 @@ public class Cannon extends AbstractPiece {
     }
 
     @Override
+<<<<<<< HEAD
     public void canMove(List<Piece> piecesOnPath, Piece endPiece) {
+=======
+    public void canMove(PiecesOnPath piecesOnPath, Piece endPiece) {
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
         validateJumpOnlyOnePiece(piecesOnPath);
         validateJumpCannon(piecesOnPath);
         validateSameTeam(endPiece);
@@ -66,16 +70,26 @@ public class Cannon extends AbstractPiece {
         }
     }
 
+<<<<<<< HEAD
     private void validateJumpCannon(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream().anyMatch(this::isSamePiece)) {
+=======
+    private void validateJumpCannon(PiecesOnPath piecesOnPath) {
+        if (piecesOnPath.containsType(PieceType.CANNON)) {
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }
 
+<<<<<<< HEAD
     private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
         if (piecesOnPath.stream()
                 .filter(piece -> !piece.isEmptyPiece())
                 .count() != JUMP_PIECE_COUNT) {
+=======
+    private void validateJumpOnlyOnePiece(PiecesOnPath piecesOnPath) {
+        if (!piecesOnPath.hasExactlyOneNonEmpty()) {
+>>>>>>> 3ddd4f93 (refactor: Path → PiecesOnPath로 rename (경로 위 기물 상태 의도 명확화))
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물만 뛰어넘고 이동할 수 있습니다.");
         }
     }
