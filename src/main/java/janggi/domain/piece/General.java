@@ -36,7 +36,7 @@ public class General extends AbstractPiece {
 
     private void validateMove(Position from, Position to) {
         Palace palace = ownPalace();
-        if (from.hasDistancePair(to, 0, 1) && palace.contains(to)) {
+        if (from.matchesDistance(to, 0, 1) && palace.contains(to)) {
             return;
         }
         if (from.rowDistanceTo(to) == 1 && palace.canMoveDiagonally(from, to)) {
