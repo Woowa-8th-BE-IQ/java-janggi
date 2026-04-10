@@ -1,43 +1,49 @@
 package janggi.domain.position;
 
+import janggi.domain.Team;
 import java.util.List;
 
 public enum Palace {
-    HAN(1, 3, 4, 6, 2, 5),
-    CHO(8, 10, 4, 6, 9, 5),
+    HAN(Position.of(1, 4), Position.of(3, 6), Position.of(2, 5)),
+    CHO(Position.of(8, 4), Position.of(10, 6), Position.of(9, 5)),
     ;
 
-    private final int rowMin;
-    private final int rowMax;
-    private final int colMin;
-    private final int colMax;
-    private final int centerRow;
-    private final int centerCol;
+    private final Position topLeft;
+    private final Position bottomRight;
+    private final Position center;
 
-    Palace(int rowMin, int rowMax, int colMin, int colMax, int centerRow, int centerCol) {
-        this.rowMin = rowMin;
-        this.rowMax = rowMax;
-        this.colMin = colMin;
-        this.colMax = colMax;
-        this.centerRow = centerRow;
-        this.centerCol = centerCol;
+    Palace(Position topLeft, Position bottomRight, Position center) {
+        this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
+        this.center = center;
+    }
+
+    public static Palace of(Team team) {
+        if (team == Team.HAN) {
+            return HAN;
+        }
+        return CHO;
     }
 
     public boolean contains(Position position) {
         int row = position.getRowValue();
         int col = position.getColumnValue();
-        return row >= rowMin && row <= rowMax && col >= colMin && col <= colMax;
+        return row >= topLeft.getRowValue() && row <= bottomRight.getRowValue()
+                && col >= topLeft.getColumnValue() && col <= bottomRight.getColumnValue();
     }
 
     public boolean isOnDiagonalLine(Position position) {
         if (!contains(position)) {
             return false;
         }
+        return position.equals(center) || isCornerPosition(position);
+    }
+
+    private boolean isCornerPosition(Position position) {
         int row = position.getRowValue();
         int col = position.getColumnValue();
-        boolean isCenter = row == centerRow && col == centerCol;
-        boolean isCorner = (row == rowMin || row == rowMax) && (col == colMin || col == colMax);
-        return isCenter || isCorner;
+        return (row == topLeft.getRowValue() || row == bottomRight.getRowValue())
+                && (col == topLeft.getColumnValue() || col == bottomRight.getColumnValue());
     }
 
     public boolean canMoveDiagonally(Position from, Position to) {
@@ -52,7 +58,7 @@ public enum Palace {
         if (from.rowDistanceTo(to) == 1) {
             return List.of();
         }
-        return List.of(Position.of(centerRow, centerCol));
+        return List.of(center);
     }
 
     public static boolean isDiagonalMove(Position from, Position to) {

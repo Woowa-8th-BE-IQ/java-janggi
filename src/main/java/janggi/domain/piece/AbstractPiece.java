@@ -12,10 +12,7 @@ public abstract class AbstractPiece implements Piece {
     }
 
     protected Palace ownPalace() {
-        if (isSame(Team.HAN)) {
-            return Palace.HAN;
-        }
-        return Palace.CHO;
+        return Palace.of(team);
     }
 
     @Override
