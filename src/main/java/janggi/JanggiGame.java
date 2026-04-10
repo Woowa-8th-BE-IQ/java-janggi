@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.domain.GameRepository;
 import janggi.domain.GameState;
-import janggi.domain.Score;
+import janggi.domain.ScoreResult;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
@@ -36,7 +36,7 @@ public class JanggiGame {
         return load(gameRepository);
     }
 
-    public static JanggiGame initialize(GameRepository gameRepository) {
+    private static JanggiGame initialize(GameRepository gameRepository) {
         String hanSetup = InputView.readHanSetup();
         String choSetup = InputView.readChoSetup();
         Board board = BoardFactory.create(hanSetup, choSetup);
@@ -45,7 +45,7 @@ public class JanggiGame {
         return new JanggiGame(board, gameRepository, gameId);
     }
 
-    public static JanggiGame load(GameRepository gameRepository) {
+    private static JanggiGame load(GameRepository gameRepository) {
         long gameId = InputView.readGameId();
         Board board = gameRepository.findBoardById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 게임을 찾을 수 없습니다: " + gameId));
@@ -97,14 +97,13 @@ public class JanggiGame {
     }
 
     private void printScoreResult() {
-        Score hanScore = board.calculateScore(Team.HAN);
-        Score choScore = board.calculateScore(Team.CHO);
-        OutputView.printScore(hanScore, choScore);
-        if (hanScore.isHigherThan(choScore)) {
+        ScoreResult result = board.calculateScoreResult();
+        OutputView.printScore(result.hanScore(), result.choScore());
+        if (result.isHanWin()) {
             OutputView.printScoreWinner(Team.HAN);
             return;
         }
-        if (choScore.isHigherThan(hanScore)) {
+        if (result.isChoWin()) {
             OutputView.printScoreWinner(Team.CHO);
             return;
         }
@@ -115,7 +114,8 @@ public class JanggiGame {
         List<String> positions = parsePositions(input);
         return board.move(
                 Position.from(positions.getFirst()),
-                Position.from(positions.getLast()), currentTeam);
+                Position.from(positions.getLast()),
+                currentTeam);
     }
 
     private List<String> parsePositions(String input) {

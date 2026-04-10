@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.Score;
+import janggi.domain.ScoreResult;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -84,10 +84,9 @@ class BoardTest {
     void calculateScore_HanTeam_AppliesBonus() {
         Board board = BoardFactory.create("4", "4");
 
-        Score hanScore = board.calculateScore(Team.HAN);
+        ScoreResult result = board.calculateScoreResult();
 
-        // 차2(26) + 마2(10) + 상2(6) + 사2(6) + 포2(14) + 졸5(10) + 덤(1.5) = 73.5
-        assertThat(hanScore.getValue()).isEqualTo(73.5);
+        assertThat(result.hanScore().getValue()).isEqualTo(73.5);
     }
 
     @DisplayName("초기 배치에서 초나라 점수는 기물 합산만 적용된다.")
@@ -95,9 +94,8 @@ class BoardTest {
     void calculateScore_ChoTeam_NoBonus() {
         Board board = BoardFactory.create("4", "4");
 
-        Score choScore = board.calculateScore(Team.CHO);
+        ScoreResult result = board.calculateScoreResult();
 
-        // 차2(26) + 마2(10) + 상2(6) + 사2(6) + 포2(14) + 졸5(10) = 72
-        assertThat(choScore.getValue()).isEqualTo(72.0);
+        assertThat(result.choScore().getValue()).isEqualTo(72.0);
     }
 }
